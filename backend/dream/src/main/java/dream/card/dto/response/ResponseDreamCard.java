@@ -36,7 +36,7 @@ public class ResponseDreamCard {
 
         ResponseDreamCard response = new ResponseDreamCard();
         response.dreamCardId = dreamCard.getDreamCardId();
-        response.dreamCardAuthor = ResponseUser.from(dreamCard.getDreamCardAuthor());
+        response.dreamCardOwner = ResponseUser.from(dreamCard.getDreamCardOwner());
         response.dreamCardAuthor = ResponseUser.from(dreamCard.getDreamCardAuthor());
         response.dreamCardContent = dreamCard.getDreamCardContent();
 

@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 public class ResponseUser {
 
     private Long userId;
+    private String nickname;
 
 
     public static ResponseUser from(User user){
         ResponseUser response = new ResponseUser();
         response.userId = user.getUserId();
-
+        response.nickname = user.getNickname();
         return response;
     }
 }
