@@ -15,7 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Auction extends BaseTimeEntity{
 
-    @Id @JoinColumn(name = "dream_card_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long auctionId;
+
+    @JoinColumn(name = "dream_card_id")
     @OneToOne(fetch = FetchType.LAZY)
     private DreamCard dreamCard;
 
