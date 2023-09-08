@@ -7,6 +7,6 @@ import org.springframework.http.HttpStatus;
 @Builder
 @AllArgsConstructor
 public class ResultTemplate<T> {
-    private HttpStatus status;
+    private int status;
     private T data;
 }

@@ -20,6 +20,6 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
-        return ResultTemplate.builder().status(HttpStatus.OK).data(user).build();
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(user).build();
     }
 }

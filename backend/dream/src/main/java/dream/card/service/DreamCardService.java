@@ -32,6 +32,6 @@ public class DreamCardService {
             log.info("{}",findCard.getDreamCardLike().size());
         }
 
-        return ResultTemplate.builder().status(HttpStatus.OK).data(list).build();
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(list).build();
     }
 }

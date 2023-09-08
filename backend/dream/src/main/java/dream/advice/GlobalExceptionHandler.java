@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler( {NotFoundException.class} )
     public ResultTemplate handleBadRequestExceptions(Exception e){
         
-        return ResultTemplate.builder().status(HttpStatus.BAD_REQUEST).data(e.getMessage()).build();
+        return ResultTemplate.builder().status(HttpStatus.BAD_REQUEST.value()).data(e.getMessage()).build();
     }
 
 }
