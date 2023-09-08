@@ -4,6 +4,7 @@ package dream.card.controller;
 import dream.card.dto.request.RequestDreamCardContent;
 import dream.card.dto.request.RequestDreamCardDetail;
 import dream.card.dto.request.RequestDreamCardId;
+import dream.card.dto.request.RequestDreamCardIsShow;
 import dream.card.service.DreamCardService;
 import dream.common.domain.ResultTemplate;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class DreamCardController {
 
     private final DreamCardService dreamCardService;
-
 
     @GetMapping(value = "/")
     public ResultTemplate getNightMain(){
@@ -66,5 +66,23 @@ public class DreamCardController {
     public ResultTemplate getDreamCardDetailByUser(@PathVariable("dreamCardId") long dreamCardId){
 
         return dreamCardService.getDreamCardDetailByUser(dreamCardId);
+    }
+
+    @DeleteMapping(value = "/dream/{dreamCardId}")
+    public ResultTemplate deleteDreamCard(@PathVariable("dreamCardId") long dreamCardId){
+
+        return dreamCardService.deleteDreamCard(dreamCardId);
+    }
+
+    @PutMapping(value = "/dream")
+    public ResultTemplate updateCardIsShow(@RequestBody RequestDreamCardIsShow request){
+
+        return dreamCardService.updateCardIsShow(request);
+    }
+
+    @GetMapping(value = "/dream/interpretation?keyword={keyword}")
+    public ResultTemplate getInterpretationResult(@RequestParam("keyword") String keyword){
+
+        return dreamCardService.getInterpretationResult(keyword);
     }
 }
