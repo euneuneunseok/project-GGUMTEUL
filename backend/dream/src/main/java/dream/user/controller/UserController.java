@@ -20,4 +20,10 @@ public class UserController{
     public ResultTemplate getUser(@PathVariable("id") long id){
         return userService.getUser(id);
     }
+
+//    @PostMapping("/logout")
+//    public ResultTemplate logout(@LoginUser user){
+//        return userService.logout(user);
+//    }
+
 }
