@@ -44,8 +44,17 @@ table {
   box-sizing: border-box ;
 }
 html, body {
-	height: 100%;
-	font-size: 62.5%;
+	width: calc(var(--vw, 1vw) * 100);
+  height: calc(var(--vh, 1vh) * 100);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  max-width: 415px;
+  height: 100vh;
+  margin: auto;
+  border: 0;
+  overflow-x: hidden;
 }
 body {
 
