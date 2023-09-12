@@ -43,6 +43,7 @@ public class ChallengeService {
         int count = 0;
         for (Challenge challenge : challenges) {
             responseChallengeList.add(ResponseChallenge.from(challenge));
+
             if (++count == size) break;
         }
         ResponseChallengeList response = ResponseChallengeList.from(responseChallengeList, hasNext);
