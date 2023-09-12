@@ -14,8 +14,8 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @GetMapping("/")
-    public ResultTemplate getDayMain(@RequestParam(value = "keywordId", required = false) Long keywordId,
-                                      @RequestParam("lastItemId") Long lastItemId,
+    private ResultTemplate getDayMain(@RequestParam(value = "keywordId", required = false) Long keywordId,
+                                      @RequestParam(value = "lastItemId", required = false) Long lastItemId,
                                       @RequestParam("size") int size){
         return challengeService.getDayMain(keywordId, lastItemId, size);
     }
