@@ -35,7 +35,7 @@ const IconUser = styled(FiUser)`
   height: 2rem;
   margin: 0.5rem;
 `
-const IconMarcket = styled(FiDollarSign)`
+const IconMuction= styled(FiDollarSign)`
   width: 2rem;
   height: 2rem;
   margin: 0.5rem;
@@ -77,7 +77,7 @@ const FooterBar = () => {
         <IconSearch onClick={()=>{navigate(nightDayMode ? "/night/search":"/day/search")}}/>
         <IconPlusSquare onClick={()=>{navigate(nightDayMode ? "/night/dream/create":"/day/challenge/create")}}/>
         {nightDayMode ? (
-          <IconMarcket onClick={()=>{navigate("/night/auction/list")}}/>
+          <IconAuction onClick={()=>{navigate("/night/auction/list")}}/>
           ):(
           <IconBook onClick={()=>{navigate("/day/main")}}/>
         )}
