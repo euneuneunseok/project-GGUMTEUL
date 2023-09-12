@@ -14,11 +14,15 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @GetMapping("/")
-    private ResultTemplate getDayMain(@RequestParam(value = "keywordId", required = false) Long keywordId,
+    public ResultTemplate getDayMain(@RequestParam(value = "keywordId", required = false) Long keywordId,
                                       @RequestParam("lastItemId") Long lastItemId,
                                       @RequestParam("size") int size){
         return challengeService.getDayMain(keywordId, lastItemId, size);
     }
 
+    @GetMapping("/keyword/list")
+    public ResultTemplate getAllCategory(){
+        return challengeService.getAllCategory();
+    }
 
 }
