@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 // redux-persist
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import store from './store';
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist';
 
