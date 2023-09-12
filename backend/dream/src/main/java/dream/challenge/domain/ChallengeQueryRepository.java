@@ -36,9 +36,8 @@ public class ChallengeQueryRepository {
     private BooleanExpression keywordIdEq(Long keywordId) {
         return keywordId != null ? challenge.keywords.any().keyword.keywordId.eq(keywordId) : null;
     }
+
     private BooleanExpression lastItemIdEq(Long lastItemId) {
         return lastItemId != null ? challenge.challengeId.lt(lastItemId) : null;
     }
-
-
 }

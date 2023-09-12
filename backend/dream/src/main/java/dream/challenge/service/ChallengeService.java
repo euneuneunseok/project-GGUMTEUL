@@ -63,4 +63,9 @@ public class ChallengeService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
+
+    public ResultTemplate getFollowUserStory(Long lastItemId, int size) {
+        
+        return null;
+    }
 }
