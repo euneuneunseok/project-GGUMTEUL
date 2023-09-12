@@ -54,10 +54,7 @@ function App() {
         <Route path="/night/dream/:dreamCardId" element={<DreamDetailPage/>}/>
         {/* 경매장 */}
         <Route path="/night/auction/list" element={<AuctionMainPage/>}/>
-        {/* 경매 등록인데, 상의 필요 "register 제거 여부" */}
-        <Route path="/night/auction/:dreamCardId/register" element={<AuctionCreatePage/>}/>
 
-         {/* 여기 논의 필요. 페이지 병합 (컴포넌트 바꿔끼기) */}
         <Route path="/night/auction/detail/:dreamCardId" element={<AuctionDetailPage/>}/> 
         <Route path="/night/auction/bidding/:dreamCardId" element={<AuctionBuyingPage/>}/> 
 
@@ -77,7 +74,8 @@ function App() {
         <Route path="/day/challenge/:challangeId/comments" element={<ChalCommentPage/>}/>
         <Route path="/day/challenge/create" element={<ChalCreatePage/>}/>
         {/* 타임캡슐 */}
-        <Route path="/day/challenge/:challangeId/timecapsule" element={<ChalCapsuleListPage/>}/>
+        {/* 모달 */}
+        {/* <Route path="/day/challenge/:challangeId/timecapsule" element={<ChalCapsuleListPage/>}/> */}
         <Route path="/day/challenge/:challangeId/timecapsule/create" element={<ChalCapsuleCreatePage/>}/>
         
         {/* 챌린지 매니지(내 챌린지) 관련 */}
