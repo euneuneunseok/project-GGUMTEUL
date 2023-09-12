@@ -25,9 +25,9 @@ public class ChallengeController {
         return challengeService.getAllCategory();
     }
 
-    @GetMapping(value = "/challenge/story/user-list")
-    public ResultTemplate getFollowUserStory(@RequestParam(value = "lastItemId") Long lastItemId,
-                                             @RequestParam(value = "size") int size){
-        return challengeService.getFollowUserStory(lastItemId, size);
-    }
+//    @GetMapping(value = "/challenge/story/user-list")
+//    public ResultTemplate getFollowUserStory(@RequestParam(value = "lastItemId") Long lastItemId,
+//                                             @RequestParam(value = "size") int size){
+//        return challengeService.getFollowUserStory(lastItemId, size);
+//    }
 }
