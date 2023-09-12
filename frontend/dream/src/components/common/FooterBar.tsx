@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
-import { useNavigate } from 'react-router';
 
 // 컴포넌트
 import Button from "./Button";
 
 // 스타일
 import styled, {css} from "styled-components"
-import { FiHome, FiSearch, FiPlusSquare, FiDollarSign, FiBook, FiUser } from "react-icons/fi";
+import { VscHome,VscSearch, VscDiffAdded ,VscAccount } from "react-icons/vsc"
+
+import { FiHome, FiSearch, FiPlusSquare, FiDollarSign, FiTrendingUp,FiPenTool, FiBook, FiUser } from "react-icons/fi";
+import { useNavigate } from 'react-router';
 
 // 타입
 interface NavProps {
@@ -14,7 +16,7 @@ interface NavProps {
   $night ?: boolean;
 }
 
-// 아이콘 
+
 const IconHome = styled(FiHome)`
   width: 2rem;
   height: 2rem;
@@ -35,7 +37,7 @@ const IconUser = styled(FiUser)`
   height: 2rem;
   margin: 0.5rem;
 `
-const IconMarcket = styled(FiDollarSign)`
+const IconAuction = styled(FiDollarSign)`
   width: 2rem;
   height: 2rem;
   margin: 0.5rem;
@@ -47,11 +49,11 @@ const IconBook = styled(FiBook)`
 `
 
 const FooterBarContainer = styled.div<NavProps>`
-  position: sticky;
+  position: fixed;
   bottom: 0;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  /* align-items: center; */
 
   ${(props) => props.$day &&
     css `
@@ -77,7 +79,7 @@ const FooterBar = () => {
         <IconSearch onClick={()=>{navigate(nightDayMode ? "/night/search":"/day/search")}}/>
         <IconPlusSquare onClick={()=>{navigate(nightDayMode ? "/night/dream/create":"/day/challenge/create")}}/>
         {nightDayMode ? (
-          <IconMarcket onClick={()=>{navigate("/night/auction/list")}}/>
+          <IconAuction onClick={()=>{navigate("/night/auction/list")}}/>
           ):(
           <IconBook onClick={()=>{navigate("/day/main")}}/>
         )}
