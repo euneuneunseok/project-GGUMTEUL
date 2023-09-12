@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router';
 
 // 컴포넌트
 import Button from "./Button";
 
 // 스타일
 import styled, {css} from "styled-components"
-import { VscHome,VscSearch, VscDiffAdded ,VscAccount } from "react-icons/vsc"
-
-import { FiHome, FiSearch, FiPlusSquare, FiDollarSign, FiTrendingUp,FiPenTool, FiBook, FiUser } from "react-icons/fi";
-import { useNavigate } from 'react-router';
+import { FiHome, FiSearch, FiPlusSquare, FiDollarSign, FiBook, FiUser } from "react-icons/fi";
 
 // 타입
 interface NavProps {
@@ -16,7 +14,7 @@ interface NavProps {
   $night ?: boolean;
 }
 
-
+// 아이콘 
 const IconHome = styled(FiHome)`
   width: 2rem;
   height: 2rem;
