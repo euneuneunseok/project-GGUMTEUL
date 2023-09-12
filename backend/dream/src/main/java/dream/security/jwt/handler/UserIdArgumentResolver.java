@@ -29,8 +29,12 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String token = request.getHeader(ACCESS_TOKEN_SUBJECT);
 
-        return jwtService.extractUserIdFromAccessToken(token);
+
+        String accessToken = jwtService.extractAccessToken(request).get();
+
+        log.info("annotation Test");
+//        log.info("token in resolveArgument : {}", accessToken);
+        return jwtService.extractUserIdFromAccessToken(accessToken).get();
     }
 }

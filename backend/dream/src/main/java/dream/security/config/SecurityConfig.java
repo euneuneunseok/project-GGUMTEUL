@@ -63,8 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/**").permitAll()
-//                .antMatchers("/api/**").hasRole("ROLE_USER");
+                .antMatchers("/user/jwt-test/**").hasRole("GUEST")
+                .anyRequest().permitAll()
+
                 .and()
                 .oauth2Login()
                 .successHandler(socialLoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정

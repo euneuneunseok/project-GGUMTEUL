@@ -47,6 +47,9 @@ public class OAuth2Attributes {
 
     public User toEntity(OAuth2UserInfo oAuth2UserInfo){
         log.info("UserEntity로 변환");
+        log.info("oAuth2UserInfo : {} ", oAuth2UserInfo.toString());
+        log.info("oAuth2UserInfo : {} ", oAuth2UserInfo.getEmail());
+
         return User.builder()
                 .email(oAuth2UserInfo.getEmail())
                 .name(oAuth2UserInfo.getNickname())

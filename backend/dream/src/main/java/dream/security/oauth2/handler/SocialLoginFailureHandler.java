@@ -15,9 +15,10 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class SocialLoginFailureHandler {
-//        implements AuthenticationFailureHandler {
-//
-//
+//    implements
+//} AuthenticationFailureHandler {
+
+
 //    @Override
 //    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 //

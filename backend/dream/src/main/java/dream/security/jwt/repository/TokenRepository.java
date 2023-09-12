@@ -22,17 +22,19 @@ public class TokenRepository {
 
 
     public void saveRefreshToken(RefreshTokenDto refreshToken){
-        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(String.valueOf(refreshToken.getRefreshToken()), refreshToken.getUserId());
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(String.valueOf(refreshToken.getRefreshToken()), String.valueOf(refreshToken.getUserId()));
         redisTemplate.expire(String.valueOf(refreshToken.getRefreshToken()), refreshTokenExpirationPeriod, TimeUnit.MICROSECONDS);
 
     }
 
     public Optional<RefreshTokenDto> findByRefreshToken(String refreshToken) {
-        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        Optional<Long> userId = Optional.ofNullable(valueOperations.get(refreshToken));
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        Optional<String> userIdOptional = Optional.ofNullable(valueOperations.get(refreshToken));
 
-        if(userId.isEmpty()) return Optional.empty();
+
+        if(userIdOptional.isEmpty()) return Optional.empty();
+        Optional<Long> userId = Optional.ofNullable(Long.parseLong(valueOperations.get(refreshToken)));
         return Optional.of(new RefreshTokenDto(userId.get(), refreshToken));
     }
 

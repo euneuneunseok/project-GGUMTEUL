@@ -108,8 +108,8 @@ public class JwtService {
 
         response.setStatus(HttpServletResponse.SC_OK);
 
-        response.setHeader(accessHeader, tokenDto.getAccessToken());
-        response.setHeader(refreshHeader, tokenDto.getRefreshToken());
+        response.setHeader(accessHeader, BEARER+tokenDto.getAccessToken());
+        response.setHeader(refreshHeader, BEARER+tokenDto.getRefreshToken());
 
         log.info("Access Token, Refresh Token 헤더 설정 완료");
 
@@ -119,15 +119,16 @@ public class JwtService {
      */
 
     public Optional<Long> extractUserIdFromAccessToken(String accessToken) {
+        log.info("token in extractUserIdFromAccessToken : {}", accessToken);
         try {
-            Algorithm algorithm = Algorithm.HMAC512(secretKey);
+
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
                     .build().verify(accessToken.replace(BEARER, ""))
                     .getClaim(USER_ID_CLAIM).asLong());
 
             //어떻게 처리해야할지 모르겠다 ,,
         } catch (Exception e) {
-            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            log.error("유효하지 않은 토큰입니다. in extractUserIdFromAccessToken {}", e.getMessage());
             return Optional.empty();
         }
     }
@@ -143,6 +144,8 @@ public class JwtService {
      * 헤더에서 RefreshToken 추출
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
+        log.info("extractRefreshToken 동작");
+        log.info("추출한 Refresh Token : {}", Optional.ofNullable(request.getHeader(refreshHeader)).get());
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -152,8 +155,9 @@ public class JwtService {
      * 헤더에서 AccessToken 추출
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
+        log.info("extract AccessToken");
+        log.info("accessHeader Token : {} ",request.getHeader(accessHeader));
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(accessToken -> accessToken.startsWith(BEARER))
                 .map(accessToken -> accessToken.replace(BEARER, ""));
     }
 
@@ -162,14 +166,13 @@ public class JwtService {
      */
     public boolean isAccessTokenValid(String accessToken) {
         try {
-//            Optional<String> isLogout = (Optional<String>) redisTemplate.opsForValue().get(accessToken);
-//        if(isLogout.isPresent()) return false;
-
+            log.info("isAccessTokenValid 동작");
+                    
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken);
             return true;
             //이부분 Exception으로 만들어야 하는가...?
         } catch (Exception e) {
-            log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
+            log.error("유효하지 않은 토큰입니다. in isAccessTokenValid {}", e.getMessage());
             return false;
         }
     }
@@ -177,6 +180,7 @@ public class JwtService {
      * Refresh Token 유효성 검증
      */
     public boolean isRefreshTokenValid(String refreshToken) {
+        log.info("isRefreshTokenValid 동작");
 
         Optional<RefreshTokenDto> savedRefreshTokenDto = tokenRepository.findByRefreshToken(String.valueOf(refreshToken));
 

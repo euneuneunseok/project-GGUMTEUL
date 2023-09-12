@@ -11,6 +11,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
     public KakaoOAuth2UserInfo(Map<String , Object> attributes) {
         super(attributes);
+        this.attributes = attributes;
     }
 
     @Override
@@ -27,18 +28,19 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getEmail() {
-//        log.info("attributes : {} ", attributes.toString());
-        log.info("getEmail() 실행");
 
-        Map<String, Object> account = (Map<String, Object>) attributes.get("properties");
+        log.info("getEmail() 실행");
+        log.info("attributes : {} ", attributes);
+
+        Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
         log.info("account : {}", account.toString());
-        Map<String, Object> profile = (Map<String, Object>) account.get("kakao_acount");
+//        Map<String, Object> profile = (Map<String, Object>) account.get("kakao_account");
 
         if (account == null ) {
             return null;
         }
 
-        return (String) profile.get("email");
+        return (String) account.get("email");
     }
 
     @Override

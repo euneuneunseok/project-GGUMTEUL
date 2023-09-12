@@ -2,7 +2,6 @@ package dream.security.oauth2.service;
 
 import dream.security.oauth2.userinfo.CustomOAuth2User;
 import dream.security.oauth2.userinfo.OAuth2Attributes;
-import dream.user.domain.SocialType;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,18 +52,19 @@ public class SocialLoginService implements OAuth2UserService<OAuth2UserRequest, 
     private User getUser(OAuth2Attributes attributes) {
         log.info("getUser 시도");
         log.info("getOauthUserInfo() : {} ",attributes.getOAuth2UserInfo().toString());
-        log.info("email : {} ", attributes.getOAuth2UserInfo().getEmail());
+//        log.info("email : {} ", attributes.getOAuth2UserInfo().getEmail());
         Optional<User> findUser = Optional.empty();
 //                userRepository.findByEmail();
 
         if(findUser.isPresent()) {
+
             return findUser.get();
         }
         else return saveUser(attributes);
     }
 
     private User saveUser(OAuth2Attributes attributes) {
-
+    log.info("회원가입을 위한 GUEST 저장");
     User createUser = attributes.toEntity(attributes.getOAuth2UserInfo());
     return userRepository.save(createUser);
     }
