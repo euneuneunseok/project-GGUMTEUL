@@ -21,7 +21,7 @@ public class CardKeyword {
 
     @JoinColumn(name = "keyword_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Keyword keyWordId;
+    private DreamKeyword keyWordId;
 
 
 }

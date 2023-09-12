@@ -1,8 +1,7 @@
-package dream.notification.domain;
+package dream.user.domain;
 
-import dream.common.domain.BaseTimeEntity;
 import dream.common.domain.BaseCheckType;
-import dream.user.domain.User;
+import dream.common.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,22 +11,25 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification extends BaseTimeEntity {
+public class Message extends BaseTimeEntity {
 
-    @Id @GeneratedValue
-    private Long notificationId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long messageId;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "from_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private User fromUser;
+
+    @JoinColumn(name = "to_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User toUser;
 
     private String title;
     private String content;
+
     @Enumerated(EnumType.STRING)
     private BaseCheckType isRead;
 
     @Enumerated(EnumType.STRING)
-    private NotificationType type;
-    private Long referenceId;
-
+    private Status status;
 }

@@ -30,17 +30,31 @@ public class DreamCard extends BaseTimeEntity {
 
     private String dreamCardContent;
     private String dreamCardImageUrl;
+    @Enumerated(EnumType.STRING)
     private Grade grade;
 
     private String dreamTelling;
-    private int positivePoint;
-    private int rarePoint;
 
+    private int positivePoint;
+    @Enumerated(EnumType.STRING)
+    private Grade positiveGrade;
+
+    private int rarePoint;
+    @Enumerated(EnumType.STRING)
+    private Grade rareGrade;
+
+    @Enumerated(EnumType.STRING)
     private BaseCheckType auctionStatus;
+    @Enumerated(EnumType.STRING)
     private BaseCheckType isShow;
     private long hits;
 
     @OneToMany(mappedBy = "dreamCard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DreamCardLike> dreamCardLike;
+
+    @OneToMany(mappedBy = "cardId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CardKeyword> cardKeyword;
+
+
 
 }

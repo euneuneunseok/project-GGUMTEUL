@@ -1,6 +1,6 @@
-package dream.card.domain;
+package dream.challenge.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import dream.common.domain.BaseUpdateTimeEntity;
 import dream.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,18 +11,19 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DreamCardLike {
-
+public class comment extends BaseUpdateTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dreamCardLikeId;
-
-    @JoinColumn(name = "dream_card_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private DreamCard dreamCard;
+    private Long commentId;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @JoinColumn(name = "detail_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ChallengeDetail challengeDetail;
+
+    private String content;
 
 }

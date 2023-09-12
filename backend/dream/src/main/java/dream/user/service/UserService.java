@@ -22,4 +22,11 @@ public class UserService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(user).build();
     }
+
+    // 로그아웃 ( 토큰 삭제 로직이 아마 들어가면 되겠지 )
+    // 하지말라니까 User는 아예 안 해놓을게
+    public ResultTemplate logout(User user){
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("SUCCESS").build();
+    }
 }

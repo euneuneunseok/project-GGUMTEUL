@@ -1,7 +1,6 @@
-package dream.card.domain;
+package dream.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dream.user.domain.User;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,18 +10,17 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DreamCardLike {
-
+public class Follow {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dreamCardLikeId;
+    private Long followId;
 
-    @JoinColumn(name = "dream_card_id")
+    @JoinColumn(name = "from_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private DreamCard dreamCard;
+    private User fromUser;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "to_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private User toUser;
 
 }
