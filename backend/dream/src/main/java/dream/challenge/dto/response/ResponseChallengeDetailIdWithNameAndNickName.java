@@ -1,6 +1,5 @@
 package dream.challenge.dto.response;
 
-import dream.card.domain.DreamKeyword;
 import dream.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseUserNickAndId {
+public class ResponseChallengeDetailIdWithNameAndNickName {
+    private long challengeDetailId;
     private long userId;
     private String nickname;
 
-    public static ResponseUserNickAndId from(User user){
+    public static ResponseChallengeDetailIdWithNameAndNickName from(User user){
 
-        ResponseUserNickAndId response = new ResponseUserNickAndId();
-
+        ResponseChallengeDetailIdWithNameAndNickName response = new ResponseChallengeDetailIdWithNameAndNickName();
         response.userId = user.getUserId();
         response.nickname = user.getNickname();
 

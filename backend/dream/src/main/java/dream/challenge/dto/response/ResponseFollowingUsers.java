@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ResponseFollowingUsers {
     private boolean hasUserWithStory;
-    private List<ResponseUserNickAndId> resultList;
+    private List<ResponseChallengeDetailIdWithNameAndNickName> resultList;
     private boolean hasNext;
 
-    public static ResponseFollowingUsers from(boolean hasUserWithStory, List<ResponseUserNickAndId> userList, boolean hasNext){
+    public static ResponseFollowingUsers from(boolean hasUserWithStory, List<ResponseChallengeDetailIdWithNameAndNickName> userList, boolean hasNext){
 
         ResponseFollowingUsers response = new ResponseFollowingUsers();
         response.hasUserWithStory = hasUserWithStory;
