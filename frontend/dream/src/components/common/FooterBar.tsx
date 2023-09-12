@@ -35,7 +35,7 @@ const IconUser = styled(FiUser)`
   height: 2rem;
   margin: 0.5rem;
 `
-const IconMuction= styled(FiDollarSign)`
+const IconAuction= styled(FiDollarSign)`
   width: 2rem;
   height: 2rem;
   margin: 0.5rem;
