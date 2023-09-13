@@ -4,13 +4,13 @@ import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 // 컴포넌트
 
 // 스타일
-export interface DayChallengeObj {
+export interface DayChallengeObjType {
   title :string,
   period :string,
   challengeId :number
 }
 
-export interface DayChallengeList extends Array<DayChallengeObj> {}
+export interface DayChallengeListType extends Array<DayChallengeObjType> {}
 
 export interface InfiniteScrollProps {
   children ?: any,
