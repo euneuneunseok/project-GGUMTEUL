@@ -24,7 +24,6 @@ const DayChallengeList = () => {
   const [allChalList, setAllChalList] = useState<DayChallengeList>([]);
   // 스크롤 내리면서 받아올 새 리스트 
   const [newChalList, setNewChalList] = useState<DayChallengeList>([]);
-
   const [lastItemId, setLastItemId] = useState<number>(0); // 마지막 아이템 번호
   // let size :number = 6; // 받아올 리스트 사이즈 - axios 연결 후 주석 해제하기
   
@@ -41,10 +40,12 @@ const DayChallengeList = () => {
   }
 
   // 처음 렌더링 시 Challenge List axios 요청
-  // axios로 받아오면 setAllChalList로 기존 배열에 새 배열 추가하기
   useEffect(() => {
-    setAllChalList([newObj, newObj2, newObj2, newObj2, newObj2, newObj2, newObj2, newObj2,
-      newObj2, newObj2, newObj2, newObj2, newObj2, newObj2
+    // axios로 받아오면 setAllChalList로 기존 배열에 새 배열 추가하기
+    setAllChalList([
+      newObj, newObj2, newObj2, newObj2, 
+      newObj2, newObj2, newObj2, newObj2,
+      newObj2, newObj2, newObj2, newObj2
     ])
   }, [])
   
@@ -52,7 +53,6 @@ const DayChallengeList = () => {
   //  -> 바닥에 다다르면 신호를 보냄 -> DCL.tsx에서 다음 axios 요청 
   
   const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
-  // console.log(typeof setArriveEnd)
 
   useEffect(() => {
     // 바닥에 다다랐으면 axios 요청
