@@ -2,20 +2,9 @@
 
 /* $border-radius-size: 14px; */
 
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
-.slide-container {
-  margin: auto;
-  width: 600px;
-  text-align: center;
-}
-
 .wrapper {
   padding-top: 40px;
   padding-bottom: 40px;
-  
   &:focus {
     outline: 0;
   }
@@ -23,8 +12,9 @@
 
 .clash-card {
   background: white;
-  width: 40vw;
   display: inline-block;
+  width: 40vw;
+  height: 60vw;
   margin: auto;
   /* border-radius: $border-radius-size + 5; */
   position: relative;
@@ -35,7 +25,7 @@
 
 .clash-card__image {
   position: relative;
-  height: 230px;
+  height: 15vw;
   margin-bottom: 35px;
   /* border-top-left-radius: $border-radius-size;
   border-top-right-radius: $border-radius-size; */
@@ -44,7 +34,6 @@
 .clash-card__image--barbarian {
   background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian-bg.jpg');
   img {
-    width: 400px;
     position: absolute;    
     top: -65px;
     left: -70px;
@@ -62,15 +51,15 @@
 .clash-card__level--barbarian {
   color: #EC9B3B;
 }
-
+/* 
 .clash-card__unit-name {
   font-size: 26px;
   color: black;
   font-weight: 900;
   margin-bottom: 5px;
-}
+} */
 
-.clash-card__unit-description {
+.keyword-region {
   padding: 20px;
   margin-bottom: 10px;  
 }
@@ -93,26 +82,19 @@
   .one-second {
     width: 50%;
     float: left;
-    padding: 20px 15px;
+    padding: 1rem 0.5rem;
   }
-  
-  sup {
-    position: absolute;
-    bottom: 4px; 
-    font-size: 45%;
-    margin-left: 2px;
-  }
-  
-  .stat {
+    
+  .grade {
     position: relative;
-    font-size: 24px;
-    margin-bottom: 10px;
+    /* font-size: 24px; */
+    margin-bottom: 0.5rem;
   }
   
-  .stat-value {
+  .grade-value {
     text-transform: uppercase;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 
   .no-border {
@@ -127,14 +109,4 @@
 	content: " ";
 	clear: both;
 	height: 0;
-}
-
-.slick-prev {
-  left: 100px;
-  z-index: 999;
-}
-
-.slick-next {
-  right: 100px;
-  z-index: 999;
 }
