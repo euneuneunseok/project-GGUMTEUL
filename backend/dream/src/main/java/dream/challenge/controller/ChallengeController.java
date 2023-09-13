@@ -5,7 +5,6 @@ import dream.common.domain.ResultTemplate;
 import dream.common.exception.NotFoundException;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +29,18 @@ public class ChallengeController {
     }
 
     @GetMapping(value = "/challenge/story/user-list")
-    public ResultTemplate getFollowUserStory(@RequestParam(value = "lastItemId", required = false) Long lastItemId,
-                                             @RequestParam(value = "size") int size){
+    public ResultTemplate getFollowUsers(@RequestParam(value = "lastItemId", required = false) Long lastItemId,
+                                         @RequestParam(value = "size") int size){
 
         User user = userRepository.findByUserId(1L).
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
-        return challengeService.getFollowUserStory(user, lastItemId, size);
+        return challengeService.getFollowUsers(user, lastItemId, size);
+    }
+
+    @GetMapping(value = "/challange/story/{userId}")
+    public ResultTemplate getFollowUserStory(@PathVariable("userId") long userId) {
+
+        return challengeService.getFollowUserStory(userId);
     }
 }
