@@ -41,7 +41,7 @@ const InfiniteScroll = ({
     // 현재 스크롤바의 위치
 
     
-    if (Math.round(scrollTop + innerHeight) >= scrollHeight*0.95 ) {
+    if (Math.round(scrollTop + innerHeight) >= scrollHeight*0.9 ) {
       // scrollTop과 innerHeight를 더한 값이 scrollHeight*0.95 보다 크다면, 가장 아래에 도달했다는 의미
       setArriveEnd(true);
       console.log('가장 아래에 도달')
