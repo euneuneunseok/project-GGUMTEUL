@@ -3,7 +3,7 @@
 // <ChallengeContentListItem></ChallengeContentListItem> ./daycommon 
 
 // 리액트
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // 컴포넌트
 import ChalContentListItem from "../daycommon/ChalContentListItem";
@@ -24,6 +24,7 @@ const DayChallengeList = () => {
   const [allChalList, setAllChalList] = useState<DayChallengeList>([]);
   // 스크롤 내리면서 받아올 새 리스트 
   const [newChalList, setNewChalList] = useState<DayChallengeList>([]);
+
   const [lastItemId, setLastItemId] = useState<number>(0); // 마지막 아이템 번호
   // let size :number = 6; // 받아올 리스트 사이즈 - axios 연결 후 주석 해제하기
   
@@ -47,8 +48,8 @@ const DayChallengeList = () => {
     ])
   }, [])
   
-  //  DCL에서 초기 axios 요청 -> 데이터 불러옴 -> Infinite에서 스크롤 이벤트 감지
-  //  -> 바닥에 다다르면 신호를 보냄 -> DCL에서 다음 axios 요청 
+  //  DCL.tsx에서 초기 axios 요청 -> 데이터 불러옴 -> Infinite에서 스크롤 이벤트 감지
+  //  -> 바닥에 다다르면 신호를 보냄 -> DCL.tsx에서 다음 axios 요청 
   
   const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
   // console.log(typeof setArriveEnd)
@@ -68,7 +69,7 @@ const DayChallengeList = () => {
     <>
     <InfiniteScroll 
     setArriveEnd={setArriveEnd} 
-    lastItemId={lastItemId}
+    // lastItemId={lastItemId}
     component={
       allChalList?.map((chal :DayChallengeObj) => (
       <ChalContentListItem key={chal.challengeId} chal={chal} />))

@@ -1,9 +1,7 @@
 // 리액트
-import ChalContentListItem from "components/day/daycommon/ChalContentListItem";
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 // 컴포넌트
-// import ChalContentListItem from "../daycommon/ChalContentListItem";
 
 // 스타일
 export interface DayChallengeObj {
@@ -14,19 +12,19 @@ export interface DayChallengeObj {
 
 export interface DayChallengeList extends Array<DayChallengeObj> {}
 
-export interface propsObj {
+export interface InfiniteScrollProps {
   children ?: any,
   setArriveEnd :Dispatch<SetStateAction<boolean>>,
-  lastItemId :number,
+  // lastItemId :number,
   component :any,
 } 
 
 
 const InfiniteScroll = ({
   setArriveEnd, 
-  lastItemId,
+  // lastItemId,
   component
-} :propsObj) => {
+} :InfiniteScrollProps) => {
   
 
   // 무한 스크롤
@@ -48,7 +46,7 @@ const InfiniteScroll = ({
       setArriveEnd(true);
       console.log('가장 아래에 도달')
     }
-  }, [lastItemId]);
+  }, []); // 성능 저하 시 lastItemId 넣어보기
   
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
