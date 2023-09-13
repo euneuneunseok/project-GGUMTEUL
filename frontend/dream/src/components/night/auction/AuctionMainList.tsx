@@ -22,7 +22,7 @@ export interface AuctionMainType {
   size: number
 }
 
-export interface AuctionAxiosItemType {
+export interface AuctionItemAxiosType {
   dreamCardId: number;
   dreamCardImageUrl: string;
   keywords: string[];
@@ -34,7 +34,7 @@ export interface AuctionAxiosItemType {
 }
 
 export interface AuctionListType {
-  aucionList : AuctionAxiosItemType[]
+  aucionList : AuctionItemAxiosType[]
 }
 
 const AuctionMainList = () => {
