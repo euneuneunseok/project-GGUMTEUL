@@ -1,47 +1,52 @@
 
-.wrapper {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  margin: 0.5rem;
-  display: flex;
-  justify-content: space-around;
-  &:focus {
-    outline: 0;
-  }
-
+.scroll::-webkit-scrollbar {
+  display: none;
 }
 
+
+.wrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  /* margin: 0.5rem; */
+  height: 90%;
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly; */
+  &:focus {
+    outline: 0;
+  } 
+ 
+}
+/* .wrapper > .auction-card:nth-child(odd) {
+  align-self: flex-start; 
+
+} */
+
 .auction-card {
-  background: white;
+  background: rgba(190, 169, 215, 0.5);
   display: inline-block;
   width: 45vw;
+  margin-left: 3.5vw;
   border-radius: 1rem;
+
+  margin-bottom: 1rem;
+
   /* height: 60vw; */
   /* border-radius: $border-radius-size + 5; */
   position: relative;
   text-align: center;
   box-shadow: -1px 15px 30px -12px black;
-  z-index: 9999;
+  /* z-index: 9999; */
   
 }
 
-.clash-card__image {
+.auction-card-image {
   position: relative;
-  height: 30vw;
+  /* height: 50vw; */
   /* margin-bottom: 35px; */
   /* border-top-left-radius: $border-radius-size;
   border-top-right-radius: $border-radius-size; */
 }
-
-.clash-card__image--barbarian {
-  /* background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian-bg.jpg'); */
-  img {
-    /* position: absolute;     */
-    top: -65px;
-    left: -70px;
-  }
-}
-
 
 .auction-end-time {
   text-transform: uppercase;
@@ -50,18 +55,22 @@
   /* margin-top: 1rem; */
   padding: 0.5rem;
 
-  color: plum;
+  color: black;
   /* height: 50%; */
 }
 
 .keyword-region {
-  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  /* width: 100%; */
+  margin: 0.5rem 0.25rem;
+  /* padding: 1rem; */
   /* margin-bottom: 10px;   */
 }
 
 .grade-region {
   
-  background: #EC9B3B;
+  background: rgba(190, 169, 215);
   color: white;
   font-weight: 700;
   border-radius: 0 0 1rem 1rem;
@@ -69,11 +78,11 @@
   .one-second {
     width: 50%;
     float: left;
-    padding: 1rem 0.5rem;
+    padding: 0.5rem;
   }
   .one-second:nth-child(1)  {
 
-    border-right: 1px solid #BD7C2F;
+    border-right: 1px solid whitesmoke;
   }
   
   .grade {

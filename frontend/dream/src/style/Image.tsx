@@ -173,6 +173,7 @@ const StyledImage = styled.div<ImageProps>`
           width: 100%;
           height: 100%;
           object-fit: cover;
+          content: "";
           aspect-ratio: 1/1;
           object-position: center;
           border-radius: 1rem;
