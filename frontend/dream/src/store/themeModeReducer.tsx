@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface themeModeType{
   textColor: string;
   backgroundImageUrl : string;
+  mode: string;
 }
 
 export interface initialStateType{
@@ -12,8 +13,9 @@ export interface initialStateType{
 const initialState :initialStateType={
   themeMode: { 
     textColor: "#FFFFFF",
-    backgroundImageUrl : `${process.env.PUBLIC_URL}/image/background-image/sunset-background.jpg`
-  } as themeModeType,
+    backgroundImageUrl : `${process.env.PUBLIC_URL}/image/background-image/sunset-background.jpg`,
+    mode:'sunset'
+  },
 }
 
 export const themeModeReducer = createSlice({
@@ -22,7 +24,6 @@ export const themeModeReducer = createSlice({
   reducers:{
     changeMode: (state, action) => {
       state.themeMode =  action.payload;
-      console.log(state.themeMode,'여기 저장되었어!')
     },
   },
 });

@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // 컴포넌트
 import Button from "./Button";
 
 // 스타일
 import styled, {css} from "styled-components"
-import { VscHome,VscSearch, VscDiffAdded ,VscAccount } from "react-icons/vsc"
 
-import { FiHome, FiSearch, FiPlusSquare, FiDollarSign, FiTrendingUp,FiPenTool, FiBook, FiUser } from "react-icons/fi";
+import { FiHome, FiSearch, FiPlusSquare, FiDollarSign, FiBook, FiUser } from "react-icons/fi";
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 // 타입
 interface NavProps {
@@ -75,6 +76,13 @@ const FooterBar = () => {
   
   //true : night, false : day
   const [nightDayMode, setNightDayMode] = useState<boolean>(true);
+
+  const themeMode = useSelector((state: RootState) => state.themeModeReducer.themeMode);
+
+  useEffect(()=>{
+    setNightDayMode(themeMode.mode ==='night' ? true : false)
+  },[themeMode.mode])
+
   return (
     <>
       <FooterBarContainer $day={!nightDayMode} $night={nightDayMode}>  
