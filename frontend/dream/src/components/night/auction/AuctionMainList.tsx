@@ -47,7 +47,6 @@ const AuctionMainList = () => {
     // .then((res)=> {
     //   setAuctionList(res.data.auctionList)
     // })
-
   }, [])
   // 무한 스크롤 부분
 
