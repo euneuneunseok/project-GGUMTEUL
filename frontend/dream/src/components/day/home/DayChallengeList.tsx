@@ -50,15 +50,16 @@ const DayChallengeList = () => {
   //  DCL에서 초기 axios 요청 -> 데이터 불러옴 -> Infinite에서 스크롤 이벤트 감지
   //  -> 바닥에 다다르면 신호를 보냄 -> DCL에서 다음 axios 요청 
   
-  const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려줌
+  const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
   // console.log(typeof setArriveEnd)
 
   useEffect(() => {
     // 바닥에 다다랐으면 axios 요청
     if (arriveEnd) {
       // axios 요청하는 동작 추가
+      setAllChalList([...allChalList, newObj])
       setArriveEnd(false);
-      // setLastItemId(newChalList[-1]["challengeId"]);
+      // setLastItemId(newChalList[-1]["challengeId"]); // 마지막 item id 변경
     }
   }, [arriveEnd])
 
@@ -67,19 +68,12 @@ const DayChallengeList = () => {
     <>
     <InfiniteScroll 
     setArriveEnd={setArriveEnd} 
-    setAllChalList={setAllChalList} 
-    allChalList={allChalList}
-    newChalList={newChalList}
     lastItemId={lastItemId}
     component={
       allChalList?.map((chal :DayChallengeObj) => (
       <ChalContentListItem key={chal.challengeId} chal={chal} />))
     }
     >
-      {
-        allChalList?.map((chal :DayChallengeObj) => (
-        <ChalContentListItem key={chal.challengeId} chal={chal} />))
-      }
     </InfiniteScroll>
     </>
   )
