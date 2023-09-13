@@ -66,7 +66,6 @@ public class ChallengeService {
 
     public ResultTemplate getFollowUsers(User user, Long lastItemId, int size) {
 
-        // 내가 팔로우한 사람들의 게시글 다 가져옴 size 만큼
         List<ChallengeDetail> list = challengeDetailQueryRepository.findChallengeListByPage(user.getUserId(), lastItemId, size);
         if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_FOLLOWING_USER_STORY);
 
