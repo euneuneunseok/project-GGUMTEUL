@@ -49,7 +49,10 @@ const IconBook = styled(FiBook)`
 `
 
 const FooterBarContainer = styled.div<NavProps>`
+  width: 100vw;
+  height:3rem;
   position: fixed;
+  left: 0;
   bottom: 0;
   display: flex;
   justify-content: space-around;
