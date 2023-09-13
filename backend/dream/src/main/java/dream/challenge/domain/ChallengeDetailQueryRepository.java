@@ -66,6 +66,7 @@ public class ChallengeDetailQueryRepository {
                 .fetch();
     }
 
+
     private BooleanExpression lastItemIdLt(Long lastItemId) {
         return lastItemId != null ? challengeDetail.challengeDetailId.lt(lastItemId) : null;
     }

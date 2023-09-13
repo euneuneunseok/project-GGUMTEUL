@@ -94,4 +94,23 @@ public class ChallengeService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
+
+    public ResultTemplate getSearchedChallenge(String searchKeyword, Long keywordId, Long lastItemId, int size) {
+
+        List<Challenge> list = challengeQueryRepository.getChallengeByKeyword(searchKeyword, keywordId, lastItemId, size);
+        if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_CHALLENGE_LIST);
+
+        List<ResponseSearchedChallenge> challengeList = new ArrayList<>();
+        int count = 0;
+        for (Challenge challenge : list) {
+            ResponseSearchedChallenge tmp = ResponseSearchedChallenge.from(challenge);
+            challengeList.add(tmp);
+            if(++count == size) break;
+        }
+
+        boolean hasNext = (list.size() > size);
+        ResponseSearchedChallengeList response = ResponseSearchedChallengeList.from(challengeList, hasNext);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
 }

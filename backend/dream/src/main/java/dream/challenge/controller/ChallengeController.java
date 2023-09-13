@@ -43,4 +43,13 @@ public class ChallengeController {
 
         return challengeService.getFollowUserStory(userId);
     }
+
+    @GetMapping(value = "/challenge/search/{searchKeyword}")
+    public ResultTemplate searchChallenge(@PathVariable(value = "searchKeyword", required = false) String searchKeyword,
+                                          @RequestParam(value = "keywordId", required = false) Long keywordId,
+                                          @RequestParam(value = "lastItemId", required = false) Long lastItemId,
+                                          @RequestParam(value = "size") int size) {
+
+        return challengeService.getSearchedChallenge(searchKeyword, keywordId, lastItemId, size);
+    }
 }
