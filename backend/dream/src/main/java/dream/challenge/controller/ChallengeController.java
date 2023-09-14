@@ -61,4 +61,6 @@ public class ChallengeController {
 
         return challengeService.getChallengeInfo(user, challangeId);
     }
+
+//    @GetMapping(value = "/api/s3/day/challenge/item/{challengeId}/image")
 }

@@ -19,4 +19,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
             "left join fetch c.challengeParticipations " +
             "where c.challengeId = :id")
     Optional<Challenge> findChallengeParticipates(@Param("id") Long id);
+
 }

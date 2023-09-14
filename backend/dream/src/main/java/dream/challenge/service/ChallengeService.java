@@ -8,6 +8,7 @@ import dream.challenge.dto.response.*;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.NoSuchElementException;
 import dream.common.exception.NotFoundException;
+import dream.s3.dto.response.ResponseBadgeImage;
 import dream.user.domain.FollowRepository;
 import dream.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -117,16 +118,14 @@ public class ChallengeService {
 
     public ResultTemplate getChallengeInfo(User user, Long challengeId) {
 
-        // 일단 유저가 참여하고 있는지, 참여하고 있다면 몇일 참여하고 있는지
         List<ChallengeDetail> sizeOfUserParticipateInChallenge = challengeDetailQueryRepository.
                 getIsUserParticipateChallenge(user.getUserId(), challengeId);
 
-//        Challenge challenge = challengeQueryRepository.getChallengeDetail(challengeId);
         Challenge challengeWithKeyword = challengeRepository.findChallengeKeyword(challengeId)
-                .orElseThrow( () ->  new NotFoundException(NotFoundException.USER_NOT_FOUND));
+                .orElseThrow( () ->  new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
 
         Challenge challengeWithParticipates = challengeRepository.findChallengeParticipates(challengeId)
-                .orElseThrow( () ->  new NotFoundException(NotFoundException.USER_NOT_FOUND));
+                .orElseThrow( () ->  new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
 
         List<User> getRank = challengeDetailQueryRepository.getRank(challengeId);
 
@@ -136,4 +135,13 @@ public class ChallengeService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
+    public ResultTemplate getChallengeImage(Long challengeId) {
+
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow( () ->  new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
+
+        ResponseBadgeImage response = ResponseBadgeImage.from(challenge);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
 }

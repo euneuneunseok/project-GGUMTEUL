@@ -48,18 +48,6 @@ public class ChallengeQueryRepository {
                 .fetch();
     }
 
-    public Challenge getChallengeDetail(long challengeId){
-        QChallenge challenge = QChallenge.challenge;
-
-        return queryFactory.selectFrom(challenge).distinct()
-                .leftJoin(challenge.challengeParticipations).fetchJoin()
-                .leftJoin(challenge.keywords).fetchJoin()
-                .where(
-                        challenge.challengeId.eq(challengeId)
-                )
-                .fetchOne();
-    }
-
     private BooleanExpression searchKeywordLike(String searchKeyword){
         if (searchKeyword != null && !searchKeyword.isEmpty()) {
             String likeKeyword = "%" + searchKeyword + "%";
