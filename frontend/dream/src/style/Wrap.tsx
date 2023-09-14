@@ -5,16 +5,23 @@ import styled, {css} from 'styled-components'
 
 interface WrapProps {
   children?: React.ReactNode;
-  $auctionCardWrap ?: boolean
+  $baseWrap ?: boolean
+  $auctionCardWrap ?: boolean;
 
   
 }
 const StyledWrap = styled.div<WrapProps>`
-  
+  ${(props) =>
+    props.$baseWrap &&
+    css`
+      margin: 0 1%;
+    `
+  }
+
   ${(props) =>
     props.$auctionCardWrap &&
     css`
-      padding-top: 1rem;
+      /* padding-top: 1rem; */
       padding-bottom: 1rem;
       /* margin: 0.5rem; */
       height: 90%;
