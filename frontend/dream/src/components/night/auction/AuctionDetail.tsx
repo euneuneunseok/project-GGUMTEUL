@@ -43,7 +43,7 @@ interface AuctionDetailAxiosType {
   startAuctionMoney : number;
   immediatelyBuyMoney : number;
   endedAt : "2023-09-09T00:00";
-  askingMoney : number;
+  askingMoney : number; // 호가
   biddingCount : number;
   dreamCardId: number;
   dreamCardImageUrl : string[];

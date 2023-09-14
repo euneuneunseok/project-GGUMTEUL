@@ -29,6 +29,7 @@ interface ButtonProps {
     // 색상 지정
     $nightPurple ?:boolean
     $nightPalePurple ?:boolean
+    $nightMiddlePurple ?:boolean
     $dayBlue ?: boolean
     $dayYellow ?: boolean
     $transparent ?: boolean
@@ -145,6 +146,20 @@ const StyledButton = styled.button<ButtonProps>`
         css`
             background-color: #6659A5;
             border: 1px solid #6659A5;
+            color: #FFFFFF;
+            &:not(:disabled):hover {
+                opacity: 0.8;
+            }
+        `   
+    }
+
+    // 중간 보라색버튼
+    ${(props) =>
+        props.$nightMiddlePurple &&
+        css`
+            background: rgba(102, 89, 165, 0.5);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(102, 89, 165, 0.5);
             color: #FFFFFF;
             &:not(:disabled):hover {
                 opacity: 0.8;

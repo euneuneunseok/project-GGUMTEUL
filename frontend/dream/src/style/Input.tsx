@@ -44,6 +44,7 @@ const StyledInput = styled.input<InputProps>`
    outline: none;
    border: none;
    border-radius: 0.75rem;    
+   padding-left: 0.75rem;
    // value (입력값이 지정되는 것) => box로 옮기기
 
     // disabled가 아닐때(활성화), hover

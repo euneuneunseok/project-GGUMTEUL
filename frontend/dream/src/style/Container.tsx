@@ -6,6 +6,7 @@ import styled, {css} from 'styled-components'
 interface ContainerProps {
   children?: React.ReactNode;
   $baseContainer ?: boolean
+  $centerContainer ?: boolean
 
   // 5개 넘어가면 한줄 띄어가는 keyword
   $nightKeyword ?: boolean
@@ -18,6 +19,17 @@ const StyledContainer = styled.div<ContainerProps>`
     props.$baseContainer &&
     css`
       margin: 0 0.5rem;
+    `
+  }
+
+  // div 가운데 넣기
+  ${(props) =>
+    props.$centerContainer &&
+    css`
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      margin: 1rem auto;
     `
   }
 
