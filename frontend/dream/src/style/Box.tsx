@@ -188,9 +188,9 @@ const BoxTitle = (props:BoxProps) => {
   return <StyledTitle {...props}>{props.children}</StyledTitle>
 }
 
-const WrappingBox = (props:BoxProps) => {
+const GradeWrappingBox = (props:BoxProps) => {
   return <GradeWrapping {...props}>{props.children}</GradeWrapping>
 }
 
 
-export {Box, BoxTitle, WrappingBox};
+export {Box, BoxTitle, GradeWrappingBox};

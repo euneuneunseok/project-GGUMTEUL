@@ -33,6 +33,7 @@ const StyledContainer = styled.div<ContainerProps>`
       & > div {
         margin: auto;
         width: 3.5rem;
+        border-radius: 0.5rem;
       }
   `
   }
