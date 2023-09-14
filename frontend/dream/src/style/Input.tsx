@@ -7,8 +7,9 @@ interface InputProps {
     children?: React.ReactNode;
     // styles?: string;
     onChange ?: (e :any) => void;
+    onBlur ?: (e: any) => void
     disabled?: boolean;    
-    type?: 'text' | 'search' ;
+    type?: 'text' | 'search' | 'number';
     placeholder ?: string;
     id ?: string;
     value ?: string | number

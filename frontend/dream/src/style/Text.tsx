@@ -17,6 +17,7 @@ interface TextProps {
   $nightWhite ?: boolean;
   $nightBlue ?: boolean;
   $black ?: boolean;
+  $danger ?: boolean
   
 }
 const StyledText = styled.div<TextProps>`
@@ -56,6 +57,12 @@ const StyledText = styled.div<TextProps>`
     props.$black &&
     css`
       color: black;
+    `
+  }
+  ${(props) =>
+    props.$danger &&
+    css`
+      color: #C70000;
     `
   }
 `
