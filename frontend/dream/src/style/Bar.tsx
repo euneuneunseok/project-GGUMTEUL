@@ -35,6 +35,18 @@ const BarContainer = styled.div<NavProps>`
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+    // 좌측 박스
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }  
+    // 로고 사이즈
+    & > div > img {
+      width:3rem;
+      height:3rem;
+    }
     `
   }
   // 낮 모드

@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { Bar } from "style/Bar";
 import ModeToggle from "./ModeToggle";
 
+import { FiBell } from "react-icons/fi";
+
 // 함수
 // 1안
 // 현재 url state로 관리를 하고
@@ -37,20 +39,13 @@ const NavBar = () => {
     <>
     <Bar $nav $day={!nightDayMode} $night={nightDayMode}>
       <div>
-        <img src="" alt="로고"/>
-        <div>모드 변경 바</div>
+        <img src={`${process.env.PUBLIC_URL}/logo192.png`} alt="로고"/>
         <ModeToggle/>
       </div>
       <div>
-        <div>알림</div>
+        <Button $icon ><FiBell/></Button>
       </div>
     </Bar>
-    {/* NavBar왼쪽 */}
-      {/* 로고 */}
-      {/* mode변경 버튼 */}
-
-    {/* NavBar오른쪽 */}
-      {/* 알림 버튼 */}
     </>
   )
 }
