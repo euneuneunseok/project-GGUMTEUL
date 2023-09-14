@@ -54,9 +54,7 @@ const AuctionMainList = () => {
 
   return (
     <>
-    <Wrap $baseWrap>
       <SearchBar onChange={()=>console.log("짠")} />
-    </Wrap>
       <Wrap $auctionCardWrap>
         <AuctionCard />
         <AuctionCard />
