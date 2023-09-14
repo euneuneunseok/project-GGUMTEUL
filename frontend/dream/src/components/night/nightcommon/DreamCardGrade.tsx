@@ -16,6 +16,7 @@ interface DreamCardGradeProps {
 
 const CustomGradeWrappingBox = styled(GradeWrappingBox)`
   margin-top: 2rem;
+  margin-bottom: 2rem;
 `
 
 const DreamCardGrade = (props:DreamCardGradeProps) => {
