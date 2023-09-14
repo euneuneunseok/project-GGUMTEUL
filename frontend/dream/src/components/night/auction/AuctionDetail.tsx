@@ -56,6 +56,10 @@ const AuctionDetail = () => {
     {/* 길몽도, 희귀도 상속 필요 */}
     <DreamCardGrade positiveGrade="S" rareGrade="SS"/>
 
+    <Container $baseContainer>
+      
+    </Container>
+
     </>
   )
 }

@@ -1,3 +1,5 @@
+// 꿈 희귀도 및 길몽지수 영역 컴포넌트화
+
 // 리액트
 import React from "react";
 
