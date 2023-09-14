@@ -12,7 +12,8 @@ import React from "react";
 import Button from "components/common/Button";
 import Image from "style/Image";
 import { Box } from "style/Box";
-import Wrap from "style/Wrap";
+import Container from "style/Container";
+import Text from "style/Text";
 
 // 스타일
 
@@ -20,11 +21,25 @@ const AuctionBuying = () => {
 
   return (
     <>
-    <Wrap $baseWrap>
+    <Container $baseContainer>
       <Image $mainImage $nightImageBorder>
-        <img src={`${process.env.PUBLIC_URL}/image/iu.png`}/>
+        <img src={`${process.env.PUBLIC_URL}/image/samsung.png`}
+        />
       </Image>
-    </Wrap>
+    </Container>
+    <Container $baseContainer>
+      <Container $nightKeyword>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>안녕</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>삼전</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>가즈아</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>우리</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>모두</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>까즈아</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>제발</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>가는거야</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>구뤠!!</Text> </Box>
+      </Container>
+    </Container>
     </>
   )
 }

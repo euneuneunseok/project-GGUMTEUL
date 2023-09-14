@@ -14,7 +14,7 @@ const StyledWrap = styled.div<WrapProps>`
   ${(props) =>
     props.$baseWrap &&
     css`
-      margin: 0 0.5rem
+      margin: 0 0.5rem;
     `
   }
 

@@ -140,8 +140,8 @@ const StyledImage = styled.div<ImageProps>`
         overflow: hidden;
 
         & > img { // 정사각형 만들기
-          /* width: 100%; */
-          height: 100%;
+          width: 100%;
+          /* height: 100%; */
           object-fit: cover;
           aspect-ratio: 1/1;
           object-position: center;
