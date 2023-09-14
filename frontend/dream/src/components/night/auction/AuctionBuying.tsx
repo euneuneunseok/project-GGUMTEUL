@@ -111,7 +111,7 @@ const AuctionBuying = () => {
           {/* lackMoney, lowerMoney 유효성 검사 통과 이후에만 */}
           <Button $nightMiddlePurple $biddingBtn>참여</Button>
         </BiddingWrap>
-        { (!lowerMoney || !lackMoney ) }
+        { (!lowerMoney && !lackMoney ) && <Text $nightKeword $nightWhite>한 번 참여 후 취소할 수 없습니다.</Text> }
         { lowerMoney && <Text $danger $nightKeword>
           현재 최고가보다 높은 금액을 입력해주세요</Text>}        
         { lackMoney && <Text $danger $nightKeword>
