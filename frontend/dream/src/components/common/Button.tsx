@@ -16,6 +16,8 @@ interface ButtonProps {
     $fullWidth ?: boolean;
     $halfWidth ?: boolean
 
+    $biddingBtn ?: boolean;
+
     // 폰트 굵게
     $isBold ?: boolean
 
@@ -88,6 +90,13 @@ const StyledButton = styled.button<ButtonProps>`
     props.$isBold &&
     css`
         font-weight: bold;
+    `}
+
+    // 경매 - 참여 버튼 전용
+    ${(props) =>
+    props.$biddingBtn &&
+    css`
+        border-radius: 1rem;
     `}
 
     //icon 전용(X, 종, 각종 아이콘)

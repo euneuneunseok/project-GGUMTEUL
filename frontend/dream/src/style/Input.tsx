@@ -16,6 +16,9 @@ interface InputProps {
     // 별개 스타일링
     // 캡슐
     $capsuleValue ?: boolean;
+    
+    // 경매 Input
+    $biddingValue ?: boolean;
 
     // 일반
     // 챌린지
@@ -89,6 +92,13 @@ const StyledInput = styled.input<InputProps>`
       `
     }
 
+    // biddingValue
+    ${(props) =>
+      props.$biddingValue && 
+      css`
+        border-radius: 1rem;
+      `
+    }
     // chalTitleValue
     ${(props) =>
       props.$chalTitleValue &&
