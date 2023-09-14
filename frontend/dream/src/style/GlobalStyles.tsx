@@ -40,5 +40,10 @@ a {
   text-decoration: none;
 	color:inherit;
 }
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
 `;
 export default GlobalStyle;
