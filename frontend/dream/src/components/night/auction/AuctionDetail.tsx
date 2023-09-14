@@ -11,12 +11,33 @@ import React from "react";
 
 // 컴포넌트
 import Button from "components/common/Button";
+import DreamCardGrade from "../nightcommon/DreamCardGrade";
+import DreamKeywordRegion from "../nightcommon/DreamKeywordRegion";
+
+// 스타일
 import Image from "style/Image";
 import { Box, GradeWrappingBox } from "style/Box";
 import Container from "style/Container";
 import Text from "style/Text";
 
-// 스타일
+interface AuctionDetailAxiosType {
+  biddingId : number;
+  userId : number;
+  biddingMoney : number;
+  biddingAt : string;
+  nickname : string;
+  startAuctionMoney : number;
+  immediatelyBuyMoney : number;
+  endedAt : "2023-09-09T00:00";
+  askingMoney : number;
+  biddingCount : number;
+  dreamCardId: number;
+  dreamCardImageUrl : string[];
+  keywords : string[];
+  positiveGrade : string;
+  rareGrade : string;
+  auctionStatus : string;
+}
 
 const AuctionDetail = () => {
 
@@ -28,20 +49,12 @@ const AuctionDetail = () => {
         />
       </Image>
     </Container>
+    
+    {/* 키워드 영역 */}
+    <DreamKeywordRegion keywords={["Dd", "DD"]}/>
 
-    <Container $baseContainer>
-      <Container $nightKeyword>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>안녕</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>삼전</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>가즈아</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>우리</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>모두</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>까즈아</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>제발</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>가는거야</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>구뤠!!</Text> </Box>
-      </Container>
-    </Container>
+    {/* 길몽도, 희귀도 상속 필요 */}
+    <DreamCardGrade positiveGrade="S" rareGrade="SS"/>
 
     </>
   )
