@@ -11,7 +11,6 @@ import React from "react";
 // 컴포넌트
 import Button from "components/common/Button";
 import Image from "style/Image";
-import { Box, GradeWrappingBox } from "style/Box";
 import Container from "style/Container";
 import Text from "style/Text";
 
@@ -27,10 +26,10 @@ const AuctionBuying = () => {
   return (
     <>
     <Container $baseContainer>
-      <Image $mainImage $nightImageBorder>
+      {/* <Image $mainImage $nightImageBorder>
         <img src={`${process.env.PUBLIC_URL}/image/samsung.png`}
         />
-      </Image>
+      </Image> */}
     </Container>
     </>
   )

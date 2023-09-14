@@ -53,7 +53,9 @@ interface AuctionDetailAxiosType {
   auctionStatus : string;
 }
 
-
+// 고민사항: 
+// AuctionDetail과 Buying은 결국 가운데 바꿔끼기밖에 없음 (신규 렌더링은 낭비 같음)
+// 경로는 다르게해도, useEffect -> location path 이걸로 보이는걸 다르게하면 어떨까.
 const AuctionDetail = () => {
 
   return (
