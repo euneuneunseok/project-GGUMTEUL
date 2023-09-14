@@ -55,6 +55,7 @@ const AuctionBuying = () => {
 
   const [lowerMoney, setLowerMoney] = useState<boolean>(false)
   const [lackMoney, setLackMoney] = useState<boolean>(false)
+  // 추후 호가 몫만 들고오기
   const changeBiddingMoney = (e :any) => {
     if (!numberCheck.test(e.currentTarget.value)) {
       console.log("숫자 아니에요.")
@@ -64,10 +65,12 @@ const AuctionBuying = () => {
       console.log("현재 가격보다 낮음")
       setMyBiddingMoney(biddingMoney)
       setLowerMoney(true)
+      setLackMoney(false)
       return
     } else if (e.currentTarget.value > point) {
       console.log("보유액 부족")
-      setMyBiddingMoney(biddingMoney) // 여기 최초로
+      setMyBiddingMoney(biddingMoney) // 여기 최초가로
+      setLowerMoney(false)
       setLackMoney(true)
       return
     }
@@ -104,8 +107,11 @@ const AuctionBuying = () => {
           onBlur={changeBiddingMoney}
           value={myBiddingMoney}
           />
+          {/* 참여시 무르기 불가함을 고지 */}
+          {/* lackMoney, lowerMoney 유효성 검사 통과 이후에만 */}
           <Button $nightMiddlePurple $biddingBtn>참여</Button>
         </BiddingWrap>
+        { (!lowerMoney || !lackMoney ) }
         { lowerMoney && <Text $danger $nightKeword>
           현재 최고가보다 높은 금액을 입력해주세요</Text>}        
         { lackMoney && <Text $danger $nightKeword>
