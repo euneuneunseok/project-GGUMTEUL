@@ -24,6 +24,7 @@ interface ButtonProps {
     $nightVoice ?:boolean;
     $icon ?: boolean;
     $follow ?:boolean
+    $halfWidthImeBuy ?:boolean;
 
     // 색상 지정
     $nightPurple ?:boolean
@@ -64,8 +65,20 @@ const StyledButton = styled.button<ButtonProps>`
     ${(props) =>
         props.$halfWidth && 
         css`
-            padding: 1.5rem;
-            width:45%;
+            padding: 0.5rem;
+            width:49%;
+            height: 15vw;
+        `
+    }
+    // 절반만 차지 & 즉시구매
+    ${(props) =>
+        props.$halfWidthImeBuy && 
+        css`
+            background-color: rgba(190, 169, 215, 0.5);
+            color: black;
+            padding: 0.5rem;
+            width:49%;
+            height: 15vw;
         `
     }
 
@@ -138,6 +151,7 @@ const StyledButton = styled.button<ButtonProps>`
             }
         `   
     }
+    
     // 연한 보라색버튼
     ${(props) =>
         props.$nightPalePurple &&

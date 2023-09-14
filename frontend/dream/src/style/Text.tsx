@@ -5,18 +5,21 @@ import styled, {css} from 'styled-components'
 
 interface TextProps {
   children?: React.ReactNode;
-  $nightKeword ?: boolean
+  $nightKeword ?: boolean;
 
   // 강조
-  $isBold ?: boolean
+  $isBold ?: boolean;
+
+  // 마진
+  $MBHalf ?: boolean
 
   // 색상
-  $nightWhite ?: boolean
-
+  $nightWhite ?: boolean;
+  $nightBlue ?: boolean;
+  $black ?: boolean;
   
 }
 const StyledText = styled.div<TextProps>`
-
 
   ${(props) =>
     props.$nightKeword &&
@@ -31,9 +34,28 @@ const StyledText = styled.div<TextProps>`
     `
   }
   ${(props) =>
+    props.$MBHalf &&
+    css`
+      margin-bottom: 0.5rem;
+    `
+  }
+  ${(props) =>
     props.$nightWhite &&
     css`
       color: #F2F2F0;
+    `
+  }
+
+  ${(props) =>
+    props.$nightBlue &&
+    css`
+      color: #1F4078;
+    `
+  }
+  ${(props) =>
+    props.$black &&
+    css`
+      color: black;
     `
   }
 `
