@@ -40,7 +40,7 @@ a {
   text-decoration: none;
 	color:inherit;
 }
-.scroll::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
 }
 
