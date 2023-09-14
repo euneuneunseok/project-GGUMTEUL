@@ -65,15 +65,15 @@ public class DreamCardController {
     }
 
     @GetMapping(value = "/dream/{dreamCardId}/interpretation")
-    public ResultTemplate getDreamCardDetailByUser(@PathVariable("dreamCardId") long dreamCardId){
-
-        return dreamCardService.getDreamCardDetailByUser(dreamCardId);
+    public ResultTemplate getDreamCardDetailByUser(@PathVariable("dreamCardId") Long id,
+                                                   Long userId){
+        return dreamCardService.getDreamCardDetailByUser(id, 1L);
     }
-
     @DeleteMapping(value = "/dream/{dreamCardId}")
-    public ResultTemplate deleteDreamCard(@PathVariable("dreamCardId") long dreamCardId){
+    public ResultTemplate deleteDreamCard(@PathVariable("dreamCardId") Long dreamCardId,
+                                          Long userId){
 
-        return dreamCardService.deleteDreamCard(dreamCardId);
+        return dreamCardService.deleteDreamCard(dreamCardId, 1L);
     }
 
     @PutMapping(value = "/dream")

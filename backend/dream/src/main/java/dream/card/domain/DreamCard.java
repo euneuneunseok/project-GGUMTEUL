@@ -59,6 +59,9 @@ public class DreamCard extends BaseTimeEntity {
     @OneToMany(mappedBy = "cardId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CardKeyword> cardKeyword;
 
+    @OneToMany(mappedBy = "dreamCard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WriggleReview> wriggleReviews;
+
     public void updateHits(){
         this.hits++;
     }
