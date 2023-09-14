@@ -36,7 +36,7 @@ const AuctionBuying = () => {
         <Box $keywordBoxNight> <Text $nightKeword $nightWhite>모두</Text> </Box>
         <Box $keywordBoxNight> <Text $nightKeword $nightWhite>까즈아</Text> </Box>
         <Box $keywordBoxNight> <Text $nightKeword $nightWhite>제발</Text> </Box>
-        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>가는거야</Text> </Box>
+        <Box $keywordBoxNight> <Text $nightKeword $nightWhite>가는거</Text> </Box>
         <Box $keywordBoxNight> <Text $nightKeword $nightWhite>구뤠!!</Text> </Box>
       </Container>
     </Container>

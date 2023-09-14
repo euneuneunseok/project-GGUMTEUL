@@ -32,6 +32,7 @@ const StyledContainer = styled.div<ContainerProps>`
       margin-top: 0.5rem;
       & > div {
         margin: auto;
+        width: 3.5rem;
       }
   `
   }
