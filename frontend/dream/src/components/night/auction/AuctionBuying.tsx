@@ -19,7 +19,7 @@ import Text from "style/Text";
 import Input from "style/Input";
 
 const AuctionBidContainer = styled.div`
-  margin: 30rem 3rem;
+  margin: 1rem 3rem;
 
  & :first-child {
   padding-left: 1rem;
@@ -49,7 +49,7 @@ const AuctionBuying = () => {
 
       {/* 호가 */}
       <Container $centerContainer>
-        <Button>+1000</Button>
+        <Button $nightPalePurple $biddingBtn><Text $black $isBold>+1000</Text></Button>
       </Container>
 
       <AuctionBidContainer>
@@ -58,6 +58,7 @@ const AuctionBuying = () => {
           <Input $nightColor $biddingValue/>
           <Button $nightMiddlePurple $biddingBtn>참여</Button>
         </BiddingWrap>
+        <Text></Text>
       </AuctionBidContainer>
     </>
   )

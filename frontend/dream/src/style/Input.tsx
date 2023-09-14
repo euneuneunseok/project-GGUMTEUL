@@ -97,6 +97,8 @@ const StyledInput = styled.input<InputProps>`
       props.$biddingValue && 
       css`
         border-radius: 1rem;
+        text-align: right;
+        padding-right: 1rem;
       `
     }
     // chalTitleValue
