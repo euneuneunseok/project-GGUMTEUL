@@ -25,7 +25,7 @@ const BarContainer = styled.div<NavProps>`
       bottom: 0;
       display: flex;
       justify-content: space-around;
-    `
+      `
   }
   // navBar
   ${(props) => props.$nav &&
@@ -33,6 +33,8 @@ const BarContainer = styled.div<NavProps>`
       left: 0;
       top: 0;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
     `
   }
   // 낮 모드

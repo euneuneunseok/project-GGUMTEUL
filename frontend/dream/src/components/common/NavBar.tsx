@@ -5,6 +5,8 @@ import Button from "./Button";
 import { useSelector } from "react-redux";
 import { RootState } from "store";
 import { useNavigate } from "react-router-dom";
+import { Bar } from "style/Bar";
+import ModeToggle from "./ModeToggle";
 
 // 함수
 // 1안
@@ -33,6 +35,16 @@ const NavBar = () => {
 
   return (
     <>
+    <Bar $nav $day={!nightDayMode} $night={nightDayMode}>
+      <div>
+        <img src="" alt="로고"/>
+        <div>모드 변경 바</div>
+        <ModeToggle/>
+      </div>
+      <div>
+        <div>알림</div>
+      </div>
+    </Bar>
     {/* NavBar왼쪽 */}
       {/* 로고 */}
       {/* mode변경 버튼 */}
