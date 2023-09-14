@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -113,4 +114,26 @@ public class ChallengeService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
+
+    public ResultTemplate getChallengeInfo(User user, Long challengeId) {
+
+        // 일단 유저가 참여하고 있는지, 참여하고 있다면 몇일 참여하고 있는지
+        List<ChallengeDetail> sizeOfUserParticipateInChallenge = challengeDetailQueryRepository.
+                getIsUserParticipateChallenge(user.getUserId(), challengeId);
+
+//        Challenge challenge = challengeQueryRepository.getChallengeDetail(challengeId);
+        Challenge challengeWithKeyword = challengeRepository.findChallengeKeyword(challengeId)
+                .orElseThrow( () ->  new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        Challenge challengeWithParticipates = challengeRepository.findChallengeParticipates(challengeId)
+                .orElseThrow( () ->  new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        List<User> getRank = challengeDetailQueryRepository.getRank(challengeId);
+
+        ResponseChallengeInfo response = ResponseChallengeInfo
+                .from(sizeOfUserParticipateInChallenge, challengeWithKeyword, challengeWithParticipates, getRank);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
 }
