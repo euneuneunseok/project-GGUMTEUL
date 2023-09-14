@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // 컴포넌트
 import Button from "./Button";
+import { useSelector } from "react-redux";
+import { RootState } from "store";
+import { useNavigate } from "react-router-dom";
 
 // 함수
 // 1안
@@ -17,6 +20,16 @@ import Button from "./Button";
 
 
 const NavBar = () => {
+  const navigate = useNavigate()
+
+  // //true : night, false : day
+  const [nightDayMode, setNightDayMode] = useState<boolean>(true);
+
+  const themeMode = useSelector((state :RootState) => state.themeModeReducer.themeMode);
+  
+  useEffect(()=>{
+    setNightDayMode(themeMode.mode ==='night' ? true : false)
+  },[themeMode.mode])
 
   return (
     <>
