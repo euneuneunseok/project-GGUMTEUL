@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -143,5 +144,16 @@ public class ChallengeService {
         ResponseBadgeImage response = ResponseBadgeImage.from(challenge);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
+    @Transactional
+    public ResultTemplate updateChallengeHits(Long challengeId) {
+
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow( () ->  new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
+
+        challenge.updateChallengeHits();
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 }
