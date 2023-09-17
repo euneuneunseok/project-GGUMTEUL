@@ -11,18 +11,15 @@ import React, { useState } from "react";
 import Button from "components/common/Button";
 import TextArea from "style/TextArea";
 import styled from "styled-components";
-import { IoMdMic } from "react-icons/io"
-
+import { IoMicOutline } from "react-icons/io5"
 
 const DreamCreateContainer = styled.div`
   margin: 6rem 0.5rem;
 `;
 
-const IconRecord = styled(IoMdMic)`
-  position: absolute;
-  top: 50%;
-  right: 0.75rem;
-  transform: translateY(-50%);
+const IconRecord = styled(IoMicOutline)`
+  width: 2rem;
+  height: 2rem;
 `
 
 
@@ -43,6 +40,7 @@ const DreamCreate = () => {
       <Button
       $fullWidth
       $nightVoice
+      onClick={() => console.log('클릭')}
       >
         <IconRecord/>
       </Button>
