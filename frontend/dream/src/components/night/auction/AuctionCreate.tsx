@@ -85,11 +85,9 @@ const AuctionCreate = () => {
     {/* 꿈 기록과 해몽 바뀌는 곳 ~ props 필요 */}
     <DreamRecordContentsTab />
 
-
     <Wrap $nightBotButtonWrap>
       <div>
       </div>
-
       <div>
         <Button $nightPalePurple>삭제</Button>
         <Button $nightPurple>경매</Button>

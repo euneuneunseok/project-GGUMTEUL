@@ -40,6 +40,7 @@ const StyledWrap = styled.div<WrapProps>`
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       margin: inherit;
+      margin-bottom: 0.5rem;
       
       & > div:nth-child(1) {
         margin: inherit;
