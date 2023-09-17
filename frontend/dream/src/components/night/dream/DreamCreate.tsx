@@ -11,20 +11,41 @@ import React, { useState } from "react";
 import Button from "components/common/Button";
 import TextArea from "style/TextArea";
 import styled from "styled-components";
+import { IoMdMic } from "react-icons/io"
+
 
 const DreamCreateContainer = styled.div`
-  width: 100%;
   margin: 6rem 0.5rem;
 `;
 
+const IconRecord = styled(IoMdMic)`
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+`
+
+
+let recognition: any = null
+if ("webkitSpeechRecognition" in window) {
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = true
+  recognition.lang = "ko-KR"
+}
+
 const DreamCreate = () => {
+  const [recordStart, setRecordStart] = useState(false); // 녹음 시작
+  const [recordEnd, setRecordEnd] = useState(false); // 녹음 종료
+
   return (
     <>
     <DreamCreateContainer>
       <Button
       $fullWidth
       $nightVoice
-      />
+      >
+        <IconRecord/>
+      </Button>
       <TextArea
       $nightDreamInput
       />
