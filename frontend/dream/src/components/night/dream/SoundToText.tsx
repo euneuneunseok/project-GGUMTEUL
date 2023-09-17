@@ -2,11 +2,12 @@ import { useEffect, useState } from "react"
 // import { accentClickableState, accentSttState } from '/src/recoil/HW_Atom';
 // import { useRecoilState } from "recoil";
 
+
 let recognition: any = null
 if ("webkitSpeechRecognition" in window) {
-  recognition = new webkitSpeechRecognition()
-  recognition.continuous = true
-  recognition.lang = "ko-KR"
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = true // 공백이 생겨도 녹음이 계속 이어지도록
+  recognition.lang = "ko-KR" // 언어 : 한국어
 }
 
 const SoundToText = () => {
