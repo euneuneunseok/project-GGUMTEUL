@@ -26,8 +26,12 @@ const IconRecord = styled(IoMicOutline)`
 
 
 const DreamCreate = () => {
-  const [recordStart, setRecordStart] = useState(false); // 녹음 시작
+  const [recordStart, setRecordStart] = useState<boolean>(false); // 녹음 시작
   const { startListening, stopListening, accenting, hasRecognitionSupport } = SoundToText();
+  const [accentRecord, setAccentRecord] = useState<string>("");
+  const [accentScript, setAccentScript] = useState<string>("");
+  const [accentClickable, setaccentClickable] = useState<boolean>(false);
+  const [accentText, setAccentText] = useState<string>("");
 
   // 녹음 시작 & 종료
   useEffect(() => {
@@ -38,6 +42,10 @@ const DreamCreate = () => {
     }
   }, [setRecordStart, recordStart]);
 
+  useEffect(() => {
+    console.log("accentText : ", accentText)
+  }, [setAccentText, accentText])
+
   return (
     <>
     <DreamCreateContainer>
@@ -47,7 +55,7 @@ const DreamCreate = () => {
       onClick={() => {
         console.log('클릭');
         setRecordStart(!recordStart); // 녹음 시작, 종료
-        accenting();
+        accenting(setAccentText); // setAccentText 함수를 전달
       }}
       >
         <IconRecord/>

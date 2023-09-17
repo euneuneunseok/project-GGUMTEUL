@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
-// import { accentClickableState, accentSttState } from '/src/recoil/HW_Atom';
-// import { useRecoilState } from "recoil";
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
+// interface SpeechRecognitionEventType {
+//   isTrusted: boolean;
+//   bubbles: boolean;
+//   cancelBubble: boolean;
+// }
 
 let recognition: any = null
 if ("webkitSpeechRecognition" in window) {
@@ -13,7 +16,11 @@ if ("webkitSpeechRecognition" in window) {
 const SoundToText = () => {
   const [accentText, setAccentText] = useState<string>("");
   const [accentClickable, setaccentClickable] = useState<boolean>(false);
-  const [isListening, setIsListening] = useState(false)
+  const [isListening, setIsListening] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   // console.log("accentText: ", accentText)
+  // }, [setAccentText]);
 
   const startListening = () => {
     setAccentText("");
@@ -22,25 +29,25 @@ const SoundToText = () => {
   }
 
   // 음성 -> 텍스트로 변환
-  const accenting = () => {
+  const accenting = (setAccentText: Dispatch<SetStateAction<string>>) => {
     console.log("accenting 실행")
     if(!recognition) return 
-    console.log('여기')
     setaccentClickable(false);
-    recognition.onresult = (event: any) => {
-      console.log(event)
-      console.log(typeof event)
-      setAccentText(event.results[0][0].transcript);
+
+    // 녹음 종료 시 아래 실행 (텍스트로 변환)
+    recognition.onresult = (event :any) => {
+      console.log('onresult 실행')
+      setAccentText(event.results[0][0].transcript); // text변환
     }
-    setIsListening(false)
-    recognition.stop()
-    setaccentClickable(true)
+    setIsListening(false);
+    recognition.stop();
+    setaccentClickable(true);
   }
 
   const stopListening = () => {
-    if(recognition){recognition.stop()}
-    setIsListening(false)
-    setaccentClickable(true)
+    if(recognition){recognition.stop()};
+    setIsListening(false);
+    setaccentClickable(true);
   }
 
   return {
