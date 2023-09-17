@@ -3,7 +3,7 @@
 // 공개 // 버튼 2개
 
 // 리액트
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // 컴포넌트
 
@@ -12,6 +12,7 @@ import Button from "components/common/Button";
 import TextArea from "style/TextArea";
 import styled from "styled-components";
 import { IoMicOutline } from "react-icons/io5"
+import SoundToText from "./SoundToText";
 
 const DreamCreateContainer = styled.div`
   margin: 6rem 0.5rem;
@@ -32,7 +33,16 @@ if ("webkitSpeechRecognition" in window) {
 
 const DreamCreate = () => {
   const [recordStart, setRecordStart] = useState(false); // 녹음 시작
-  const [recordEnd, setRecordEnd] = useState(false); // 녹음 종료
+  const { startListening, stopListening, accenting, hasRecognitionSupport } = SoundToText();
+
+  // 녹음 시작 & 종료
+  useEffect(() => {
+    if (recordStart) {
+      startListening();
+    } else {
+      stopListening();
+    }
+  }, [setRecordStart, recordStart]);
 
   return (
     <>
@@ -40,7 +50,11 @@ const DreamCreate = () => {
       <Button
       $fullWidth
       $nightVoice
-      onClick={() => console.log('클릭')}
+      onClick={() => {
+        console.log('클릭');
+        setRecordStart(!recordStart); // 녹음 시작, 종료
+        accenting();
+      }}
       >
         <IconRecord/>
       </Button>
