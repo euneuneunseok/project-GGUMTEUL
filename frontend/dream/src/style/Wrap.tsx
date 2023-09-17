@@ -41,6 +41,9 @@ const StyledWrap = styled.div<WrapProps>`
       grid-template-columns: repeat(2, 1fr);
       margin: inherit;
       
+      & > div:nth-child(1) {
+        margin: inherit;
+      }
       & > div:nth-child(2) {
         display: flex;
         margin: inherit;
