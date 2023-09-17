@@ -24,12 +24,6 @@ const IconRecord = styled(IoMicOutline)`
 `
 
 
-let recognition: any = null
-if ("webkitSpeechRecognition" in window) {
-  recognition = new webkitSpeechRecognition();
-  recognition.continuous = true
-  recognition.lang = "ko-KR"
-}
 
 const DreamCreate = () => {
   const [recordStart, setRecordStart] = useState(false); // 녹음 시작
