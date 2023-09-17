@@ -79,7 +79,7 @@ const AuctionCreate = () => {
       <CustomText />
       <WarnText>1000단위 금액을 입력해주세요.</WarnText>
     </AuctionInputWrap>
-
+    <MarginBot/>
 
     <DreamRecordContentsTab />
     </Container>
