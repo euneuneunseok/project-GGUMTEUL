@@ -18,8 +18,31 @@ import DreamCardGrade from "../nightcommon/DreamCardGrade";
 import Button from "components/common/Button";
 
 // 스타일
+import styled, {css} from "styled-components";
 import Container from "style/Container";
+import Input, {InputProps} from "style/Input";
 import Image from "style/Image";
+import Text from "style/Text";
+
+const AuctionInputWrap = styled.div`
+  display: grid;
+  grid-template-columns: 35% 65%;
+  ;
+`
+
+const CustomText = styled(Text)`
+  padding-left: 1rem;
+  line-height: 2rem;
+`
+const WarnText = styled(Text)`
+  padding-left: 1rem;
+  font-size: 0.75rem;
+  color: #423535;
+`
+
+const MarginBot = styled.div`
+  margin-bottom: 0.75rem;
+`
 
 const AuctionCreate = () => {
 
@@ -27,14 +50,39 @@ const AuctionCreate = () => {
     <>
     <Container $baseContainer>
     {/* 이미지 */}
-    <Image $mainImage><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
+    <Image $mainImage $nightImageBorder><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
     <DreamKeywordRegion keywords={["2", "33"]}/>
     <DreamCardGrade   
     positiveGrade="S"  
     rareGrade="A"
     />
+
+  {/* 옥션 전용 Input */}
+    <AuctionInputWrap>
+      <CustomText $isBold $black>마감시간</CustomText>
+      <Input $auctionInput $nightColor/>
+      </AuctionInputWrap>
+    <MarginBot/>
+    <AuctionInputWrap>
+    <CustomText $isBold $black>최소가</CustomText>
+    <Input $auctionInput $nightColor/>
+    </AuctionInputWrap>
+    <AuctionInputWrap>
+      <CustomText />
+      <WarnText>1000단위 금액을 입력해주세요.</WarnText>
+    </AuctionInputWrap>
+    <AuctionInputWrap>
+    <CustomText $isBold $black>즉시 판매</CustomText>
+    <Input $auctionInput $nightColor/>
+    </AuctionInputWrap>
+    <AuctionInputWrap>
+      <CustomText />
+      <WarnText>1000단위 금액을 입력해주세요.</WarnText>
+    </AuctionInputWrap>
+
+
+    <DreamRecordContentsTab />
     </Container>
-      <DreamRecordContentsTab />
     </>
   )
 }
