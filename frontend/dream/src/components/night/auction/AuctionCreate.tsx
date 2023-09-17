@@ -13,14 +13,28 @@ import React from "react";
 
 // 컴포넌트
 import DreamRecordContentsTab from "../dream/DreamRecordContentsTab";
+import DreamKeywordRegion from "../nightcommon/DreamKeywordRegion";
+import DreamCardGrade from "../nightcommon/DreamCardGrade";
 import Button from "components/common/Button";
+
 // 스타일
+import Container from "style/Container";
+import Image from "style/Image";
 
 const AuctionCreate = () => {
 
   return (
     <>
-    <DreamRecordContentsTab />
+    <Container $baseContainer>
+    {/* 이미지 */}
+    <Image $mainImage><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
+    <DreamKeywordRegion keywords={["2", "33"]}/>
+    <DreamCardGrade   
+    positiveGrade="S"  
+    rareGrade="A"
+    />
+    </Container>
+      <DreamRecordContentsTab />
     </>
   )
 }
