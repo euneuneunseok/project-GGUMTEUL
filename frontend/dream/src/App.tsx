@@ -58,6 +58,19 @@ function App() {
     }
   })
 
+  // 웹 알림
+  // useEffect(() => {
+  //     Notification.requestPermission().then(permission => {
+  //       if (permission === 'granted') {
+  //         alert("오예 승인")
+  //       } else if (permission === 'denied') {
+  //         alert("윽... 부정")
+  //       } else {
+  //         // 선택 안함
+  //       }
+  //     })
+  // }, [])
+
   return (
     <>
     {/* <ThemeProvider theme={theme}> */}
