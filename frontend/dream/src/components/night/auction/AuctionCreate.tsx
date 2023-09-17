@@ -23,6 +23,7 @@ import Container from "style/Container";
 import Input, {InputProps} from "style/Input";
 import Image from "style/Image";
 import Text from "style/Text";
+import Wrap from "style/Wrap";
 
 const AuctionInputWrap = styled.div`
   display: grid;
@@ -81,7 +82,19 @@ const AuctionCreate = () => {
     </AuctionInputWrap>
     <MarginBot/>
 
+    {/* 꿈 기록과 해몽 바뀌는 곳 ~ props 필요 */}
     <DreamRecordContentsTab />
+
+
+    <Wrap $nightBotButtonWrap>
+      <div>
+      </div>
+
+      <div>
+        <Button $nightPalePurple>삭제</Button>
+        <Button $nightPurple>경매</Button>
+      </div>
+    </Wrap>
     </Container>
     </>
   )
