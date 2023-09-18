@@ -27,10 +27,11 @@ const IconRecord = styled(IoMicOutline)`
 
 const DreamCreate = () => {
   const [recordStart, setRecordStart] = useState<boolean>(false); // 녹음 시작
-  const { startListening, stopListening, accenting, accentText, hasRecognitionSupport } = SoundToText();
-  const [accentRecord, setAccentRecord] = useState<string>("");
-  const [accentScript, setAccentScript] = useState<string>("");
-  const [accentClickable, setaccentClickable] = useState<boolean>(false);
+  const [allText, setAllText] = useState<string>(""); // 입력본 + 녹음본 모두 합친 것
+  const { startListening, stopListening, accenting, setAccentText, accentText } = SoundToText();
+  // const [accentRecord, setAccentRecord] = useState<string>("");
+  // const [accentScript, setAccentScript] = useState<string>("");
+  // const [accentClickable, setaccentClickable] = useState<boolean>(false);
   // const [accentText, setAccentText] = useState<string>("");
 
   // 녹음 시작 & 종료
@@ -42,9 +43,11 @@ const DreamCreate = () => {
     }
   }, [setRecordStart, recordStart]);
 
-  // useEffect(() => {
-  //   console.log("accentText : ", accentText)
-  // }, [setAccentText, accentText])
+  useEffect(() => {
+    if (accentText) {
+      setAllText(allText + " " + accentText); // 기존 입력된 값과 합치기
+    }
+  }, [setAccentText, accentText])
 
   return (
     <>
@@ -62,7 +65,7 @@ const DreamCreate = () => {
       </Button>
       <TextArea
       $nightDreamInput
-      value={accentText}
+      value={allText}
       />
 
       <div

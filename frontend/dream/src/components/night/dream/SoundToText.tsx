@@ -1,10 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
-
-// interface SpeechRecognitionEventType {
-//   isTrusted: boolean;
-//   bubbles: boolean;
-//   cancelBubble: boolean;
-// }
+import { useEffect, useState } from "react"
 
 let recognition: any = null
 if ("webkitSpeechRecognition" in window) {
@@ -18,30 +12,25 @@ const SoundToText = () => {
   const [accentClickable, setaccentClickable] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log("accentText: ", accentText)
-  }, [setAccentText, accentText]);
-
   const startListening = () => {
-    setAccentText("");
     setIsListening(true);
     recognition.start() ;
   }
 
   // 음성 -> 텍스트로 변환
   const accenting = () => {
-    console.log("accenting 실행")
     if(!recognition) return 
+    console.log("accenting 실행")
     setaccentClickable(false);
 
     // 녹음 종료 시 아래 실행 (텍스트로 변환)
     recognition.onresult = (event :any) => {
-      console.log('onresult 실행')
-      setAccentText(event.results[0][0].transcript); // text변환
+      setAccentText(accentText + event.results[0][0].transcript); // text변환
     }
     setIsListening(false);
-    recognition.stop();
+    recognition.stop(); // 음성인식 종료
     setaccentClickable(true);
+    setAccentText(""); // 녹음이 종료되면 변환된 텍스트 초기화
   }
 
   const stopListening = () => {
@@ -55,8 +44,9 @@ const SoundToText = () => {
     startListening,
     accenting,
     stopListening,
+    setAccentText,
     accentText,
-    hasRecognitionSupport: !! recognition
+    // hasRecognitionSupport: !! recognition
   }
 }
 
