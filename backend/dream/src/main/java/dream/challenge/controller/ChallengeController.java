@@ -81,9 +81,12 @@ public class ChallengeController {
         return challengeService.updateChallengeHits(request.getChallengeId());
     }
 
+    @PostMapping(value = "/challange/timecapsule")
+    public ResultTemplate postTimeCapsule(@Valid  @RequestBody RequestTimeCapsule request){
 
-//    @PostMapping(value = "/challange/timecapsule")
-//    public ResultTemplate postTimeCapsule(){
-//
-//    }
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return challengeService.postTimeCapsule(request);
+    }
 }
