@@ -40,4 +40,8 @@ public class ChallengeParticipation extends BaseTimeEntity {
 
         return challengeParticipation;
     }
+
+    public void updateTimeCapsuleContent(String timeCapsuleContent) {
+        this.timeCapsuleContent = timeCapsuleContent;
+    }
 }

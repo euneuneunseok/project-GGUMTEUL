@@ -186,10 +186,15 @@ public class ChallengeService {
     }
 
     @Transactional
-    public ResultTemplate postTimeCapsule(RequestTimeCapsule request) {
+    public ResultTemplate postTimeCapsule(User user, RequestTimeCapsule request) {
 
-        Long challengeId = request.getChallengeId();
-        String timeCapsuleContent = request.getTimeCapsuleContent();
+        Optional<ChallengeParticipation> list = challengeParticipationRepository
+                .getChallengeParticipationListByUserAndChallengeAndStatus(user.getUserId(), request.getChallengeId(), ChallengeStatus.P);
+
+        if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_CHALLNENGE_PARTICIPATE);
+
+        ChallengeParticipation challengeParticipation = list.get();
+        challengeParticipation.updateTimeCapsuleContent(request.getTimeCapsuleContent());
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
