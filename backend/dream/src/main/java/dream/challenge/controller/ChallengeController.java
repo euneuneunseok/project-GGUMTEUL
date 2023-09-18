@@ -1,6 +1,7 @@
 package dream.challenge.controller;
 
 import dream.challenge.service.ChallengeService;
+import dream.challenge.dto.request.RequestChallengeId;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.NotFoundException;
 import dream.user.domain.User;
@@ -61,4 +62,16 @@ public class ChallengeController {
 
         return challengeService.getChallengeInfo(user, challangeId);
     }
+
+    @PutMapping(value = "/challenge/hits")
+    public ResultTemplate updateChallengeHits(@RequestBody RequestChallengeId request){
+
+        return challengeService.updateChallengeHits(request.getChallengeId());
+    }
+
+
+//    @PostMapping(value = "/challange/timecapsule")
+//    public ResultTemplate postTimeCapsule(){
+//
+//    }
 }
