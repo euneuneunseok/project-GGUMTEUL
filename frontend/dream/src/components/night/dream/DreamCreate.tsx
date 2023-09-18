@@ -70,37 +70,7 @@ const DreamCreate = () => {
       onChange={(e) => setAllText(e.target.value)}
       />
 
-      <div
-      style={{
-        display: "flex", 
-        justifyContent: "space-between", 
-        padding: "0 1rem"
-      }}
-      >
-        <div>
-          {/* 임시 체크박스 */}
-          <input
-          type="checkbox"
-          />
-          공개
-        </div>
-
-        <div>
-          <Button
-          $nightMiddlePurple
-          >
-          취소
-          </Button>
-          <Button
-          $nightPurple
-          // onClick={} // Karlo 백 서버 API 연결
-          >
-          등록
-          </Button>
-        </div>
-      </div>
-
-      <Wrap $nightBotButtonWrap>
+      <Wrap $nightBotButtonWrap $nightButtonCheckWrap>
         <div>
           {/* 임시 체크박스 */}
           <input
@@ -110,7 +80,10 @@ const DreamCreate = () => {
         </div>
         <div>
           <Button $nightPalePurple>취소</Button>
-          <Button $nightPurple>등록</Button>
+          <Button 
+          $nightPurple
+          // onClick={} // Karlo 백 서버 API 연결 - 보낼 데이터 : allText
+          >등록</Button>
         </div>
       </Wrap>
     </DreamCreateContainer>
