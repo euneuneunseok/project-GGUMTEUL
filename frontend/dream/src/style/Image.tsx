@@ -201,7 +201,7 @@ ${(props) =>
         aspect-ratio: 1/1;
         background-size: cover;
         border-radius: 1rem;
-        margin: 2rem;
+        margin: 2rem 0;
         background-color: #666666;
         
         & > img { // 정사각형 만들기
