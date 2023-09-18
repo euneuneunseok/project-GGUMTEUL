@@ -27,11 +27,11 @@ const IconRecord = styled(IoMicOutline)`
 
 const DreamCreate = () => {
   const [recordStart, setRecordStart] = useState<boolean>(false); // 녹음 시작
-  const { startListening, stopListening, accenting, hasRecognitionSupport } = SoundToText();
+  const { startListening, stopListening, accenting, accentText, hasRecognitionSupport } = SoundToText();
   const [accentRecord, setAccentRecord] = useState<string>("");
   const [accentScript, setAccentScript] = useState<string>("");
   const [accentClickable, setaccentClickable] = useState<boolean>(false);
-  const [accentText, setAccentText] = useState<string>("");
+  // const [accentText, setAccentText] = useState<string>("");
 
   // 녹음 시작 & 종료
   useEffect(() => {
@@ -42,9 +42,9 @@ const DreamCreate = () => {
     }
   }, [setRecordStart, recordStart]);
 
-  useEffect(() => {
-    console.log("accentText : ", accentText)
-  }, [setAccentText, accentText])
+  // useEffect(() => {
+  //   console.log("accentText : ", accentText)
+  // }, [setAccentText, accentText])
 
   return (
     <>
@@ -55,13 +55,14 @@ const DreamCreate = () => {
       onClick={() => {
         console.log('클릭');
         setRecordStart(!recordStart); // 녹음 시작, 종료
-        accenting(setAccentText); // setAccentText 함수를 전달
+        accenting(); // 텍스트로 변환
       }}
       >
         <IconRecord/>
       </Button>
       <TextArea
       $nightDreamInput
+      value={accentText}
       />
 
       <div

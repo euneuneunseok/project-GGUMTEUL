@@ -18,9 +18,9 @@ const SoundToText = () => {
   const [accentClickable, setaccentClickable] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   // console.log("accentText: ", accentText)
-  // }, [setAccentText]);
+  useEffect(() => {
+    console.log("accentText: ", accentText)
+  }, [setAccentText, accentText]);
 
   const startListening = () => {
     setAccentText("");
@@ -29,7 +29,7 @@ const SoundToText = () => {
   }
 
   // 음성 -> 텍스트로 변환
-  const accenting = (setAccentText: Dispatch<SetStateAction<string>>) => {
+  const accenting = () => {
     console.log("accenting 실행")
     if(!recognition) return 
     setaccentClickable(false);
@@ -55,6 +55,7 @@ const SoundToText = () => {
     startListening,
     accenting,
     stopListening,
+    accentText,
     hasRecognitionSupport: !! recognition
   }
 }
