@@ -14,6 +14,8 @@ import styled from "styled-components";
 import { IoMicOutline } from "react-icons/io5"
 import SoundToText from "./SoundToText";
 import Wrap from "style/Wrap";
+import "components/night/dream/DreamCreate.css"
+import Text from "style/Text";
 
 const DreamCreateContainer = styled.div`
   margin: 6rem 0.5rem;
@@ -25,11 +27,11 @@ const IconRecord = styled(IoMicOutline)`
 `
 
 
-
 const DreamCreate = () => {
   const [recordStart, setRecordStart] = useState<boolean>(false); // 녹음 시작
   const [allText, setAllText] = useState<string>(""); // 입력본 + 녹음본 모두 합친 것
   const { startListening, stopListening, accenting, setAccentText, accentText } = SoundToText();
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   // const [accentRecord, setAccentRecord] = useState<string>("");
   // const [accentScript, setAccentScript] = useState<string>("");
   // const [accentClickable, setAccentClickable] = useState<boolean>(false);
@@ -44,11 +46,17 @@ const DreamCreate = () => {
     }
   }, [setRecordStart, recordStart]);
 
+  // 변환된 텍스트 저장
   useEffect(() => {
     if (accentText) {
       setAllText(allText + " " + accentText); // 기존 입력된 값과 합치기
     }
   }, [setAccentText, accentText])
+
+  // 체크박스 변화 감지
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
 
   return (
     <>
@@ -72,11 +80,11 @@ const DreamCreate = () => {
 
       <Wrap $nightBotButtonWrap $nightButtonCheckWrap>
         <div>
-          {/* 임시 체크박스 */}
-          <input
-          type="checkbox"
-          />
-          공개
+          <label className="container">
+            <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
+            <div className="checkmark"></div>
+            <Text $nightWhite>공개</Text>
+          </label>
         </div>
         <div>
           <Button $nightPalePurple>취소</Button>
