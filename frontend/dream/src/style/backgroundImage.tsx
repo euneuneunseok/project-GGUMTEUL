@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface BackgroundImageProps {
-  backgroundImage:string;
+  backgroundimage:string;
 }
 
 const StyledBackgroundImage = styled.div<BackgroundImageProps>`
   position: fixed;
   top:0;
-  background-image: url(${(props)=> props.backgroundImage});
+  background-image: url(${(props)=> props.backgroundimage});
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -21,8 +21,8 @@ const StyledBackgroundImage = styled.div<BackgroundImageProps>`
 //   return <StyledBackgroundImage {...props}></StyledBackgroundImage>
 // };
 
-const BackgroundImage: React.FC<BackgroundImageProps> = ({ backgroundImage }) => {
-  return <StyledBackgroundImage backgroundImage={backgroundImage} />;
+const BackgroundImage: React.FC<BackgroundImageProps> = ({ backgroundimage }) => {
+  return <StyledBackgroundImage backgroundimage={backgroundimage} />;
 };
 
 export default BackgroundImage;
