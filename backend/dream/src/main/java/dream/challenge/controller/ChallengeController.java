@@ -1,6 +1,7 @@
 package dream.challenge.controller;
 
 import dream.challenge.service.ChallengeService;
+import dream.challenge.dto.request.RequestTimeCapsule;
 import dream.challenge.dto.request.RequestChallengeId;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.NotFoundException;
@@ -8,6 +9,7 @@ import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,6 +64,16 @@ public class ChallengeController {
 
         return challengeService.getChallengeInfo(user, challangeId);
     }
+
+    @PostMapping(value = "/challenge")
+    public ResultTemplate postParticipateChallenge(@RequestBody RequestChallengeId request){
+
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return challengeService.postParicipateChallenge(user.getUserId(), request.getChallengeId());
+    }
+
 
     @PutMapping(value = "/challenge/hits")
     public ResultTemplate updateChallengeHits(@RequestBody RequestChallengeId request){
