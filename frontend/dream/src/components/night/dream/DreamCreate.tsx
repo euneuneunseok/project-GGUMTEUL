@@ -66,7 +66,7 @@ const DreamCreate = () => {
       <TextArea
       $nightDreamInput
       value={allText}
-      // onChange={(e) => setAllText(e.target.value)}
+      onChange={(e) => setAllText(e.target.value)}
       />
 
       <div
