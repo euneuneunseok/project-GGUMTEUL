@@ -17,6 +17,8 @@ import "./NightFlipCard.css"
 import Image from "style/Image";
 import Container from "style/Container";
 
+// 임시
+import Heart from "components/common/Heart";
 
 const NightFlipCard = () => {
 
@@ -33,6 +35,8 @@ const NightFlipCard = () => {
           <p className="text-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
         </div>
       </div>
+
+      <Heart/>
     </Container>
     </>
   )
