@@ -92,6 +92,7 @@ const DreamCreate = () => {
           </Button>
           <Button
           $nightPurple
+          // onClick={} // Karlo 연결 - allText변수 이용하기
           >
           등록
           </Button>
