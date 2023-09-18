@@ -31,7 +31,7 @@ const DreamCreate = () => {
   const { startListening, stopListening, accenting, setAccentText, accentText } = SoundToText();
   // const [accentRecord, setAccentRecord] = useState<string>("");
   // const [accentScript, setAccentScript] = useState<string>("");
-  // const [accentClickable, setaccentClickable] = useState<boolean>(false);
+  // const [accentClickable, setAccentClickable] = useState<boolean>(false);
   // const [accentText, setAccentText] = useState<string>("");
 
   // 녹음 시작 & 종료
@@ -66,6 +66,7 @@ const DreamCreate = () => {
       <TextArea
       $nightDreamInput
       value={allText}
+      // onChange={(e) => setAllText(e.target.value)}
       />
 
       <div

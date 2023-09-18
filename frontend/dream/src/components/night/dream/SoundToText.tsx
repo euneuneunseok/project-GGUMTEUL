@@ -9,7 +9,7 @@ if ("webkitSpeechRecognition" in window) {
 
 const SoundToText = () => {
   const [accentText, setAccentText] = useState<string>("");
-  const [accentClickable, setaccentClickable] = useState<boolean>(false);
+  const [accentClickable, setAccentClickable] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
 
   const startListening = () => {
@@ -21,7 +21,7 @@ const SoundToText = () => {
   const accenting = () => {
     if(!recognition) return 
     console.log("accenting 실행")
-    setaccentClickable(false);
+    setAccentClickable(false);
 
     // 녹음 종료 시 아래 실행 (텍스트로 변환)
     recognition.onresult = (event :any) => {
@@ -29,14 +29,14 @@ const SoundToText = () => {
     }
     setIsListening(false);
     recognition.stop(); // 음성인식 종료
-    setaccentClickable(true);
+    setAccentClickable(true);
     setAccentText(""); // 녹음이 종료되면 변환된 텍스트 초기화
   }
 
   const stopListening = () => {
     if(recognition){recognition.stop()};
     setIsListening(false);
-    setaccentClickable(true);
+    setAccentClickable(true);
   }
 
   return {
