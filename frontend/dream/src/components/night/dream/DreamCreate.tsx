@@ -13,6 +13,7 @@ import TextArea from "style/TextArea";
 import styled from "styled-components";
 import { IoMicOutline } from "react-icons/io5"
 import SoundToText from "./SoundToText";
+import Wrap from "style/Wrap";
 
 const DreamCreateContainer = styled.div`
   margin: 6rem 0.5rem;
@@ -92,12 +93,26 @@ const DreamCreate = () => {
           </Button>
           <Button
           $nightPurple
-          // onClick={} // Karlo 연결 - allText변수 이용하기
+          // onClick={} // Karlo 백 서버 API 연결
           >
           등록
           </Button>
         </div>
       </div>
+
+      <Wrap $nightBotButtonWrap>
+        <div>
+          {/* 임시 체크박스 */}
+          <input
+          type="checkbox"
+          />
+          공개
+        </div>
+        <div>
+          <Button $nightPalePurple>취소</Button>
+          <Button $nightPurple>등록</Button>
+        </div>
+      </Wrap>
     </DreamCreateContainer>
     </>
   )
