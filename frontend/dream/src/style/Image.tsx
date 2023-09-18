@@ -199,14 +199,14 @@ ${(props) =>
       css`
         width: 100%;
         aspect-ratio: 1/1;
-        background-image: url(${process.env.PUBLIC_URL}/image/default-profile.png);
         background-size: cover;
         border-radius: 1rem;
         margin: 2rem;
+        background-color: #666666;
         
         & > img { // 정사각형 만들기
           width: 100%;
-          /* height: 100%; */
+          height: 100%;
           object-fit: cover;
           aspect-ratio: 1/1;
           object-position: center;

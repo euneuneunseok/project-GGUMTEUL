@@ -4,13 +4,13 @@
 // 프로필사진 전용 이미지 태그
 // 다음버튼 -> <SunsetMainPage/>
 
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import styled from "styled-components";
 import Input from "style/Input";
 import Image from "style/Image";
 import Button from "components/common/Button";
-import { BoxTitle } from "style/Box";
 import Text from "style/Text";
+// import { BoxTitle } from "style/Box";
 
 
 // 회원가입 박스
@@ -24,12 +24,30 @@ const SignUpContainer = styled.div`
 
 const SignUp = () => {
 
-  // useRef를 이용해서 input 태그에 접근
+  const [profileImage, setProfileImage] = useState<File | null>(null)
+  const [profileImageURL, setProfileImageURL] = useState<string | undefined>(undefined)
 
+  // useRef를 이용해서 input 태그에 접근
   const imageInput = useRef<HTMLInputElement | null>(null);
 
-  const imageUpload = () => {
-    imageInput.current ?.click()
+  const imageInputClick = () => {
+    imageInput.current?.click()
+  }
+
+  const imageUpload = (e:React.ChangeEvent<HTMLInputElement>):void => {
+    e.preventDefault();
+
+    if (!e.target.files) {return}
+    const file = e.target.files[0]
+
+    if (file) {
+      let image = window.URL.createObjectURL(file)
+      console.log(image,'image')
+      console.log(file,'file')
+      setProfileImageURL(image)
+      setProfileImage(file);
+    }
+    
   }
 
   useEffect(()=>{
@@ -47,16 +65,19 @@ const SignUp = () => {
         $fullWidth 
         $nightPalePurple 
         style={{color:'black'}}
-        onClick={imageUpload}
+        onClick={imageInputClick}
       >프로필 사진 업로드</Button>
 
-      {/* 프로필 이미지 */}
-      {/* 프로필 사진 업로드 기능, 하지만 안 보임*/}
-      <Image $signupImage></Image>
+      {/* 프로필 이미지 미리보기*/}
+      <Image $signupImage>
+        <img src={ profileImageURL ? profileImageURL : `${process.env.PUBLIC_URL}/image/default-profile.png`}></img>
+      </Image>
       <input 
         type="file"
-        style={{display:'none'}}
+        accept="image/*"
+        style={{display:'none'}} // 화면에서 안보이게, 하지만 ref를 통해 기능은 가져감
         ref = {imageInput}
+        onChange={imageUpload}
       ></input>
       
       {/* 다음 */}
@@ -65,4 +86,4 @@ const SignUp = () => {
     </SignUpContainer>
   )
 }
-export default SignUp
+export default SignUp 
