@@ -20,6 +20,7 @@ import Wrap from "style/Wrap";
 import Image from "style/Image";
 import Text from "style/Text";
 import styled from "styled-components";
+import { FaStar } from "react-icons/fa6";
 
 // progress 속성을 정의
 interface ProgressBarProps {
@@ -28,7 +29,7 @@ interface ProgressBarProps {
 
 const ProgressBar = styled.div<ProgressBarProps>`
   height: 0.8rem;
-  margin-bottom: 1rem;
+  margin-right: 0.75rem;
   border-radius: 1rem;
   color: #997ad8;
   position: relative;
@@ -56,6 +57,9 @@ const ProgressBar = styled.div<ProgressBarProps>`
 const ProfileHeader = () => {
   const themeMode = useSelector((state: RootState) => state.themeModeReducer.themeMode);
   const [isNight, setIsNight] = useState<boolean>(false);
+  const [isStarClicked, setIsStarClicked] = useState<boolean>(true);
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(false); // 내 프로필인지 유저 확인
+
   const [progress, setProgress] = useState<number>(70); // 꿈틀도 추후 변경하기
 
   useEffect(() => {
@@ -66,6 +70,10 @@ const ProfileHeader = () => {
     }
   }, [themeMode.mode])
   
+  const handleStarClicked = () => {
+    setIsStarClicked(!isStarClicked)
+  }
+
   return (
     <>
     <Wrap $profileHeaderWrap>
@@ -83,8 +91,14 @@ const ProfileHeader = () => {
           </div>
           <div>
             <div>
-              <p>꿈머니</p>
-              <p>5.5k</p>
+              {
+                isMyProfile ? <p>꿈 머니</p>
+                : <p>꿈 카드</p>
+              }
+              {
+                isMyProfile ? <p>5.5k</p>
+                : <p>5</p>
+              }
             </div>
             <div>
               <p>팔로워</p>
@@ -97,7 +111,14 @@ const ProfileHeader = () => {
           </div>
         </Text>
       </div>
-      <ProgressBar progress={progress}></ProgressBar>      
+      <div>
+        <ProgressBar progress={progress}></ProgressBar>  
+        <span>
+          <FaStar 
+          onClick={handleStarClicked}
+          style={{width: "2.5rem", height: "1.5rem", color: isStarClicked ? "#F9F9F9" : "#997ad8"}}/>
+          </span>
+      </div>
     </Wrap>
     </>
   )

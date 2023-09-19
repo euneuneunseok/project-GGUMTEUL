@@ -92,7 +92,7 @@ const StyledWrap = styled.div<WrapProps>`
       padding: 0 1rem;
 
       /* 꿈틀도 윗부분 */
-      & > div {
+      & > div:nth-child(1) {
         display: grid;
         grid-template-columns: 1fr 2fr;
         justify-items: center;
@@ -130,6 +130,21 @@ const StyledWrap = styled.div<WrapProps>`
           }
         } 
       }      
+
+      /* 꿈틀도 + 별 */
+      & > div:nth-child(2) {
+        display: grid;
+        grid-template-columns: 9fr 1fr;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        /* 별 컨테이너 */
+        & > span {
+          width: 2.5rem;
+          height: 1.5rem;
+          color: #F9F9F9;          
+        }
+      }
     `
   }
 
