@@ -59,7 +59,7 @@ const ProfileHeader = () => {
   const themeMode = useSelector((state: RootState) => state.themeModeReducer.themeMode);
   const [isNight, setIsNight] = useState<boolean>(false);
   const [isStarClicked, setIsStarClicked] = useState<boolean>(true);
-  const [isMyProfile, setIsMyProfile] = useState<boolean>(false); // 내 프로필인지 유저 확인
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true); // 내 프로필인지 유저 확인
   const [isFollowing, setIsFollowing] = useState<boolean>(false); // 팔로우 했는지 여부
   const [progress, setProgress] = useState<number>(70); // 꿈틀도 추후 변경하기
 
@@ -106,14 +106,8 @@ const ProfileHeader = () => {
           </div>
           <div>
             <div>
-              {
-                isMyProfile ? <p>꿈 머니</p>
-                : <p>꿈 카드</p>
-              }
-              {
-                isMyProfile ? <p>5.5k</p>
-                : <p>5</p>
-              }
+              <p>꿈 카드</p>
+              <p>5</p>
             </div>
             <div>
               <p>팔로워</p>
