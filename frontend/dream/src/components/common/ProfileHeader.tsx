@@ -21,6 +21,7 @@ import Image from "style/Image";
 import Text from "style/Text";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
+import { LiaCoinsSolid } from "react-icons/lia";
 
 // progress 속성을 정의
 interface ProgressBarProps {
@@ -58,7 +59,7 @@ const ProfileHeader = () => {
   const themeMode = useSelector((state: RootState) => state.themeModeReducer.themeMode);
   const [isNight, setIsNight] = useState<boolean>(false);
   const [isStarClicked, setIsStarClicked] = useState<boolean>(true);
-  const [isMyProfile, setIsMyProfile] = useState<boolean>(true); // 내 프로필인지 유저 확인
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(false); // 내 프로필인지 유저 확인
   const [isFollowing, setIsFollowing] = useState<boolean>(false); // 팔로우 했는지 여부
   const [progress, setProgress] = useState<number>(70); // 꿈틀도 추후 변경하기
 
@@ -94,6 +95,13 @@ const ProfileHeader = () => {
               $follow
               $nightPalePurple
               >{!isFollowing ? "팔로우" : "팔로잉"}</Button>
+            }
+            {
+              isMyProfile &&
+              <Text
+              $nightMoney={isNight}
+              $dayMoney={!isNight}
+              ><LiaCoinsSolid style={{width: "1.3rem", height: "1.3rem", marginRight: "0.4rem"}}></LiaCoinsSolid> 5.5k</Text>
             }
           </div>
           <div>
