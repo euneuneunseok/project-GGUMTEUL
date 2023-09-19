@@ -27,7 +27,7 @@ interface ProgressBarProps {
 }
 
 const ProgressBar = styled.div<ProgressBarProps>`
-  height: 1rem;
+  height: 0.8rem;
   margin-bottom: 1rem;
   border-radius: 1rem;
   color: #997ad8;
