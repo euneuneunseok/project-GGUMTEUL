@@ -177,9 +177,18 @@ const StyledWrap = styled.div<WrapProps>`
       position: fixed;
       top: 0;
       left: 0;
-      background-color: skyblue; 
+      background-color: white;
       /* 배경 바꾸기 */
       z-index: 300;
+
+      & > div:nth-child(1) {
+        display: grid;
+        grid-template-columns: 1fr 8fr 1fr;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
     `
   }
 
