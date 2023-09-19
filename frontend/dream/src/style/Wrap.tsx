@@ -14,6 +14,10 @@ interface WrapProps {
 
   // 밤 - 버튼 2개 용도
   $nightBotButtonWrap ?: boolean
+  $nightButtonCheckWrap ?: boolean
+
+  // 프로필
+  $profileHeaderWrap ?: boolean
   
 }
 const StyledWrap = styled.div<WrapProps>`
@@ -57,6 +61,15 @@ const StyledWrap = styled.div<WrapProps>`
     `
   }
 
+  // 공개 - 버튼 2개 + 체크박스 용 (밤)
+  ${(props) =>
+    props.$nightButtonCheckWrap &&
+    css`
+      margin-top: 0.25rem;
+      align-items: center;
+    `
+  }
+
   ${(props) =>
     props.$auctionCardWrap &&
     css`
@@ -71,6 +84,74 @@ const StyledWrap = styled.div<WrapProps>`
         outline: 0;
       } 
     `}
+  
+  // 
+  ${(props) =>
+    props.$profileHeaderWrap &&
+    css`
+      padding: 0 1rem;
+
+      /* 꿈틀도 윗부분 */
+      & > div:nth-child(1) {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        justify-items: center;
+        align-items: center;
+
+        /* 프로필 사진 */
+        & > img {
+          justify-content: end;
+        }
+        
+        /* 닉네임 + 팔로잉 팔로워 부분 */
+        & > div {
+          width: 100%;
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          & > div:nth-child(1) {
+            display: flex;
+            align-items: center;
+          }
+          
+          /* 팔로잉 + 팔로워 부분 세 개 */
+          & > div:nth-child(2) {
+            display: flex;
+            justify-content: space-between;
+            
+            /* 팔로잉 부분 한 개 */
+            & > div {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              /* 팔로잉 부분 단어 하나하나 */
+              & > p {
+                margin: 0.5rem 0;
+              }
+            }
+          }
+        } 
+      }      
+
+      /* 꿈틀도 + 별 */
+      & > div:nth-child(2) {
+        display: grid;
+        grid-template-columns: 9fr 1fr;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        /* 별 컨테이너 */
+        & > span {
+          width: 2.5rem;
+          height: 1.5rem;
+          color: #F9F9F9;          
+        }
+      }
+    `
+  }
 
 `
 
