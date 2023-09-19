@@ -8,11 +8,11 @@ import InfiniteScrollHorizon from "components/common/InfiniteScrollHorizon";
 import React, { useState, useEffect } from "react";
 
 // 컴포넌트
-import Image from "style/Image";
+import DayStoryDetail from "./DayStoryDetail";
 
 // 스타일
 import styled from "styled-components";
-import DayStoryDetail from "./DayStoryDetail";
+import Image from "style/Image";
 
 export interface StoryDataObjType {
   challengeId :number,
@@ -80,7 +80,7 @@ const DayStoryList = () => {
   return (
     <>
     {
-      isOpenModal && <DayStoryDetail></DayStoryDetail>
+      isOpenModal && <DayStoryDetail setIsOpenModal={setIsOpenModal}></DayStoryDetail>
     }
     <div style={{display: "-webkit-box", overflowX: "scroll"}}>
 
