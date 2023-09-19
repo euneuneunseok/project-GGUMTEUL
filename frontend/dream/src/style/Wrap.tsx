@@ -114,7 +114,6 @@ const StyledWrap = styled.div<WrapProps>`
           & > div:nth-child(1) {
             display: flex;
             align-items: center;
-            justify-content: space-around;
           }
           
           /* 팔로잉 + 팔로워 부분 세 개 */
