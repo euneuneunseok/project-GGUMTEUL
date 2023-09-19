@@ -8,7 +8,7 @@
 // ProfileText 팔로잉
 
 // 리액트
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store";
 
@@ -21,57 +21,51 @@ import Image from "style/Image";
 import Text from "style/Text";
 import styled from "styled-components";
 
+// progress 속성을 정의
+interface ProgressBarProps {
+  progress: number;
+}
 
-const ProgressBar = styled.div`
-  /* width:120px; */
+const ProgressBar = styled.div<ProgressBarProps>`
   height: 1rem;
+  margin-bottom: 1rem;
   border-radius: 1rem;
-  color: #514b82;
+  color: #997ad8;
   position: relative;
-  background-color: white;
-
+  background-color: #F9F9F9;
+  
   &::before {
     content: "";
     position: absolute;
-    /* margin: 0.1rem; */
-    inset: 0 100% 0 0;
+    inset: 0 calc(${props => 100 -props.progress}%) 0 0;
     border-radius: inherit;
     background: currentColor;
-    animation: p6 2s linear;
+    animation: p6 2s;
   }
   @keyframes p6 {
-      100% {inset:0}
+    /* 100% {inset:0} */
+    0% {
+      width: 0;
+    }
+    100% {
+      width: ${props => props.progress}%; // 원하는 최대 너비
+    }
   }
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0 100% 0 0;
-    border-radius: inherit;
-    background: currentColor;
-      
-  }
-  
-
 `
-
-
-/* const ProgressBar = styled.div`
-  height: 1rem;
-  border-radius: 2rem;
-  background:
-  linear-gradient(#000 0 0) 0/70% no-repeat
-  #ddd;
-  animation:p1 2s linear;
-  animation-timing-function: ease-in-out;
-  @keyframes p1 {
-    100% {background-size:100%}
-  }
-` */
 
 const ProfileHeader = () => {
   const themeMode = useSelector((state: RootState) => state.themeModeReducer.themeMode);
+  const [isNight, setIsNight] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(70); // 꿈틀도 추후 변경하기
 
+  useEffect(() => {
+    if (themeMode.mode === 'night') {
+      setIsNight(true);
+    } else {
+      setIsNight(false);
+    }
+  }, [themeMode.mode])
+  
   return (
     <>
     <Wrap $profileHeaderWrap>
@@ -81,9 +75,11 @@ const ProfileHeader = () => {
         >
           <img src="https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjAy/MDAxNjQzMTAyOTk2NjE0.gw_H_jjBM64svaftcnheR6-mHHlmGOyrr6htAuxPETsg.8JJSQNEA5HX2WmrshjZ-VjmJWqhmgE40Qm5csIud9VUg.JPEG.minziminzi128/IMG_7374.JPG?type=w800"/>
         </Image>
-        <div>
+        <Text
+        $nightWhite={isNight}
+        >
           <div>
-            <Text>나는프론트엔드</Text>
+            <p>나는프론트엔드</p>
           </div>
           <div>
             <div>
@@ -99,13 +95,10 @@ const ProfileHeader = () => {
               <p>70</p>
             </div>
           </div>
-        </div>
+        </Text>
       </div>
-      <ProgressBar></ProgressBar>
-      
-        
-      {/* <div className="progress-1"></div> */}
-      
+      <ProgressBar progress={progress}></ProgressBar>      
+      {/* <FontAwesomeIcon icon="fas fa-star" style={{color: "#997ad8",}} /> */}
     </Wrap>
     </>
   )

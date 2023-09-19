@@ -89,41 +89,49 @@ const StyledWrap = styled.div<WrapProps>`
   ${(props) =>
     props.$profileHeaderWrap &&
     css`
-      padding: 1rem;
+      padding: 0 1rem;
 
-      & > div:nth-child(1) {
+      /* 꿈틀도 윗부분 */
+      & > div {
         display: grid;
         grid-template-columns: 1fr 2fr;
         justify-items: center;
         align-items: center;
 
+        /* 프로필 사진 */
         & > img {
           justify-content: end;
         }
         
+        /* 닉네임 + 팔로잉 팔로워 부분 */
         & > div {
-          padding: 1rem 0;
           width: 100%;
           padding: 1rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
           
+          /* 팔로잉 + 팔로워 부분 세 개 */
           & > div:nth-child(2) {
             display: flex;
             justify-content: space-between;
-            /* padding-right: 1rem; */
+            
+            /* 팔로잉 부분 한 개 */
+            & > div {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              /* 팔로잉 부분 단어 하나하나 */
+              & > p {
+                margin: 0.5rem 0;
+              }
+            }
           }
         } 
-      }
-
-      & > div:nth-child(2) {
-        margin: 1rem 1rem;
-      }
-      
+      }      
     `
   }
-
 
 `
 
