@@ -98,7 +98,6 @@ const ProfileHeader = () => {
         </Text>
       </div>
       <ProgressBar progress={progress}></ProgressBar>      
-      {/* <FontAwesomeIcon icon="fas fa-star" style={{color: "#997ad8",}} /> */}
     </Wrap>
     </>
   )
