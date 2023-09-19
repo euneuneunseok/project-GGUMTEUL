@@ -9,16 +9,21 @@
 // WideTextBox
 
 // 리액트
-import React from "react";
-import Image from "style/Image";
-import Text from "style/Text";
-import Wrap from "style/Wrap";
+import React, { Dispatch, SetStateAction } from "react";
 
 // 컴포넌트
 
 // 스타일
+import Image from "style/Image";
+import Text from "style/Text";
+import Wrap from "style/Wrap";
+import { AiOutlineClose } from "react-icons/ai";
 
-const DayStoryDetail = () => {
+interface DayStoryDetailProps {
+  setIsOpenModal ?:Dispatch<SetStateAction<boolean>>
+}
+
+const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
 
   return (
     <>
@@ -27,6 +32,7 @@ const DayStoryDetail = () => {
         <div>
           <Image $tinyProfileImage><img /></Image>
           <Text $isBold $nightWhite>나는프론트엔드</Text>
+          <AiOutlineClose></AiOutlineClose>
         </div>
       {/* 챌린지 제목 */}
 
