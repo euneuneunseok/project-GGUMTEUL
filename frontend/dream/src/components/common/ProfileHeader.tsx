@@ -88,6 +88,10 @@ const ProfileHeader = () => {
         >
           <div>
             <p>나는프론트엔드</p>
+            <Button
+            $follow
+            $nightPalePurple
+            >{isMyProfile ? "팔로우" : "팔로잉"}</Button>
           </div>
           <div>
             <div>
