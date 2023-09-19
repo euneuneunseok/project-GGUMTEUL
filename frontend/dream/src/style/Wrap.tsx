@@ -19,6 +19,9 @@ interface WrapProps {
   // 프로필
   $profileHeaderWrap ?: boolean
   
+  // 스토리
+  $storyWrap ?: boolean
+  
 }
 const StyledWrap = styled.div<WrapProps>`
   ${(props) =>
@@ -162,6 +165,25 @@ const StyledWrap = styled.div<WrapProps>`
       }
     `
   }
+  // 스토리
+  ${(props) =>
+    props.$storyWrap &&
+    css`
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: skyblue; 
+      /* 배경 바꾸기 */
+      z-index: 300;
+    `
+  }
+
+
 
 `
 
