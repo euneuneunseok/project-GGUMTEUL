@@ -110,6 +110,11 @@ const StyledWrap = styled.div<WrapProps>`
           display: flex;
           flex-direction: column;
           justify-content: center;
+
+          & > div:nth-child(1) {
+            display: flex;
+            align-items: center;
+          }
           
           /* 팔로잉 + 팔로워 부분 세 개 */
           & > div:nth-child(2) {
