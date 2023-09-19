@@ -12,6 +12,7 @@ import Image from "style/Image";
 
 // 스타일
 import styled from "styled-components";
+import DayStoryDetail from "./DayStoryDetail";
 
 export interface StoryDataObjType {
   challengeId :number,
@@ -67,9 +68,20 @@ const DayStoryList = () => {
     }
   }, [arriveEnd])
 
+  // 스토리 모달 띄우기
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  const showStoryModal = () => {
+    setIsOpenModal(true);
+    console.log("유저 프로필 클릭");
+  }
+
 
   return (
     <>
+    {
+      isOpenModal && <DayStoryDetail></DayStoryDetail>
+    }
     <div style={{display: "-webkit-box", overflowX: "scroll"}}>
 
       <InfiniteScrollHorizon
@@ -80,6 +92,7 @@ const DayStoryList = () => {
         <Image
           $smallProfileImage
           key={key}
+          onClick={showStoryModal}
           >
             <img src={chal.photoUrl}></img>
           </Image>
