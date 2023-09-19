@@ -15,6 +15,9 @@ interface WrapProps {
   // 밤 - 버튼 2개 용도
   $nightBotButtonWrap ?: boolean
   $nightButtonCheckWrap ?: boolean
+
+  // 프로필
+  $profileHeaderWrap ?: boolean
   
 }
 const StyledWrap = styled.div<WrapProps>`
@@ -81,6 +84,46 @@ const StyledWrap = styled.div<WrapProps>`
         outline: 0;
       } 
     `}
+  
+  // 
+  ${(props) =>
+    props.$profileHeaderWrap &&
+    css`
+      padding: 1rem;
+
+      & > div:nth-child(1) {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        justify-items: center;
+        align-items: center;
+
+        & > img {
+          justify-content: end;
+        }
+        
+        & > div {
+          padding: 1rem 0;
+          width: 100%;
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          
+          & > div:nth-child(2) {
+            display: flex;
+            justify-content: space-between;
+            /* padding-right: 1rem; */
+          }
+        } 
+      }
+
+      & > div:nth-child(2) {
+        margin: 1rem 1rem;
+      }
+      
+    `
+  }
+
 
 `
 
