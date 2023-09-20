@@ -178,7 +178,6 @@ const StyledWrap = styled.div<WrapProps>`
       top: 0;
       left: 0;
       background-image: url("/image/background-image/day-background.jpg");
-      /* 배경 바꾸기 */
       /* z-index: 300; */
 
       & > div:nth-child(1) {
