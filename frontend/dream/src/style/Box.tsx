@@ -131,7 +131,7 @@ const StyledBox = styled.div<BoxProps>`
   // 제목 박스 (내 챌린지)
   ${(props) => props.$mainTitleBox &&
     css`
-      padding: 0.5rem;
+      padding: 0.5rem 2rem;
       margin: 3rem;
       border-radius: 1rem;
       background-color: rgba(249, 249, 249, 0.5);
