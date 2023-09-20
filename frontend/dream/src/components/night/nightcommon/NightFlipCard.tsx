@@ -6,7 +6,7 @@
 // 내용
 
 // 리액트
-import React from "react";
+import React, {useState} from "react";
 
 // 컴포넌트
 import Button from "components/common/Button";
@@ -44,15 +44,25 @@ const ButtonDiv = styled.div`
 
 const NightFlipCard = () => {
 
+  const [isFlipCard, setIsFlipCard] = useState(false)
+
+  const openDreamCard = () => {
+    setIsFlipCard(!isFlipCard)
+  }
+
+  const dreamCardFlipStyle = {
+    transform: isFlipCard ? 'translateY(0)' : "translateY(100%)"
+  }
+
   return (
     <>
     <Container $baseContainer>
-      <div className="card">
+      <div className="card" onClick={openDreamCard}>
   {/* <div className="card-image"></div> */}
       <Image $mainImage $nightImageBorder>
         <img src={`${process.env.PUBLIC_URL}/image/samsung.png`}/>
       </Image>
-        <div className="card-description">
+        <div className="card-description" style={dreamCardFlipStyle}>
           <NightFlipCardKeyBtnWrap>
             <NightFlipCardKeywordWrap>
               <CustomKeywordBox > 
