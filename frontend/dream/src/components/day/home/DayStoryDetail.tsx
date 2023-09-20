@@ -18,6 +18,7 @@ import Image from "style/Image";
 import Text from "style/Text";
 import Wrap from "style/Wrap";
 import { AiOutlineClose } from "react-icons/ai";
+import { Box } from "style/Box";
 
 export interface DayStoryDetailProps {
   setIsOpenModal : Dispatch<SetStateAction<boolean>>
@@ -40,6 +41,10 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
           <AiOutlineClose onClick={handleIsOpenModal}></AiOutlineClose>
         </div>
       {/* 챌린지 제목 */}
+        <Box $mainTitleBox>
+          <img />
+          <Text>1일 1커밋 챌린지</Text>
+        </Box>
 
       {/* 사진 */}
 
