@@ -19,6 +19,9 @@ interface WrapProps {
   // 프로필
   $profileHeaderWrap ?: boolean
   
+  // 스토리
+  $storyWrap ?: boolean
+  
 }
 const StyledWrap = styled.div<WrapProps>`
   ${(props) =>
@@ -162,6 +165,42 @@ const StyledWrap = styled.div<WrapProps>`
       }
     `
   }
+  // 스토리
+  ${(props) =>
+    props.$storyWrap &&
+    css`
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding:  0 0.5rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow: scroll;
+      background-image: url("/image/background-image/day-background.jpg");
+        
+      & > div:nth-child(1) {
+        display: grid;
+        grid-template-columns: 1fr 8fr 1fr;
+        align-items: center;
+        /* position: fixed; */
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+      
+      & > div:nth-child(2) {
+        margin-bottom: 5rem;
+        height: 100%;
+      }
+      
+    `
+  }
+
+
 
 `
 
