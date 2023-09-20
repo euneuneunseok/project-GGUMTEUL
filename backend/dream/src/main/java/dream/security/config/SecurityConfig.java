@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/user/jwt-test/**","/api/user/").hasRole("GUEST")
+                .antMatchers("/api/user/jwt-test/**","/api/user/").hasRole("GUEST")
                 .anyRequest().permitAll()
 
                 .and()
