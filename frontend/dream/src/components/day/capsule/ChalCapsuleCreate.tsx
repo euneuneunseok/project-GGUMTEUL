@@ -21,6 +21,7 @@ import Button from "components/common/Button";
 // 스타일
 import Text from "style/Text";
 import Container from "style/Container";
+import TextArea from "style/TextArea";
 
 const ChalCapsuleCreate = () => {
 
@@ -31,8 +32,11 @@ const ChalCapsuleCreate = () => {
         메세지를 전달해보세요!<br/>
         <br/>
         중간 달성 시에<br/>
-        다른 사람들의 메세지와 함꼐 볼 수 있어요.<br/>
+        다른 사람들의 메세지와 함께 볼 수 있어요.<br/>
+        <br/>
       </Text>
+      <TextArea $chalDetailValue placeholder="메세지 내용 입력"></TextArea>
+      <Button $dayCreate $fullWidth $dayBlue $isBold>{'담기'}</Button>
     </Container>
   )
 }

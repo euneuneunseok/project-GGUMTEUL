@@ -124,6 +124,7 @@ const StyledText = styled.div<TextProps>`
       color: #e8e8e8;
       line-height: 1.5rem;
       font-size: 1rem;
+      margin-top: 8rem;
     `
   }
 `
