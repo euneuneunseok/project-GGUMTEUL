@@ -58,7 +58,8 @@ const Heart = (props: HeartProps) => {
           </div>
           {/* 좋아요 숫자 나올 곳 */}
           <Text 
-          
+          // 밤, 낮에 따른 글자 색상 변화
+          // 추후 좋아요 수 넘길 필요
           $nightWhite={location.pathname.includes("night")} 
           $black={location.pathname.includes("day")}>33</Text>
       </HeartWrap>
