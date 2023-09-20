@@ -96,6 +96,7 @@ const NightHomeItem = ({cardData}:NightHomeItemProps) => {
       <ProfileDateWrap>
         <ProfileWrap>
           <CustomImage 
+          // 여기에 이동하는 곳
           onClick={()=>console.log("짠")}
           ><img src={cardData.ownerProfileUrl}/></CustomImage>
           <Text $verticalAlign $nightWhite> {reverseCard?.ownerNickname} </Text>
@@ -107,7 +108,10 @@ const NightHomeItem = ({cardData}:NightHomeItemProps) => {
       <NightFlipCard reverseCardData={reverseCard}/>
 
       {/* 좋아요 버튼 */}
-        <Heart />
+        <Heart 
+        isLike={cardData.like}
+        likedNumber={cardData.likedNumber}
+        />
     </Container>
     <MarginBot/>
     </>

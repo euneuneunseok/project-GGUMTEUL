@@ -22,6 +22,7 @@ import Text from "style/Text";
 
 // 타입
 import { ReverseCardType } from "../home/NightHomeItem";
+import { changeDate } from "utils/dateForm";
 
 const CustomKeywordBox = styled.div`
   background-color: #3b3170;
@@ -71,7 +72,6 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
     <Container $baseContainer>
       <div className="card" onClick={(e:any) => {
         if (!e.target.className.includes("blockClickEvent")) {
-          console.log(e.target.className, e.target.class)
           setIsFlipCard(!isFlipCard)
           return
         }
@@ -106,10 +106,10 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
             </ButtonDiv>
           </NightFlipCardKeyBtnWrap>
 
-          <DreamCardGrade positiveGrade="S" rareGrade="A"/>
+          <DreamCardGrade positiveGrade={reverseCardData?.positiveGrade} rareGrade={reverseCardData?.rareGrade}/>
           <NightFlipCardBotWrap >
-            <Text className="blockClickEvent">유저 닉네임</Text>
-            <Text>시간 </Text>
+            <Text className="blockClickEvent"> {reverseCardData?.ownerNickname} </Text>
+            <Text>{changeDate(reverseCardData?.createdAt)}</Text>
           </NightFlipCardBotWrap>
         </div>
       </div>

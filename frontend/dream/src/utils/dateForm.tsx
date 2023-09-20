@@ -1,4 +1,7 @@
-export const changeDate = (date:string) :string => {
+export const changeDate = (date:string|undefined) :string => {
+  if (date === undefined) {
+    return "0"
+  }
   const createdDate = new Date(date)
   const year = createdDate.getFullYear()
   let month :string = String(createdDate.getMonth() +1)

@@ -39,7 +39,7 @@ const NightHomeList = () => {
   const [nightHomeDataSet, setNightHomeDataSet] = useState<any>([initNightHomeDataSet])
 
   useEffect(() => {
-    axios.get(`${baseUrl}/night/?size=${2}`)
+    axios.get(`${baseUrl}/night/?size=${6}`)
     .then((res)=> {
       setNightHomeDataSet(res.data.data.list)
       // setNightHomeDataSet((prev:any) => {
