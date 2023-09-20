@@ -50,7 +50,7 @@ public class S3Controller {
     }
 
     @PostMapping("/challenge/detail/new")
-    public String upload(@RequestPart("challengeDetail") RequestChallengeDetail requestChallengeDetail,
+    public ResultTemplate upload(@RequestPart("challengeDetail") RequestChallengeDetail requestChallengeDetail,
             @RequestPart("file") MultipartFile multipartFile) throws IOException {
 
         User user = userRepository.findByUserId(2L).
@@ -62,8 +62,8 @@ public class S3Controller {
         String fileName = awsS3Uploader.upload(multipartFile, "challengeDetail");
 
         log.info("for upload file name : {}", fileName);
-        return fileName;
-    }
 
+        return challengeService.postChallengeDetail(user, requestChallengeDetail, fileName);
+    }
 }
 

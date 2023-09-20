@@ -10,6 +10,7 @@ import dream.common.domain.ResultTemplate;
 import dream.common.exception.NoSuchElementException;
 import dream.common.exception.NotFoundException;
 import dream.common.exception.DuplicateException;
+import dream.s3.dto.request.RequestChallengeDetail;
 import dream.s3.dto.response.ResponseBadgeImage;
 import dream.user.domain.FollowRepository;
 import dream.user.domain.User;
@@ -31,8 +32,9 @@ public class ChallengeService {
 
     private final UserRepository userRepository;
     private final ChallengeRepository challengeRepository;
-    private final ChallengeQueryRepository challengeQueryRepository;
     private final DreamKeywordRepository dreamKeywordRepository;
+    private final ChallengeQueryRepository challengeQueryRepository;
+    private final ChallengeDetailRepositoy challengeDetailRepositoy;
     private final ChallengeDetailQueryRepository challengeDetailQueryRepository;
     private final ChallengeParticipationRepository challengeParticipationRepository;
 
@@ -207,6 +209,18 @@ public class ChallengeService {
         // 이 챌린지에 참여중인지 어떻게 알지 예외 처리가 필요할 수 있겠다.
 
         if(writeDetailPossibleList.size() == 1) throw new DuplicateException(DuplicateException.CHLLENGE_DETAIL_DATE_DUPLICATE);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
+    @Transactional
+    public ResultTemplate postChallengeDetail(User user, RequestChallengeDetail requestChallengeDetail, String fileName) {
+
+        Challenge challenge = challengeRepository.findById(requestChallengeDetail.getChallengeId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
+
+        ChallengeDetail challengeDetail = ChallengeDetail.makeChallengeDetail(user, requestChallengeDetail, challenge, fileName);
+        challengeDetailRepositoy.save(challengeDetail);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
