@@ -26,7 +26,7 @@ const NavTitleBar = (props:NavTitleProps) => {
     {/* <h1>NavTitleBar</h1> */}
     <Bar $navTitle $day={!nightDayMode} $night={nightDayMode}>
       <div>{props.children}</div>
-      <Button $icon><FiX style={{}}/></Button>
+      <Button $icon><FiX /></Button>
     </Bar>
     </>
   )
