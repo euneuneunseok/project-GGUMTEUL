@@ -35,20 +35,26 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
     <>
     <Wrap $storyWrap>
       {/* 상단바 */}
-        <div>
-          <Image $tinyProfileImage><img /></Image>
-          <Text $isBold $nightWhite>나는프론트엔드</Text>
-          <AiOutlineClose onClick={handleIsOpenModal}></AiOutlineClose>
-        </div>
-      {/* 챌린지 제목 */}
+      <div>
+        <Image $tinyProfileImage><img /></Image>
+        <Text $isBold $nightWhite>나는프론트엔드</Text>
+        <AiOutlineClose onClick={handleIsOpenModal}></AiOutlineClose>
+      </div>
+      <div>
+        {/* 챌린지 제목 */}
         <Box $mainTitleBox>
           <img />
           <Text>1일 1커밋 챌린지</Text>
         </Box>
 
-      {/* 사진 */}
+        {/* 사진 */}
+        <Image $signupImage><img/></Image>
 
-      {/* 내용 */}
+        {/* 내용 */}
+        <Box $storyContentsBox $day>
+          여기는 스토리 세부 내용 Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, sint nostrum? Dicta, provident maiores! Explicabo excepturi, odit ea facilis itaque neque laboriosam totam perspiciatis repellat quia aut consequatur dolorem accusantium!
+        </Box>
+      </div>
 
 
     </Wrap>
