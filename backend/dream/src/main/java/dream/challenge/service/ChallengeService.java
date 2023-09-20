@@ -5,6 +5,7 @@ import dream.card.domain.DreamKeyword;
 import dream.card.domain.DreamKeywordRepository;
 import dream.challenge.domain.*;
 import dream.challenge.dto.request.RequestChallenge;
+import dream.challenge.dto.request.RequestComment;
 import dream.challenge.dto.response.*;
 import dream.challenge.dto.request.RequestTimeCapsule;
 import dream.common.domain.ResultTemplate;
@@ -32,8 +33,10 @@ import java.util.Optional;
 public class ChallengeService {
 
     private final UserRepository userRepository;
+    private final commentRepository commentRepository;
     private final ChallengeRepository challengeRepository;
     private final DreamKeywordRepository dreamKeywordRepository;
+    private final commentQueryRepository commentQueryRepository;
     private final ChallengeQueryRepository challengeQueryRepository;
     private final ChallengeDetailRepositoy challengeDetailRepositoy;
     private final ChallengeKeywordRepository challengeKeywordRepository;
@@ -250,5 +253,36 @@ public class ChallengeService {
         ResponseChallengeId response = new ResponseChallengeId(challengeId);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
+    public ResultTemplate getComments(Long detailId, Long lastItemId, int size) {
+
+        List<comment> list = commentQueryRepository.findCommentByPage(detailId, lastItemId, size);
+        if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_COMMENT);
+
+        List<ResponseComment> commentList = new ArrayList<>();
+        int count = 0;
+        for(comment comment : list){
+            ResponseComment responseComment = ResponseComment.from(comment);
+            commentList.add(responseComment);
+            if(++count == size) break;
+        }
+
+        boolean hasNext = (list.size() > size);
+        ResponseCommentsssss response = ResponseCommentsssss.from(commentList, hasNext);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
+    @Transactional
+    public ResultTemplate postComment(User user, RequestComment request) {
+
+        ChallengeDetail challengeDetail = challengeDetailRepositoy.findById(request.getDetailId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_DETAIL_NOT_FOUND));
+
+        comment postComment = comment.makeComment(user, request, challengeDetail);
+        commentRepository.save(postComment);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 }
