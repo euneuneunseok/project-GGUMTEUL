@@ -25,8 +25,8 @@ import Container from "style/Container";
 const ChalCapsuleCreate = () => {
 
   return (
-    <Container $baseContainer $dayCreate >
-      <Text>
+    <Container $dayBaseContainer $dayCreate >
+      <Text $dayWhite>
         열심히 도전하고 있을 미래의 나에게<br/>
         메세지를 전달해보세요!<br/>
         <br/>

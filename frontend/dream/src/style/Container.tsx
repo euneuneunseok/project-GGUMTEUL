@@ -12,6 +12,7 @@ interface ContainerProps {
   $nightKeyword ?: boolean
 
   $dayCreate ?: boolean
+  $dayBaseContainer ?: boolean
   
 }
 const StyledContainer = styled.div<ContainerProps>`
@@ -20,6 +21,12 @@ const StyledContainer = styled.div<ContainerProps>`
     props.$baseContainer &&
     css`
       margin: 0.5rem 0.5rem 0;
+    `
+  }
+  ${(props) =>
+    props.$dayBaseContainer &&
+    css`
+      margin: 1rem 1rem 0;
     `
   }
 

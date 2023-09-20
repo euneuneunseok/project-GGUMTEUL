@@ -40,7 +40,7 @@ const ChalCreate = () => {
   },[showCategoryDropdown, showPeriodDropdown])
 
   return (
-    <Container $baseContainer $dayCreate>
+    <Container $dayBaseContainer $dayCreate>
 
     {/* 챌린지 제목 */}
     <Input $chalCreateInput $dayColor placeholder="챌린지 제목"></Input>
