@@ -8,6 +8,7 @@ import React, {useEffect, useState} from "react";
 // 외부 파일
 import axios from "axios";
 import { baseUrl } from "api/api";
+import { changeDate } from "utils/dateForm";
 
 // 컴포넌트
 import NightFlipCard from "../nightcommon/NightFlipCard";
@@ -77,14 +78,14 @@ export interface ReverseCardType {
 }
 
 const NightHomeItem = ({cardData}:NightHomeItemProps) => {
-
+  console.log("왔니", cardData.ownerProfileUrl)
   const [reverseCard, setReverseCard] = useState<ReverseCardType | null>(null)
 
   useEffect(()=> {
     axios(`${baseUrl}/night/dream/detail/${cardData.dreamCardId}`)
     .then(res=> {
-      setReverseCard(res.data)
-      console.log(res.data)
+      setReverseCard(res.data.data)
+      console.log(res.data, "아이템")
     })
     .catch(err => console.log(err, "아이템 에러"))
   }, [])
@@ -99,11 +100,11 @@ const NightHomeItem = ({cardData}:NightHomeItemProps) => {
           ><img src={cardData.ownerProfileUrl}/></CustomImage>
           <Text $verticalAlign $nightWhite> {reverseCard?.ownerNickname} </Text>
         </ProfileWrap>
-        <Text $verticalAlign $nightWhite>23/09/04</Text>
+        <Text $verticalAlign $nightWhite>{changeDate(cardData.createAt)}</Text>
       </ProfileDateWrap>
 
       {/* 뒤집히는 카드 */}
-      <NightFlipCard />
+      <NightFlipCard reverseCardData={reverseCard}/>
 
       {/* 좋아요 버튼 */}
         <Heart />

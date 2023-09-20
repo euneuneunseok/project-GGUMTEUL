@@ -20,6 +20,9 @@ import Container from "style/Container";
 import { Box } from "style/Box";
 import Text from "style/Text";
 
+// 타입
+import { ReverseCardType } from "../home/NightHomeItem";
+
 const CustomKeywordBox = styled.div`
   background-color: #3b3170;
   color: white;
@@ -51,7 +54,11 @@ const NightFlipCardBotWrap = styled.div`
   margin-top: 0;
 `
 
-const NightFlipCard = () => {
+export interface ReverseCardProps {
+  reverseCardData ?: ReverseCardType |null
+}
+
+const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
 
   const [isFlipCard, setIsFlipCard] = useState(false)
 

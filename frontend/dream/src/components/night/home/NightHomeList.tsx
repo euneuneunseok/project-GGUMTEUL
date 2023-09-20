@@ -39,22 +39,22 @@ const NightHomeList = () => {
   const [nightHomeDataSet, setNightHomeDataSet] = useState<any>([initNightHomeDataSet])
 
   useEffect(() => {
-    axios.get(`${baseUrl}/night?size=${2}`)
+    axios.get(`${baseUrl}/night/?size=${2}`)
     .then((res)=> {
-      setNightHomeDataSet([res.data.list])
+      setNightHomeDataSet(res.data.data.list)
       // setNightHomeDataSet((prev:any) => {
       //   [...prev, ...res.data.list]
       // })
-      console.log(res.data.list)
+      // console.log(res.data.data.list)
     })
-
+    .catch(err=>console.log(err))
   }, [])
   return (
     <>
     {
-      nightHomeDataSet.map((item: NightHomeItemType, idx:number) => {
+      nightHomeDataSet.map((item: NightHomeItemType, idx:number) => (
         <NightHomeItem cardData={item} key={idx}/>
-      }
+      )
     )}
     </>
   )
