@@ -24,6 +24,9 @@ public class AwsS3Uploader {
 
     private final AmazonS3Client amazonS3Client;
 
+    @Value("${cloud.aws.s3.url}")
+    public String defaultUrl;
+
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
 
@@ -59,7 +62,8 @@ public class AwsS3Uploader {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
                 CannedAccessControlList.PublicRead));
         log.info("File Upload : " + fileName);
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        return defaultUrl + fileName;
+//        return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
     // 3. 로컬에 생성된 파일삭제

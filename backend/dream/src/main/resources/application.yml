@@ -34,6 +34,9 @@ cloud:
   aws:
     s3:
       url: ${S3_URL}
+      user_profile_url: ${S3_URL_USER_PROFILE}
+      dream_card_url: ${S3_URL_DREAM_CARD}
+      challenge_url: ${S3_URL_CHALLENGE}
       bucket: ${S3_BUCKET}
     credentials:
       access-key: ${CREDENTIALS_ACCESS_KEY}

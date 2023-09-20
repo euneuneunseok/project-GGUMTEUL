@@ -5,6 +5,7 @@ import dream.common.domain.ResultTemplate;
 import dream.s3.AwsS3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,9 +27,16 @@ public class S3Controller {
     }
 
 
-    @PostMapping("/upload")
+//    @PostMapping("/upload")
+//    public String upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+//        String fileName = awsS3Uploader.upload(multipartFile, "test");
+//        log.info("for upload file name : {}", fileName);
+//        return fileName;
+//    }
+
+    @PostMapping("/upload/userprofile")
     public String upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        String fileName = awsS3Uploader.upload(multipartFile, "test");
+        String fileName = awsS3Uploader.upload(multipartFile, "userProfile");
         log.info("for upload file name : {}", fileName);
         return fileName;
     }
