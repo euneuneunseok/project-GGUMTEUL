@@ -59,7 +59,7 @@ const ChalCreate = () => {
     </div>
 
     {/* 등록하기 버튼 */}
-
+    <Button $fullWidth $dayBlue $isBold>{'등록하기'}</Button>
     </ChalCreateContainer>
   )
 }

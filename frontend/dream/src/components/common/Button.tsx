@@ -47,6 +47,8 @@ const StyledButton = styled.button<ButtonProps>`
     padding: 0.5rem 1rem;
     border-radius: 0.75rem;
     display: flex; // 버튼 텍스트 가운데 정렬
+    justify-content: center;
+    align-items: center;
 
     // disabled가 아닐때(활성화), hover
     &:not(:disabled):hover {
