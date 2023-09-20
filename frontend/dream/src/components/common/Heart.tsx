@@ -35,6 +35,7 @@ const Heart = (props: HeartProps) => {
     <>
     <Container $baseContainer>
       <HeartWrap>
+        {/* 좋아요 여부에 따른 색상 다르게 만들기 필요 */}
         <div title="Like" className="heart-container">
                 <input id="Give-It-An-Id" className="checkbox" type="checkbox" />
                 <div className="svg-container">
