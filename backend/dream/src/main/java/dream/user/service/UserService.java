@@ -6,6 +6,7 @@ import dream.common.exception.NotFoundException;
 import dream.common.exception.NotMatchException;
 import dream.security.jwt.repository.TokenRepository;
 import dream.security.jwt.service.JwtService;
+import dream.s3.dto.response.ResponseImageUrl;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import dream.user.dto.request.RequestNickname;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +59,24 @@ public class UserService {
 
         }
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
+    @Transactional
+    public ResultTemplate updateUserImage(User user, String fileName) {
+
+        user.updateProfileUrl(fileName);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
+    public ResultTemplate getUserImage(User user) {
+
+        User findUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        ResponseImageUrl response = ResponseImageUrl.from(findUser);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
     @Transactional
