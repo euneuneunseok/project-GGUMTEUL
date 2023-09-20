@@ -3,7 +3,11 @@
 // 좋아요
 
 // 리액트
-import React from "react";
+import React, {useEffect, useState} from "react";
+
+// 외부 파일
+import axios from "axios";
+import { baseUrl } from "api/api";
 
 // 컴포넌트
 import NightFlipCard from "../nightcommon/NightFlipCard";
@@ -14,6 +18,9 @@ import styled from "styled-components";
 import Container from "style/Container";
 import Text from "style/Text";
 import Image from "style/Image";
+
+// 타입
+import { NightHomeItemType } from "./NightHomeList";
 
 const ProfileDateWrap = styled.div`
   display: flex;
@@ -50,13 +57,37 @@ const MarginBot = styled.div`
   margin-bottom: 2rem;
 `
 
+// 타입
+export interface NightHomeItemProps {
+  cardData : NightHomeItemType
+}
 
-// const HeartMarginLeft = styled.div`
-//   margin-left: 1rem;
-// `
+export interface ReverseCardType {
+  dreamCardId: number;
+  dreamCardOwner: number;
+  ownerNickname: string;
+  dreamCardAuthor: number;
+  grade: string;
+  createdAt: string;
+  positiveGrade: string;
+  rareGrade: string;
+  auctionStatus: string;
+  isShow: string;
+  keywords: string[];
+}
 
-const NightHomeItem = () => {
+const NightHomeItem = ({cardData}:NightHomeItemProps) => {
 
+  const [reverseCard, setReverseCard] = useState<ReverseCardType | null>(null)
+
+  useEffect(()=> {
+    axios(`${baseUrl}/night/dream/detail/${cardData.dreamCardId}`)
+    .then(res=> {
+      setReverseCard(res.data)
+      console.log(res.data)
+    })
+    .catch(err => console.log(err, "아이템 에러"))
+  }, [])
   return (
     <>
     <Container $baseContainer>
@@ -65,8 +96,8 @@ const NightHomeItem = () => {
         <ProfileWrap>
           <CustomImage 
           onClick={()=>console.log("짠")}
-          ><img src={`${`${process.env.PUBLIC_URL}/image/iu.png`}`}/></CustomImage>
-          <Text $verticalAlign $nightWhite>닉네임</Text>
+          ><img src={cardData.ownerProfileUrl}/></CustomImage>
+          <Text $verticalAlign $nightWhite> {reverseCard?.ownerNickname} </Text>
         </ProfileWrap>
         <Text $verticalAlign $nightWhite>23/09/04</Text>
       </ProfileDateWrap>
