@@ -199,4 +199,15 @@ public class ChallengeService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
+    public ResultTemplate writeDetailPossible(User user, Long challengeId) {
+
+        List<ChallengeDetail> writeDetailPossibleList = challengeDetailQueryRepository.
+                getChallengeDetailByUserIdAndChallengeIdAndDate(user.getUserId(), challengeId);
+        
+        // 이 챌린지에 참여중인지 어떻게 알지 예외 처리가 필요할 수 있겠다.
+
+        if(writeDetailPossibleList.size() == 1) throw new DuplicateException(DuplicateException.CHLLENGE_DETAIL_DATE_DUPLICATE);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
 }

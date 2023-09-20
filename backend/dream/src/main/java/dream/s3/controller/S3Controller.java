@@ -1,11 +1,16 @@
 package dream.s3.controller;
 
+import dream.challenge.domain.Challenge;
+import dream.challenge.domain.ChallengeRepository;
 import dream.challenge.service.ChallengeService;
 import dream.common.domain.ResultTemplate;
+import dream.common.exception.NotFoundException;
 import dream.s3.AwsS3Uploader;
+import dream.s3.dto.request.RequestChallengeDetail;
+import dream.user.domain.User;
+import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,8 +22,10 @@ import java.io.IOException;
 @RequestMapping(value = "/s3")
 public class S3Controller {
 
-    private final ChallengeService challengeService;
     private final AwsS3Uploader awsS3Uploader;
+    private final UserRepository userRepository;
+    private final ChallengeService challengeService;
+    private final ChallengeRepository challengeRepository;
 
     @GetMapping(value = "/day/challenge/item/{challengeId}/image")
     public ResultTemplate getChallengeImage(@PathVariable("challengeId") Long challengeId) {
@@ -36,7 +43,24 @@ public class S3Controller {
 
     @PostMapping("/upload/userprofile")
     public String upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+
         String fileName = awsS3Uploader.upload(multipartFile, "userProfile");
+        log.info("for upload file name : {}", fileName);
+        return fileName;
+    }
+
+    @PostMapping("/challenge/detail/new")
+    public String upload(@RequestPart("challengeDetail") RequestChallengeDetail requestChallengeDetail,
+            @RequestPart("file") MultipartFile multipartFile) throws IOException {
+
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        Challenge challenge = challengeRepository.findById(requestChallengeDetail.getChallengeId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
+
+        String fileName = awsS3Uploader.upload(multipartFile, "challengeDetail");
+
         log.info("for upload file name : {}", fileName);
         return fileName;
     }
