@@ -4,6 +4,7 @@ package dream.challenge.service;
 import dream.card.domain.DreamKeyword;
 import dream.card.domain.DreamKeywordRepository;
 import dream.challenge.domain.*;
+import dream.challenge.dto.request.RequestChallenge;
 import dream.challenge.dto.response.*;
 import dream.challenge.dto.request.RequestTimeCapsule;
 import dream.common.domain.ResultTemplate;
@@ -35,13 +36,10 @@ public class ChallengeService {
     private final DreamKeywordRepository dreamKeywordRepository;
     private final ChallengeQueryRepository challengeQueryRepository;
     private final ChallengeDetailRepositoy challengeDetailRepositoy;
+    private final ChallengeKeywordRepository challengeKeywordRepository;
     private final ChallengeDetailQueryRepository challengeDetailQueryRepository;
     private final ChallengeParticipationRepository challengeParticipationRepository;
 
-
-    /**
-     * 낮 메인 화면 조회 !@!
-     */
     public ResultTemplate getDayMain(Long keywordId, Long lastItemId, int size) {
 
         List<Challenge> challenges = challengeQueryRepository.findChallengeListByPage(keywordId, lastItemId, size);
@@ -223,5 +221,34 @@ public class ChallengeService {
         challengeDetailRepositoy.save(challengeDetail);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
+    @Transactional
+    public Long postChallenge(User requestUser, RequestChallenge request) {
+
+        User user = userRepository.findById(requestUser.getUserId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        Challenge challenge = Challenge.makeChallenge(user, request);
+        challengeRepository.save(challenge);
+
+        return challenge.getChallengeId();
+    }
+
+    @Transactional
+    public ResultTemplate postChallengeKeyword(Long challengeId, RequestChallenge request) {
+
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
+
+        DreamKeyword dreamKeyword = dreamKeywordRepository.findById(request.getKeywordId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.DREAM_KEYWORD_NOT_FOUND));
+
+        ChallengeKeyword challengeKeyword = ChallengeKeyword.makeChallengeKeyword(challenge, dreamKeyword);
+        challengeKeywordRepository.save(challengeKeyword);
+
+        ResponseChallengeId response = new ResponseChallengeId(challengeId);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 }

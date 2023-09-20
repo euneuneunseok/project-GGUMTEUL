@@ -47,8 +47,8 @@ public class ChallengeDetail extends BaseUpdateTimeEntity {
         challengeDetail.challengeDetailTitle = request.getChallengeDetailTitle();
         challengeDetail.challengeDetailContent = request.getChallengeDetailContent();
         challengeDetail.photoUrl = fileName;
+        challengeDetail.user = user;
 
         return challengeDetail;
     }
-
 }

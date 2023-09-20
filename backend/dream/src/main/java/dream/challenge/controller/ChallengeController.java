@@ -1,6 +1,7 @@
 package dream.challenge.controller;
 
 import dream.challenge.domain.ChallengeDetail;
+import dream.challenge.dto.request.RequestChallenge;
 import dream.challenge.service.ChallengeService;
 import dream.challenge.dto.request.RequestTimeCapsule;
 import dream.challenge.dto.request.RequestChallengeId;
@@ -98,6 +99,16 @@ public class ChallengeController {
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         return challengeService.writeDetailPossible(user, challengeId);
+    }
 
+    @PostMapping(value = "/challenge/new")
+    public ResultTemplate postChallenge(@RequestBody RequestChallenge request){
+
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        Long challengeId = challengeService.postChallenge(user, request);
+
+        return challengeService.postChallengeKeyword(challengeId, request);
     }
 }
