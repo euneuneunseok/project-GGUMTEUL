@@ -11,6 +11,7 @@ interface ContainerProps {
   // 5개 넘어가면 한줄 띄어가는 keyword
   $nightKeyword ?: boolean
 
+  $dayCreate ?: boolean
   
 }
 const StyledContainer = styled.div<ContainerProps>`
@@ -47,7 +48,14 @@ const StyledContainer = styled.div<ContainerProps>`
         width: 3.5rem;
         border-radius: 0.5rem;
       }
-  `
+    `
+  }
+
+  ${(props) =>
+    props.$dayCreate &&
+    css`
+      margin-top: 5rem;
+    `
   }
 `
 
