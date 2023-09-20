@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 
 // 컴포넌트
-import Button from "./Button";
+import { CiSquareChevDown } from "react-icons/ci";
 
 // 스타일
 import styled from 'styled-components';
@@ -32,12 +29,11 @@ const SelectBox = styled.div`
   `;
 
   const DropdownIcon = styled.div`
-    background-image: url(${process.env.PUBLIC_URL}/image/icon-image/down-square.png);
     background-size: cover;
+    display: flex;
     position: absolute;
     right: 0.75rem;
-    width: 1.5rem;
-    height: 1.5rem;
+    font-size: 1.5rem;
     color: #374151;
   `;
 
@@ -89,22 +85,21 @@ const Dropdown = (props:DropdownProps) => {
     setShowOptions(props.$show ? true : false)
   },[props.$show])
 
-  const handleOnChangeSelectValue = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    const { innerText } = e.currentTarget;
-    setCurrentValue(innerText);
-  };
+  const selectOption = (option:string)=>{
+    setCurrentValue(option)
+  }
 
   return (
     <>
       <SelectBox onClick={()=>{setShowOptions(!showOptions)}}>
         <Label>{currentValue}</Label>
-        <DropdownIcon></DropdownIcon>
+        <DropdownIcon><CiSquareChevDown/></DropdownIcon>
         <SelectOptions $show={showOptions ? true : false}>
           { optionArray.map((option)=>{
             return (
             <Option 
               key={optionArray.indexOf(option)} 
-              onClick={handleOnChangeSelectValue}
+              onClick={(e)=>{selectOption(option)}}
             >
               {option}
             </Option>)
