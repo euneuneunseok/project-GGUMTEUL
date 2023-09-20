@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint().userService(socialLoginService); // customUserService 설정
 
 
-                http.addFilterBefore(new JwtAuthentificationProcessingFilter(jwtService, userRepository),  UsernamePasswordAuthenticationFilter.class);
+//                http.addFilterBefore(new JwtAuthentificationProcessingFilter(jwtService, userRepository),  UsernamePasswordAuthenticationFilter.class);
     }
 
 
