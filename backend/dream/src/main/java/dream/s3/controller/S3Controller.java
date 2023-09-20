@@ -44,7 +44,7 @@ public class S3Controller {
 //    }
 
     @PostMapping("/userprofile")
-    public ResultTemplate upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ResultTemplate uploadProfileImage(@RequestParam("file") MultipartFile multipartFile) throws IOException {
 
         User user = userRepository.findByUserId(2L).
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
@@ -56,8 +56,17 @@ public class S3Controller {
         return userService.updateUserImage(user, fileName);
     }
 
+    @GetMapping("/userimage")
+    public ResultTemplate getProfileImage(){
+
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return userService.getUserImage(user);
+    }
+
     @PostMapping("/challenge/detail/new")
-    public ResultTemplate upload(@RequestPart("challengeDetail") RequestChallengeDetail requestChallengeDetail,
+    public ResultTemplate uploadChallengeDetail(@RequestPart("challengeDetail") RequestChallengeDetail requestChallengeDetail,
             @RequestPart("file") MultipartFile multipartFile) throws IOException {
 
         User user = userRepository.findByUserId(2L).
