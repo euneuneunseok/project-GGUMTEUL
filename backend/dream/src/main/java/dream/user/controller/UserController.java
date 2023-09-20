@@ -47,6 +47,16 @@ public class UserController{
         return userService.logout(user,request );
 
     }
+    @GetMapping("/nickname/duplication/{nickname}")
+    public ResultTemplate checkDuplicationNick(@PathVariable RequestNickname nickname){
+        return userService.checkDuplicateNick(nickname);
+    }
+    @PutMapping("/nickname")
+    public ResultTemplate updateNickname(@UserInfo User user, @RequestBody RequestNickname nickname){
+        return userService.updateNickname(user, nickname);
+    }
+
+
 
 
 }

@@ -2,6 +2,8 @@ package dream.user.service;
 
 import antlr.Token;
 import dream.common.domain.ResultTemplate;
+import dream.common.exception.BadRequestException;
+import dream.common.exception.DuplicateException;
 import dream.common.exception.NotFoundException;
 import dream.common.exception.NotMatchException;
 import dream.security.jwt.repository.TokenRepository;
@@ -19,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -92,6 +93,28 @@ public class UserService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(user).build();
     }
+
+    @Transactional
+    public ResultTemplate updateNickname(User user, RequestNickname request){
+        if(user.getNickname().equals(request.getNickname())) throw new BadRequestException(BadRequestException.NO_CHANGE_NICKNAME);
+
+        checkDuplicateNick(request);
+        user.updateNickname(request.getNickname());
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(user).build();
+    }
+
+    public ResultTemplate checkDuplicateNick(RequestNickname request) {
+
+        Optional<User> duplicatedUser = userRepository.findByNickname(request.getNickname());
+
+//        log.info("duplicateUser : {} ", userRepository.findByNickname(nickname).get());
+        if (duplicatedUser.isEmpty()) {
+            return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+        } else {
+            throw new DuplicateException(DuplicateException.NICKNAME_DUPLICATE);
+        }
+    }
+
 
 
 }
