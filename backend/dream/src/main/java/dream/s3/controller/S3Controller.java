@@ -9,6 +9,7 @@ import dream.s3.AwsS3Uploader;
 import dream.s3.dto.request.RequestChallengeDetail;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
+import dream.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import java.io.IOException;
 @RequestMapping(value = "/s3")
 public class S3Controller {
 
+    private final UserService userService;
     private final AwsS3Uploader awsS3Uploader;
     private final UserRepository userRepository;
     private final ChallengeService challengeService;
@@ -41,12 +43,17 @@ public class S3Controller {
 //        return fileName;
 //    }
 
-    @PostMapping("/upload/userprofile")
-    public String upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    @PostMapping("/userprofile")
+    public ResultTemplate upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         String fileName = awsS3Uploader.upload(multipartFile, "userProfile");
+
         log.info("for upload file name : {}", fileName);
-        return fileName;
+
+        return userService.updateUserImage(user, fileName);
     }
 
     @PostMapping("/challenge/detail/new")
