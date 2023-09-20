@@ -177,9 +177,9 @@ const StyledWrap = styled.div<WrapProps>`
       position: fixed;
       top: 0;
       left: 0;
-      background-color: white;
+      background-image: url("/image/background-image/day-background.jpg");
       /* 배경 바꾸기 */
-      z-index: 300;
+      /* z-index: 300; */
 
       & > div:nth-child(1) {
         display: grid;
