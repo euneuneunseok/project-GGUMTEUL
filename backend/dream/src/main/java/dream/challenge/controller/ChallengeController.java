@@ -129,4 +129,11 @@ public class ChallengeController {
 
         return challengeService.postComment(user, request);
     }
+
+    @DeleteMapping(value = "/challange/detail/comment/{commentId}")
+    public ResultTemplate deleteComment(@PathVariable("commentId") Long commentId) {
+
+        return challengeService.deleteComment(commentId);
+    }
+
 }

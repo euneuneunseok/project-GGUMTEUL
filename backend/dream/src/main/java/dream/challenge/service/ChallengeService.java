@@ -285,4 +285,14 @@ public class ChallengeService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
+
+    @Transactional
+    public ResultTemplate deleteComment(Long commentId) {
+
+        comment dComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.COMMENT_NOT_FOUND));
+        commentRepository.delete(dComment);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
 }
