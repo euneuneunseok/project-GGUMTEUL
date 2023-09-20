@@ -15,6 +15,7 @@ import styled from "styled-components";
 import Button from "components/common/Button";
 import Input from "style/Input";
 import Dropdown from "components/common/Dropdown";
+import TextArea from "style/TextArea";
 
 
 // 스타일
@@ -45,8 +46,8 @@ const ChalCreate = () => {
     {/* 챌린지 제목 */}
     <Input $chalCreateInput $dayColor placeholder="챌린지 제목"></Input>
 
-    {/* 챌린지 내용 */}
-    <Input $chalContentInput $dayColor placeholder="카테고리"></Input>
+    <TextArea $chalDetailValue placeholder="챌린지 내용"></TextArea>
+
 
     {/* 카테고리 드롭다운 */}
     <div onClick={()=>{setShowCategoryDropdown(!showCategoryDropdown)}}>
