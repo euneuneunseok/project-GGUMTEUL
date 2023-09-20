@@ -6,6 +6,8 @@ import styled, {css} from 'styled-components'
 interface TextProps {
   children?: React.ReactNode;
   onClick ?: () => void;
+  className ?: string;
+
   $nightKeword ?: boolean;
 
   // 강조
