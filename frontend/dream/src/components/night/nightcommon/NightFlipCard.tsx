@@ -55,14 +55,6 @@ const NightFlipCard = () => {
 
   const [isFlipCard, setIsFlipCard] = useState(false)
 
-  const openDreamCard = (e:any) => {
-    if (e.target.className.includes("blockClickEvent")) {
-      console.log(e.target.className, e.target.class)
-      return
-    }
-    setIsFlipCard(!isFlipCard)
-  }
-
   const dreamCardFlipStyle = {
     transform: isFlipCard ? 'translateY(0)' : "translateY(100%)"
   }
