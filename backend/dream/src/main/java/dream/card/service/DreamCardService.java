@@ -10,6 +10,7 @@ import dream.common.domain.ResultTemplate;
 import dream.common.exception.DeleteException;
 import dream.common.exception.NotFoundException;
 import dream.common.exception.NotMatchException;
+import dream.security.jwt.domain.UserInfo;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
