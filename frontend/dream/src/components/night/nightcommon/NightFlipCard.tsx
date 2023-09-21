@@ -12,6 +12,9 @@ import React, {useState} from "react";
 import Button from "components/common/Button";
 import DreamCardGrade from "./DreamCardGrade";
 
+// 외부
+import basicHttp from "api/basicHttp";
+
 // 스타일
 import styled, {css} from "styled-components";
 import "./NightFlipCard.css"
@@ -64,6 +67,7 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
   const navigation = useNavigate()
 
   const [isFlipCard, setIsFlipCard] = useState(false)
+  const dreamCardId = reverseCardData?.dreamCardId
 
   const dreamCardFlipStyle = {
     transform: isFlipCard ? 'translateY(0)' : "translateY(100%)"
@@ -78,7 +82,12 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
   const enterAuctionSpace = () => {
     navigation(`/night/auction/detail/${reverseCardData?.dreamCardId}`)
   }
-  
+
+  // 조회수 증가 (카드 클릭할 때마다 증가시킴)
+  const addHits = () :void => {
+    basicHttp.put(`/night/dream/detail/hit`, dreamCardId)
+    .then(res => console.log(res, "조회수 증가"))
+  }
 
   return (
     <>
@@ -86,6 +95,7 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
       <div className="card" onClick={(e:any) => {
         if (!e.target.className.includes("blockClickEvent")) {
           setIsFlipCard(!isFlipCard)
+          addHits()
           return
         }
       }}>
