@@ -12,7 +12,7 @@ const AuctionBuyingPage = () => {
   return (
     <>
     <NavTitleBar />
-    <AuctionBuying />
+    {/* <AuctionBuying /> */}
     </>
   )
 }
