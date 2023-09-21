@@ -175,18 +175,27 @@ const StyledWrap = styled.div<WrapProps>`
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding:  0 0.5rem;
+      /* padding:  0 0.5rem; */
       position: fixed;
       top: 0;
       left: 0;
       overflow: scroll;
       background-image: url("/image/background-image/day-background.jpg");
+      z-index: 300;
+
+      & > .story {
         
-      & > div:nth-child(1) {
+        /* 터치 이벤트 높이 지정 */
+        & > div > div:nth-child(3) {
+          top: 5rem;
+        }
+      }
+
+      /* & > div:nth-child(1) {
         display: grid;
         grid-template-columns: 1fr 8fr 1fr;
         align-items: center;
-        /* position: fixed; */
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
@@ -195,7 +204,7 @@ const StyledWrap = styled.div<WrapProps>`
       & > div:nth-child(2) {
         margin-bottom: 5rem;
         height: 100%;
-      }
+      } */
       
     `
   }
