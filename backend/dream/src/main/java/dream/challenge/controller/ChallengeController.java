@@ -156,7 +156,7 @@ public class ChallengeController {
                                               @RequestParam(value = "lastItemId", required = false) Long lastItemId,
                                               @RequestParam("size") int size) {
 
-        User user = userRepository.findByUserId(2L).
+        User user = userRepository.findByUserId(3L).
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         return challengeService.getChallengeDetails(user, challengeId, lastItemId, size);

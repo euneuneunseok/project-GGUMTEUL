@@ -2,10 +2,8 @@ package dream.challenge.domain;
 
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import dream.user.domain.Follow;
 import dream.user.domain.QFollow;
 import dream.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static dream.challenge.domain.QChallenge.challenge;
 import static dream.challenge.domain.QChallengeDetail.challengeDetail;
 
 @Slf4j
@@ -106,7 +102,7 @@ public class ChallengeDetailQueryRepository {
                 .fetch();
     }
 
-    public List<ChallengeDetail> getChallengeDetailByChallegeId(Long challengeId, Long lastItemId, int size) {
+    public List<ChallengeDetail> getChallengeDetailByChallengeId(Long challengeId, Long lastItemId, int size) {
 
         QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
 
@@ -120,8 +116,21 @@ public class ChallengeDetailQueryRepository {
                 .fetch();
     }
 
+    public List<ChallengeDetail> getChallengeDetailByChallengeIdAndUserId(Long challengeId, Long userId) {
+
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+
+        return queryFactory.selectFrom(challengeDetail)
+                .where(
+                        challengeDetail.challenge.challengeId.eq(challengeId),
+                        challengeDetail.user.userId.eq(userId)
+                )
+                .fetch();
+    }
 
     private BooleanExpression lastItemIdLt(Long lastItemId) {
         return lastItemId != null ? challengeDetail.challengeDetailId.lt(lastItemId) : null;
     }
+
+
 }

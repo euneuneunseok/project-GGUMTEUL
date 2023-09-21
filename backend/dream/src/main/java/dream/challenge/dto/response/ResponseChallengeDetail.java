@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseChallengeDetail {
+    private Long challengeDetailId;
     private Long userId;
     private String nickname;
     private String challengeDetailContent;
@@ -19,10 +20,11 @@ public class ResponseChallengeDetail {
     private int commentCount;
     private int challengeDetailCount;
 
-    public static ResponseChallengeDetail from(ChallengeDetail challengeDetail, boolean isLike) {
+    public static ResponseChallengeDetail from(ChallengeDetail challengeDetail, boolean isLike, int count) {
 
         ResponseChallengeDetail response = new ResponseChallengeDetail();
 
+        response.challengeDetailId = challengeDetail.getChallengeDetailId();
         response.userId = challengeDetail.getUser().getUserId();
         response.nickname = challengeDetail.getUser().getNickname();
         response.challengeDetailContent = challengeDetail.getChallengeDetailContent();
@@ -30,8 +32,7 @@ public class ResponseChallengeDetail {
         response.photoUrl = challengeDetail.getPhotoUrl();
         response.commentCount = challengeDetail.getComments().size();
         response.isLike = isLike;
-        // isLike 처리
-        // challengeDetailCount 처리
+        response.challengeDetailCount = count;
 
         return response;
     }

@@ -14,7 +14,6 @@ import dream.common.exception.NotFoundException;
 import dream.common.exception.DuplicateException;
 import dream.s3.dto.request.RequestChallengeDetail;
 import dream.s3.dto.response.ResponseBadgeImage;
-import dream.user.domain.FollowRepository;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -320,10 +319,8 @@ public class ChallengeService {
 
     public ResultTemplate getChallengeDetails(User user, Long challengeId, Long lastItemId, int size) {
 
-        List<ChallengeDetail> list = challengeDetailQueryRepository.getChallengeDetailByChallegeId(challengeId, lastItemId, size);
+        List<ChallengeDetail> list = challengeDetailQueryRepository.getChallengeDetailByChallengeId(challengeId, lastItemId, size);
         if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_CHALLENGE_DETAIL);
-
-        // 이거 이제 챌린지 디테일 디티오로 반환할꺼임
 
         List<ResponseChallengeDetail> challengeDetailList = new ArrayList<>();
         int count = 0;
@@ -331,7 +328,10 @@ public class ChallengeService {
             boolean isLike = challengeDetail.getChallengeDetailLikes().stream()
                     .anyMatch(like -> like.getUser().getUserId().equals(user.getUserId()));
 
-            ResponseChallengeDetail tmp = ResponseChallengeDetail.from(challengeDetail, isLike);
+            List<ChallengeDetail> forCountList = challengeDetailQueryRepository
+                    .getChallengeDetailByChallengeIdAndUserId(challengeId, challengeDetail.getUser().getUserId());
+
+            ResponseChallengeDetail tmp = ResponseChallengeDetail.from(challengeDetail, isLike, forCountList.size());
             // challengeDetailCount 처리
             challengeDetailList.add(tmp);
             if(++count == size) break;
@@ -340,6 +340,6 @@ public class ChallengeService {
         boolean hasNext = (list.size() > size);
         ResponseChallengeDetailResult response = ResponseChallengeDetailResult.from(challengeDetailList, hasNext);
 
-        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 }
