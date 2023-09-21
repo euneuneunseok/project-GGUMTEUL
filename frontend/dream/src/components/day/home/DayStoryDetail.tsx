@@ -1,14 +1,11 @@
 // 리액트
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 // 컴포넌트
 
 // 스타일
-import Image from "style/Image";
-import Text from "style/Text";
 import Wrap from "style/Wrap";
 import { AiOutlineClose } from "react-icons/ai";
-import { Box } from "style/Box";
 import ReactInstaStories from "react-insta-stories";
 
 export interface DayStoryDetailProps {
@@ -44,6 +41,7 @@ interface StoriesType extends Array<StoriesObjType> {}
 
 const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
 
+  // 모달을 닫음
   const handleIsOpenModal = () => {
     setIsOpenModal(false);
     console.log("모달 닫기");
@@ -101,9 +99,9 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
   //   event.preventDefault();
     
   // }, { passive: false });
-  const handleClick = (e:any) => {
-    console.log('handleClick 실행')
-    console.log(e)
+  // const handleClick = (e:any) => {
+  //   console.log('handleClick 실행')
+  //   console.log(e)
     // if (!e.preventDefault) {
     //   console.log('여기')
     // }
@@ -129,32 +127,37 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
     //   console.log('====')
     // }
     // e.preventDefault();
-  }
+  // }
 
-  useEffect(() => {
-    const storySelector = document.querySelectorAll('.story > div > div')
+  // useEffect(() => {
+  //   const storySelector = document.querySelectorAll('div') // 루트 기준
+  //   console.log(storySelector[5].children[1].children[2]) // 선택하는 영역
+  //   console.log(storySelector[5].children[1].children) 
+  //   let region = storySelector[5].children[1].children[2]
+  //   region.addEventListener('onClick', (e:any) => {console.log(e)}, {passive:false})
+  // }, [setIsOpenModal])
+    // const storySelector = document.querySelectorAll('.story')
     // console.log(storySelector[2])
     // if (storySelector === null) return
     // handleClick(storySelector)
-    
-    storySelector[2].addEventListener('onclick', function(e:any) {handleClick(e)}, {passive: false})
-    // storySelector[0].children[2].addEventListener('click', handleClick, {passive : false})
+    // console.log(storySelector)
+    // console.log(window)
+    // storySelector[2].addEventListener('click', (e:any) => {if (e.preventDefault) {console.log(e)}}, {passive: false})
+    // storySelector[2].addEventListener('click', handleClick, {passive : false})
     // console.log(storySelector[0].)
     // storySelector[2].dispatchEvent()
 
-  }, [])
-  
-//   document.addEventListener('click', function(event) {
-//     // some logic
-//     event.preventDefault(); // <-- that should not be used in passive
-//     // some other magic
-// }, {passive:false});
+  // }, [setIsOpenModal])
   
 
-  // 스토리 클릭 이벤트 처리
-  const handleStoryClick = (story: StoriesObjType) => {
-    console.log("스토리 클릭:", story);
-    // 클릭한 스토리에 대한 동작을 수행하면 됩니다.
+  // 인덱스로 제어
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const handleOnNext = () => {
+    console.log('다음 클릭')
+    let newIndex = currentIndex + 1
+    if (newIndex === stories.length) {return handleIsOpenModal()}
+    setCurrentIndex(newIndex)
   }
 
   
@@ -170,18 +173,22 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
       ></AiOutlineClose>
 
       {/* 스토리 */}
-      <div className="story">
-      <ReactInstaStories
-        // preventDefault
-        onAllStoriesEnd={handleIsOpenModal}
-        onNext={(e:any) => handleClick(e)}
-        onPrevious={handleClick}
-        stories={stories}     // 스토리에 들어갈 컨텐츠들
-        defaultInterval={4000} // 스토리가 넘어가는 시간
-        width={windowWidth}
-        height={windowHeight}
-        storyStyles={storyStyles} // 스토리 사진 크기 지정
-      />
+      <div 
+      className="story"
+      onClick={handleOnNext}
+      >
+      
+        <ReactInstaStories
+          preventDefault
+          onAllStoriesEnd={handleIsOpenModal}
+          onNext={handleOnNext}
+          currentIndex={currentIndex}
+          stories={stories}     // 스토리에 들어갈 컨텐츠들
+          defaultInterval={4000} // 스토리가 넘어가는 시간
+          width={windowWidth}
+          height={windowHeight}
+          storyStyles={storyStyles} // 스토리 사진 크기 지정
+        />
       </div>
     </Wrap>
     </>
