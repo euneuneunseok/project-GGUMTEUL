@@ -27,46 +27,31 @@ public class NightProfileService {
     private final DreamCardRepository dreamCardRepository;
     private final UserRepository userRepository;
 
+    private final ProfileService profileService;
+
     public ResultTemplate getNightHeader(User user, Long profileUserId){
 
-        if(userRepository.findByUserId(profileUserId).isEmpty()) throw new BadRequestException(BadRequestException.NOT_EXIST_USER_PROFILE);
+        User profileUser = userRepository.findByUserId(profileUserId).orElseThrow(()->{
+            throw new BadRequestException(BadRequestException.NOT_EXIST_USER_PROFILE);
+        });
 
-        int followingCount = followRepository.findByFromId(user.getUserId()).size();
-        int  followerCount = followRepository.findByToId(user.getUserId()).size();
+
+
+        int followingCount = followRepository.findByFromId(profileUser.getUserId()).size();
+        int  followerCount = followRepository.findByToId(profileUser.getUserId()).size();
 
         //내 프로필 헤더 조회
         if(user.getUserId()==profileUserId){
-
-            ResponseProfileHeaderBySelf response = ResponseProfileHeaderBySelf.from(user, followerCount, followingCount);
-
-            return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+           return profileService.getHeaderBySelf(profileUser);
 
         }else{
             int dreamCardCount = dreamCardRepository.findByDreamCardOwnerId(profileUserId).size();
-            ResponseNightProfileHeaderByOther response = ResponseNightProfileHeaderByOther.from(user, dreamCardCount, followerCount, followingCount);
+            ResponseNightProfileHeaderByOther response = ResponseNightProfileHeaderByOther.from(profileUser, dreamCardCount, followerCount, followingCount);
             return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
         }
     }
 
 
 
-//    List<DreamCard> findCards = dreamCardQueryRepository.findDreamCardPaging(lastItemId, size);
-//        if (findCards.isEmpty()) throw new NotFoundException(NotFoundException.CARD_LIST_NOT_FOUND);
-//
-//    List<ResponseDreamCard> dreamCards = findCards.stream()
-//            .limit(size)
-//            .map(findCard -> {
-//                boolean isLike = findCard.getDreamCardLikes().stream()
-//                        .anyMatch(dreamCardLike ->
-//                                dreamCardLike.getDreamCard().getDreamCardId().equals(findCard.getDreamCardId()) &&
-//                                        dreamCardLike.getUser().getUserId().equals(1L));
-//                return ResponseDreamCard.from(findCard, isLike);
-//            })
-//            .collect(Collectors.toList());
-//
-//    boolean hasNext = findCards.size() > size;
-//    ResponseDreamCardList list = ResponseDreamCardList.from(dreamCards, hasNext);
-//
-//        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(list).build();
-//}
+
 }

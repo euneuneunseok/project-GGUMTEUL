@@ -20,16 +20,16 @@ public class ResponseNightProfileHeaderByOther {
     int followingCount;
 
 
-    public static ResponseNightProfileHeaderByOther from(User user, int dreamCardCount, int followerCount, int followingCount){
+    public static ResponseNightProfileHeaderByOther from(User profileUser, int dreamCardCount, int followerCount, int followingCount){
         ResponseNightProfileHeaderByOther response = new ResponseNightProfileHeaderByOther();
 
-        response.userId = user.getUserId();
-        response.nickname = user.getNickname();
-        response.profileImgName = user.getProfileImageName();
-        response.profileImgUrl = user.getProfileUrl();
+        response.userId = profileUser.getUserId();
+        response.nickname = profileUser.getNickname();
+        response.profileImgName = profileUser.getProfileImageName();
+        response.profileImgUrl = profileUser.getProfileUrl();
         response.followerCount = followerCount;
         response.followingCount = followingCount;
-        response.wrigglePoint = user.getWrigglePoint();
+        response.wrigglePoint = profileUser.getWrigglePoint();
         response.dreamCardCount = dreamCardCount;
 
 

@@ -3,14 +3,8 @@ package dream.profile.service;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.BadRequestException;
 import dream.common.exception.NotFoundException;
-import dream.profile.dto.response.ResponseFollowerList;
-import dream.profile.dto.response.ResponseFollowerUserInfo;
-import dream.profile.dto.response.ResponseFollowingList;
-import dream.profile.dto.response.ResponseFollowingUserInfo;
-import dream.user.domain.Follow;
-import dream.user.domain.FollowQueryRepository;
-import dream.user.domain.User;
-import dream.user.domain.UserRepository;
+import dream.profile.dto.response.*;
+import dream.user.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,15 +22,17 @@ import java.util.stream.Collectors;
 public class ProfileService {
 
     private final FollowQueryRepository followQueryRepository;
+    private final FollowRepository followRepository;
     private final UserRepository userRepository;
-    public ResultTemplate getFollowingList(Long fromId, Long lastFollowId, int size){
+
+    public ResultTemplate getFollowingList(Long fromId, Long lastFollowId, int size) {
         User user = userRepository.findByUserId(fromId).orElseThrow(() -> {
             throw new BadRequestException(BadRequestException.NOT_EXIST_USER_PROFILE);
         });
 
         List<Follow> findFollowings = followQueryRepository.findFollowByFromId(fromId, lastFollowId, size);
 
-        if(findFollowings.isEmpty()) throw new NotFoundException(NotFoundException.FOLLOWING_NOT_FOUND);
+        if (findFollowings.isEmpty()) throw new NotFoundException(NotFoundException.FOLLOWING_NOT_FOUND);
 
         List<ResponseFollowingUserInfo> followingList = findFollowings.stream()
                 .limit(size)
@@ -53,7 +49,7 @@ public class ProfileService {
 
     }
 
-    public ResultTemplate getFollowerList(Long toId, Long lastFollowId, int size){
+    public ResultTemplate getFollowerList(Long toId, Long lastFollowId, int size) {
 
         User user = userRepository.findByUserId(toId).orElseThrow(() -> {
             throw new BadRequestException(BadRequestException.NOT_EXIST_USER_PROFILE);
@@ -61,7 +57,7 @@ public class ProfileService {
 
         List<Follow> findFollowers = followQueryRepository.findFollowByToId(toId, lastFollowId, size);
 
-        if(findFollowers.isEmpty()) throw new NotFoundException(NotFoundException.FOLLOWER_NOT_FOUND);
+        if (findFollowers.isEmpty()) throw new NotFoundException(NotFoundException.FOLLOWER_NOT_FOUND);
 
         List<ResponseFollowerUserInfo> followerList = findFollowers.stream()
                 .limit(size)
@@ -73,6 +69,19 @@ public class ProfileService {
         boolean hasNext = findFollowers.size() > size;
 
         ResponseFollowerList response = ResponseFollowerList.from(followerList, hasNext);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+
+    }
+
+    public ResultTemplate getHeaderBySelf(User profileUser) {
+
+
+        int followingCount = followRepository.findByFromId(profileUser.getUserId()).size();
+        int followerCount = followRepository.findByToId(profileUser.getUserId()).size();
+
+
+        ResponseProfileHeaderBySelf response = ResponseProfileHeaderBySelf.from(profileUser, followerCount, followingCount);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
 

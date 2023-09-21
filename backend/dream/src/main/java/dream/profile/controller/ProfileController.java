@@ -2,6 +2,7 @@ package dream.profile.controller;
 
 import dream.common.domain.ResultTemplate;
 import dream.profile.service.ProfileService;
+import dream.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileController {
 
     private final ProfileService profileService;
+    private final UserService userService;
+
     @GetMapping("/following/list/{profileUserId}")
     public ResultTemplate getFollowingList(@PathVariable Long profileUserId, @RequestParam(value = "lastItemId", required = false) Long lastItemId, @RequestParam int size){
 
