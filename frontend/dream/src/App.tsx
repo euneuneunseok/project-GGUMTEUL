@@ -20,7 +20,6 @@ import DreamDetailPage from 'pages/night/dream/DreamDetailPage';
 import AuctionCreatePage from 'pages/night/auction/AuctionCreatePage';
 import AuctionMainPage from 'pages/night/auction/AuctionMainPage';
 import AuctionDetailPage from 'pages/night/auction/AuctionDetailPage';
-import AuctionBuyingPage from 'pages/night/auction/AuctionBuyingPage';
 import AuctionBuyingSuccessPage from 'pages/night/auction/AuctionBuyingSuccessPage';
 import NightSearchPage from 'pages/night/search/NightSearchPage';
 import NightSearchDetailPage from 'pages/night/search/NightSearchDetailPage';
