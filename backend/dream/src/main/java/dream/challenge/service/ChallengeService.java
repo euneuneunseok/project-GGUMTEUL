@@ -342,4 +342,23 @@ public class ChallengeService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
+
+    public ResultTemplate getMyChallengeList(User user, Long lastItemId, int size) {
+
+        List<Challenge> list = challengeQueryRepository.getChallengeByUserId(user.getUserId(), lastItemId, size);
+        if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_CHALLENGE_LIST);
+
+        List<ResponseMyChallengeInfo> resultList = new ArrayList<>();
+        int count = 0;
+        for(Challenge challenge : list){
+            ResponseMyChallengeInfo tmp = ResponseMyChallengeInfo.from(challenge);
+            resultList.add(tmp);
+            if(++count == size) break;
+        }
+
+        boolean hasNext = (list.size() > size);
+        ResponseMyChallengeInfoResult response = ResponseMyChallengeInfoResult.from(resultList, hasNext);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
 }

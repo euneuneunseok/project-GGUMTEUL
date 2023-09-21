@@ -161,4 +161,14 @@ public class ChallengeController {
 
         return challengeService.getChallengeDetails(user, challengeId, lastItemId, size);
     }
+
+    @GetMapping(value = "/mychallange/list")
+    public ResultTemplate getMyChallengeList(@RequestParam(value = "lastItemId", required = false) Long lastItemId,
+                                             @RequestParam("size") int size){
+
+        User user = userRepository.findByUserId(3L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return challengeService.getMyChallengeList(user, lastItemId, size);
+    }
 }
