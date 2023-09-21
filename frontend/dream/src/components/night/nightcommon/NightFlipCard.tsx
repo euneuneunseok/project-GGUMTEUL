@@ -34,7 +34,7 @@ const CustomKeywordBox = styled.div`
 
 const NightFlipCardKeyBtnWrap = styled.div`
   display: grid;
-  grid-template-columns: 0.7fr 0.3fr;
+  grid-template-columns: 7fr 3fr;
   margin: inherit;
 `
 const NightFlipCardKeywordWrap = styled.div`
@@ -56,7 +56,7 @@ const NightFlipCardBotWrap = styled.div`
 `
 
 export interface ReverseCardProps {
-  reverseCardData ?: ReverseCardType |null
+  reverseCardData ?: ReverseCardType | null
 }
 
 const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
@@ -78,27 +78,23 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
       }}>
   {/* <div className="card-image"></div> */}
       <Image $mainImage $nightImageBorder>
-        <img src="https://s3.ap-northeast-2.amazonaws.com/b301.s3test.bucket/userProfile/1283c65e-ba59-4a67-8852-b4a20abf6500%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png
-"/>
+        <img src={reverseCardData?.dreamCardImageUrl}/>
       </Image>
         <div className="card-description" style={dreamCardFlipStyle}>
           <NightFlipCardKeyBtnWrap >
             <NightFlipCardKeywordWrap>
-              <CustomKeywordBox className="blockClickEvent"> 
-                <Text $nightKeword className="blockClickEvent">
-                키워드1
-                </Text>
-              </CustomKeywordBox >
-              <CustomKeywordBox className="blockClickEvent">
-                <Text $nightKeword className="blockClickEvent">
-                  키워드2
-                </Text>          
-              </CustomKeywordBox>
-              <CustomKeywordBox className="blockClickEvent">
-                <Text $nightKeword className="blockClickEvent">
-                    키워드3
-                </Text>          
-              </CustomKeywordBox>
+              {/* 키워드 3개까지만 출력하기 */}
+              { (Array.isArray(reverseCardData?.keywords) && reverseCardData?.keywords.length !== 0 ) ? 
+              reverseCardData?.keywords.map((keyword, idx) => (
+                (idx <= 2 && keyword !== null) ? (
+                <CustomKeywordBox className="blockClickEvent" key={idx}> 
+                  <Text $nightKeword className="blockClickEvent">
+                    {/* {keyword} */}
+                  </Text>
+                </CustomKeywordBox >
+                ) : null
+              )) 
+              : null }
             </NightFlipCardKeywordWrap>
             {/* d */}
             <ButtonDiv >
