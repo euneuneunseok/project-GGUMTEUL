@@ -106,6 +106,20 @@ public class ChallengeDetailQueryRepository {
                 .fetch();
     }
 
+    public List<ChallengeDetail> getChallengeDetailByChallegeId(Long challengeId, Long lastItemId, int size) {
+
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+
+        return queryFactory.selectFrom(challengeDetail)
+                .where(
+                        challengeDetail.challenge.challengeId.eq(challengeId),
+                        lastItemIdLt(lastItemId)
+                        )
+                .orderBy(challengeDetail.challengeDetailId.desc())
+                .limit(size + 1)
+                .fetch();
+    }
+
 
     private BooleanExpression lastItemIdLt(Long lastItemId) {
         return lastItemId != null ? challengeDetail.challengeDetailId.lt(lastItemId) : null;

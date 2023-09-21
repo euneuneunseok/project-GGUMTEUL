@@ -38,7 +38,7 @@ public class ChallengeService {
     private final DreamKeywordRepository dreamKeywordRepository;
     private final commentQueryRepository commentQueryRepository;
     private final ChallengeQueryRepository challengeQueryRepository;
-    private final ChallengeDetailRepositoy challengeDetailRepositoy;
+    private final ChallengeDetailRepository challengeDetailRepository;
     private final ChallengeKeywordRepository challengeKeywordRepository;
     private final ChallengeDetailQueryRepository challengeDetailQueryRepository;
     private final ChallengeParticipationRepository challengeParticipationRepository;
@@ -221,7 +221,7 @@ public class ChallengeService {
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
 
         ChallengeDetail challengeDetail = ChallengeDetail.makeChallengeDetail(user, requestChallengeDetail, challenge, fileName);
-        challengeDetailRepositoy.save(challengeDetail);
+        challengeDetailRepository.save(challengeDetail);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
@@ -277,7 +277,7 @@ public class ChallengeService {
     @Transactional
     public ResultTemplate postComment(User user, RequestComment request) {
 
-        ChallengeDetail challengeDetail = challengeDetailRepositoy.findById(request.getDetailId())
+        ChallengeDetail challengeDetail = challengeDetailRepository.findById(request.getDetailId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_DETAIL_NOT_FOUND));
 
         comment postComment = comment.makeComment(user, request, challengeDetail);
@@ -299,7 +299,7 @@ public class ChallengeService {
     @Transactional
     public ResultTemplate postLike(User user, Long challengeDetailId) {
 
-        ChallengeDetail challengeDetail = challengeDetailRepositoy.findById(challengeDetailId)
+        ChallengeDetail challengeDetail = challengeDetailRepository.findById(challengeDetailId)
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_DETAIL_NOT_FOUND));
 
         challengeDetail.addChallengeDetailLike(user);
@@ -310,10 +310,35 @@ public class ChallengeService {
     @Transactional
     public ResultTemplate postUnLike(User user, Long challengeDetailId) {
 
-        ChallengeDetail challengeDetail = challengeDetailRepositoy.findById(challengeDetailId)
+        ChallengeDetail challengeDetail = challengeDetailRepository.findById(challengeDetailId)
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_DETAIL_NOT_FOUND));
 
         challengeDetail.deleteChallengeDetailLike(user);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
+    public ResultTemplate getChallengeDetails(User user, Long challengeId, Long lastItemId, int size) {
+
+        List<ChallengeDetail> list = challengeDetailQueryRepository.getChallengeDetailByChallegeId(challengeId, lastItemId, size);
+        if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_CHALLENGE_DETAIL);
+
+        // 이거 이제 챌린지 디테일 디티오로 반환할꺼임
+
+        List<ResponseChallengeDetail> challengeDetailList = new ArrayList<>();
+        int count = 0;
+        for (ChallengeDetail challengeDetail : list) {
+            boolean isLike = challengeDetail.getChallengeDetailLikes().stream()
+                    .anyMatch(like -> like.getUser().getUserId().equals(user.getUserId()));
+
+            ResponseChallengeDetail tmp = ResponseChallengeDetail.from(challengeDetail, isLike);
+            // challengeDetailCount 처리
+            challengeDetailList.add(tmp);
+            if(++count == size) break;
+        }
+
+        boolean hasNext = (list.size() > size);
+        ResponseChallengeDetailResult response = ResponseChallengeDetailResult.from(challengeDetailList, hasNext);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }

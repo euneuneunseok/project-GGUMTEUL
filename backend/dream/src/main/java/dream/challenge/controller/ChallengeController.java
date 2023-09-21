@@ -150,4 +150,15 @@ public class ChallengeController {
 
         return challengeService.postUnLike(user, challengeDetailId);
     }
+
+    @GetMapping(value = "/challange/detail/{challengeId}/list")
+    public ResultTemplate getChallengeDetails(@PathVariable("challengeId") Long challengeId,
+                                              @RequestParam(value = "lastItemId", required = false) Long lastItemId,
+                                              @RequestParam("size") int size) {
+
+        User user = userRepository.findByUserId(2L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return challengeService.getChallengeDetails(user, challengeId, lastItemId, size);
+    }
 }
