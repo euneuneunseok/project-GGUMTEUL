@@ -1,13 +1,9 @@
-// 그냥 이미지 (플립 없음)
-// 키워드들 - <KeywordRegion></KeywordRegion>
-// 등급 - <GradeRegion></GradeRegion>
-
-// 2개의 TextBox -> 내부에서 만듦
-// 2개의 MiddleButton ~ WrappingDouple
-// 로그인 유저 보유 꿈머니
-
 // 리액트
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { useParams } from "react-router-dom";
+
+// 외부 
+import basicHttp from "api/basicHttp";
 
 // 컴포넌트
 import Button from "components/common/Button";
@@ -34,7 +30,7 @@ const SmallText = styled(Text)`
   margin-top: 0.25rem;
 `
 
-interface AuctionDetailAxiosType {
+interface AuctionDetailType {
   biddingId : number;
   userId : number;
   biddingMoney : number;
@@ -46,7 +42,7 @@ interface AuctionDetailAxiosType {
   askingMoney : number; // 호가
   biddingCount : number;
   dreamCardId: number;
-  dreamCardImageUrl : string[];
+  dreamCardImageUrl : string;
   keywords : string[];
   positiveGrade : string;
   rareGrade : string;
@@ -57,21 +53,51 @@ interface AuctionDetailAxiosType {
 // AuctionDetail과 Buying은 결국 가운데 바꿔끼기밖에 없음 (신규 렌더링은 낭비 같음)
 // 경로는 다르게해도, useEffect -> location path 이걸로 보이는걸 다르게하면 어떨까.
 const AuctionDetail = () => {
+  const {dreamCardId} = useParams()
+  const [auctionItem, setAuctionItem] = useState<AuctionDetailType>()
+
+  useEffect(()=> {
+    basicHttp.get(`/auction/detail/${dreamCardId}`)
+    .then(res => {
+      setAuctionItem(res.data.data)
+      console.log(res.data.data, "경매장 입장")
+    })
+  }, [])
+
+  const diffHour = () :number => {
+    const today = new Date()
+    const todayHour = today.getHours()
+    const endedTime = new Date(auctionItem?.endedAt ? auctionItem?.endedAt : "")
+    const endedHour = endedTime.getHours()
+    if (endedHour === 0) {
+      if (todayHour === 22) return 2
+      else if (todayHour === 23) return 1
+      else if (todayHour === 0) return 0
+      return 3
+    } else if (endedHour === 1) {
+      if (todayHour === 23) return 2
+      else if (todayHour === 0) return 1
+      else if (todayHour === 1) return 0
+      return 3
+    } else return endedHour - todayHour
+  }
 
   return (
     <>
     <Container $baseContainer>
       <Image $mainImage $nightImageBorder>
-        <img src={`${process.env.PUBLIC_URL}/image/samsung.png`}
+        <img src={auctionItem?.dreamCardImageUrl}
         />
       </Image>
     </Container>
     
     {/* 키워드 영역 */}
-    <DreamKeywordRegion keywords={["Dd", "DD"]}/>
+    <DreamKeywordRegion keywords={auctionItem?.keywords}/>
 
     {/* 길몽도, 희귀도 상속 필요 */}
-    <DreamCardGrade positiveGrade="S" rareGrade="SS"/>
+    <DreamCardGrade 
+    positiveGrade={auctionItem?.positiveGrade} 
+    rareGrade={auctionItem?.rareGrade}/>
 
     {/* 입찰마감 & 현재최고가 */}
     <Container $baseContainer>

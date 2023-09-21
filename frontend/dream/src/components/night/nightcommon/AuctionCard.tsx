@@ -66,18 +66,15 @@ const AuctionCard = ({auctionCard} : AuctionCardProps) => {
           onClick={() => navigation(`/night/search?searchKeyword=${Object.values(keyword)}`)}
           >{Object.values(keyword)}</Box>  
         ))}
-      {/* 키워드 영역 */}
       </div>
 
       <div className="grade-region clearfix">
         <div className="one-second">
-          {/* 추후 자동화 */}
           <div className="grade">{auctionCard?.positiveGrade}</div>
           <div className="grade-value">길몽</div>
         </div>
 
         <div className="one-second">
-          {/* 추후 자동화 */}
           <div className="grade">{auctionCard?.rareGrade}</div>
           <div className="grade-value">희귀</div>
         </div>
