@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static dream.challenge.domain.QChallengeDetail.challengeDetail;
 
@@ -102,6 +103,21 @@ public class ChallengeDetailQueryRepository {
                 .fetch();
     }
 
+    public List<ChallengeDetail> getOneChallengeDetailByUserIdAndChallengeIdAndDate(Long userId, Long challengeMidId) {
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+        return queryFactory.select(challengeDetail)
+                .from(challengeDetail)
+                .where(
+                        challengeDetail.user.userId.eq(userId),
+                        challengeDetail.challenge.challengeId.eq(challengeMidId),
+                        challengeDetail.createdAt.between(startOfDay, endOfDay)
+                )
+                .fetch();
+    }
+
     public List<ChallengeDetail> getChallengeDetailByChallengeId(Long challengeId, Long lastItemId, int size) {
 
         QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
@@ -131,6 +147,4 @@ public class ChallengeDetailQueryRepository {
     private BooleanExpression lastItemIdLt(Long lastItemId) {
         return lastItemId != null ? challengeDetail.challengeDetailId.lt(lastItemId) : null;
     }
-
-
 }

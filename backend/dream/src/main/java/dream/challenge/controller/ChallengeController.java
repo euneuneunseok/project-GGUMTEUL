@@ -74,7 +74,6 @@ public class ChallengeController {
         return challengeService.postParicipateChallenge(user.getUserId(), request.getChallengeId());
     }
 
-
     @PutMapping(value = "/challenge/hits")
     public ResultTemplate updateChallengeHits(@RequestBody RequestChallengeId request) {
 
@@ -170,5 +169,14 @@ public class ChallengeController {
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         return challengeService.getMyChallengeList(user, lastItemId, size);
+    }
+
+    @GetMapping(value = "/challenge/{challengeDetailId}")
+    public ResultTemplate getMyChallengeInfo(@PathVariable("challengeDetailId") Long challengeMidId){
+
+        User user = userRepository.findByUserId(3L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return challengeService.getMyChallengeInfo(user, challengeMidId);
     }
 }

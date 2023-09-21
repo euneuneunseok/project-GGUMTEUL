@@ -361,4 +361,19 @@ public class ChallengeService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
+
+    public ResultTemplate getMyChallengeInfo(User user, Long challengeMidId) {
+
+        Challenge challenge = challengeRepository.findById(challengeMidId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CHALLENGE_NOT_FOUND));
+
+        List<ChallengeDetail> challengeDetailList = challengeDetailQueryRepository
+                .getOneChallengeDetailByUserIdAndChallengeIdAndDate(user.getUserId(), challengeMidId);
+
+        boolean canWrite = challengeDetailList.isEmpty();
+
+        ResponseMyChallengeInfoDetail response = ResponseMyChallengeInfoDetail.from(challenge, canWrite);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
 }
