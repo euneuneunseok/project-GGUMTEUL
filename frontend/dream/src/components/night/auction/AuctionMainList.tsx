@@ -61,7 +61,6 @@ const AuctionMainList = () => {
             <AuctionCard auctionCard={item} key={item.auctionId} />
           ))
         }
-        <AuctionCard />
       </Wrap>
     </>
   )

@@ -32,23 +32,47 @@ export interface AuctionCardProps {
 }
 
 const AuctionCard = ({auctionCard} : AuctionCardProps) => {
-  const today = new Date()
-  const endedTime = new Date(auctionCard?.endedAt ? auctionCard?.endedAt : "")
   
+  // 시간 계산
+  const diffHour = () :number => {
+    const today = new Date()
+    const todayHour = today.getHours()
+    const endedTime = new Date(auctionCard?.endedAt ? auctionCard?.endedAt : "")
+    const endedHour = endedTime.getHours()
+    if (endedHour === 0) {
+      if (todayHour === 22) return 2
+      else if (todayHour === 23) return 1
+      else if (todayHour === 0) return 0
+      return 3
+    } else if (endedHour === 1) {
+      if (todayHour === 23) return 2
+      else if (todayHour === 0) return 1
+      else if (todayHour === 1) return 0
+      return 3
+    } else return endedHour - todayHour
+  }
+  
+  console.log(auctionCard?.keywords, "키워드들")
+  console.log(auctionCard?.keywords.keys, "키워드들1")
+
   return (
     <>
     {/* <AuctionCardFrame>
     </AuctionCardFrame> */}
     <div className="auction-card">
-      <div className="auction-end-time">마감 2시간 전</div>
+      <div className="auction-end-time"> 
+      {diffHour() < 3 ? ( diffHour() > 0 ? `마감 ${diffHour()}시간 전` : "종료 임박") : "경매장 입장"}
+      </div>
       <div className="auction-card-image">
         <Image $nightImageBorder $auctionCard><img src={auctionCard?.dreamCardImageUrl}/></Image>
-        {/* <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png" alt="barbarian" /> */}
       </div>
       <div className="keyword-region">
-        <Box $keywordBoxNight>손틈새로</Box>
-        <Box $keywordBoxNight>비추는</Box>
-        <Box $keywordBoxNight>아이유</Box>
+        {/* keywords가 객체인 문제임 */}
+        {/* {auctionCard?.keywords.map((word, idx) => (
+          (idx > 0 && 
+            <Box $keywordBoxNight key={idx}>{JSON.stringify(word)}</Box>
+            )
+        ))} */}
       {/* 키워드 영역 */}
       </div>
 
