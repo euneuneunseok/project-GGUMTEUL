@@ -101,7 +101,9 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
               reverseCardData?.keywords.map((keyword, idx) => (
                 (idx <= 2 && keyword !== null) ? (
                 <CustomKeywordBox className="blockClickEvent" key={idx}> 
-                  <Text $nightKeword className="blockClickEvent">
+                  <Text $nightKeword className="blockClickEvent"
+                    onClick={() => navigation(`/night/search?searchKeyword=${Object.values(keyword)}`)}
+                  >
                     {Object.values(keyword)}
                   </Text>
                 </CustomKeywordBox >
