@@ -53,7 +53,7 @@ const AuctionCard = ({auctionCard} : AuctionCardProps) => {
   }
   
   console.log(auctionCard?.keywords, "키워드들")
-  console.log(auctionCard?.keywords.keys, "키워드들1")
+  console.log(auctionCard?.keywords, "키워드들1")
 
   return (
     <>
@@ -68,11 +68,9 @@ const AuctionCard = ({auctionCard} : AuctionCardProps) => {
       </div>
       <div className="keyword-region">
         {/* keywords가 객체인 문제임 */}
-        {/* {auctionCard?.keywords.map((word, idx) => (
-          (idx > 0 && 
-            <Box $keywordBoxNight key={idx}>{JSON.stringify(word)}</Box>
-            )
-        ))} */}
+        {auctionCard?.keywords.map((word, idx) => (
+          <Box $keywordBoxNight key={idx}>{Object.values(word)}</Box>  
+        ))}
       {/* 키워드 영역 */}
       </div>
 
