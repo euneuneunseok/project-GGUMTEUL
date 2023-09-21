@@ -10,6 +10,9 @@ import React from "react";
 
 // 컴포넌트
 
+// 타입 & 외부
+import { AuctionItemType } from "../auction/AuctionMainList";
+
 // 스타일
 import { Box } from "style/Box";
 import styled, {css} from "styled-components";
@@ -24,19 +27,22 @@ const AuctionCardFrame = styled.div`
   height: 75vw;
 `
 
+export interface AuctionCardProps {
+  auctionCard ?: AuctionItemType | null
+}
 
-
-const AuctionCard = () => {
-
+const AuctionCard = ({auctionCard} : AuctionCardProps) => {
+  const today = new Date()
+  const endedTime = new Date(auctionCard?.endedAt ? auctionCard?.endedAt : "")
+  
   return (
     <>
-
     {/* <AuctionCardFrame>
     </AuctionCardFrame> */}
     <div className="auction-card">
       <div className="auction-end-time">마감 2시간 전</div>
       <div className="auction-card-image">
-        <Image $nightImageBorder $auctionCard><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
+        <Image $nightImageBorder $auctionCard><img src={auctionCard?.dreamCardImageUrl}/></Image>
         {/* <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png" alt="barbarian" /> */}
       </div>
       <div className="keyword-region">
@@ -49,13 +55,13 @@ const AuctionCard = () => {
       <div className="grade-region clearfix">
         <div className="one-second">
           {/* 추후 자동화 */}
-          <div className="grade">SS</div>
+          <div className="grade">{auctionCard?.positiveGrade}</div>
           <div className="grade-value">길몽</div>
         </div>
 
         <div className="one-second">
           {/* 추후 자동화 */}
-          <div className="grade">S</div>
+          <div className="grade">{auctionCard?.rareGrade}</div>
           <div className="grade-value">희귀</div>
         </div>
 
