@@ -161,7 +161,7 @@ const StyledBox = styled.div<BoxProps>`
       margin-bottom: 3rem;
       border-radius: 1rem;
       display:flex;
-      justify-content:center;
+      justify-content:start;
       align-items:center;
     `
   }
