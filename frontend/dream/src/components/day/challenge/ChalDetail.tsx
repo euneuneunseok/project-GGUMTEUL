@@ -16,6 +16,8 @@ import basicHttp from "api/basicHttp";
 import ChalDetailInfo from "./ChalDetailInfo";
 import Button from "components/common/Button";
 import ChalCertArticle from "./ChalCertArticle";
+import Container from "style/Container";
+import { useNavigate } from "react-router-dom";
 
 // 스타일
 
@@ -60,6 +62,8 @@ const initialChalDetail:ChalDetailInfoProps = {
 
 const ChalDetail = () => {
 
+  const navigate = useNavigate()
+
   const [chalDetailData,setChalDetailData] = useState<ChalDetailDataType>(initialChalDetail.chalDetailData)
   const [chalParticipate, setChalParticipate] = useState<boolean>(true)
   const [chalParticipateDay,setChalParticipateDay] = useState<number>(0)
@@ -68,8 +72,8 @@ const ChalDetail = () => {
     basicHttp.get('/day/challenge/item/2')
       .then((response)=>{
         const res = response.data.data
-        setChalParticipate(res.participate)
         setChalDetailData(res.detail)
+        setChalParticipate(res.participate)
         setChalParticipateDay(res.participateDay)
         // console.log(res)
       })
@@ -77,15 +81,29 @@ const ChalDetail = () => {
   },[])
 
   return (
-    <>
+    <Container $dayBaseContainer>
     {/* 공부흔적 남기기 */}
-    <ChalDetailInfo chalDetailData={chalDetailData} />
+    <ChalDetailInfo chalDetailData={chalDetailData}/>
 
     {/* 참여하기 버튼 */}
-    
+    {
+      chalDetailData ? (
+        <Button 
+          $fullWidth 
+          $dayBlue 
+          onClick={()=>{navigate('/day/mychallenge/:challengeId')}}
+        >관리하기</Button>
+        ):(
+        <Button 
+          $fullWidth 
+          $dayBlue 
+          onClick={()=>{navigate('/day/challenge/create')}}
+        >참여하기</Button>
+      )
+    }
     {/* 인증글 목록 */}
     <ChalCertArticle />
-    </>
+    </Container>
   )
 }
 export default ChalDetail
