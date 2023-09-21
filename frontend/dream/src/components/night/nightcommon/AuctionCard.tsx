@@ -49,8 +49,7 @@ const AuctionCard = ({auctionCard} : AuctionCardProps) => {
   
   return (
     <>
-    {/* <AuctionCardFrame>
-    </AuctionCardFrame> */}
+    {/* 옥션 카드에 존재하는 키워드박스 클릭할 때도 경매장 가는 거 막아야 함. */}
     <div className="auction-card"
     onClick={() => navigation(`/night/auction/detail/${auctionCard?.dreamCardId}`)}    
     >
