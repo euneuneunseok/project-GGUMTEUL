@@ -98,6 +98,20 @@ const AuctionDetail = () => {
     } else return endedHour - todayHour
   }
 
+  // 꿈 즉시구매
+  const buyDreamCardNow = () => {
+    // 내 꿈머니보다 즉시구매가 높으면 돌려보내기 구현 필요
+
+    basicHttp.put(`/auction/purchase`, auctionItem?.dreamCardId)
+    .then(res => {
+      if (res.data.status === 204) {
+        // 고새 누가 구매해서 카드 없으면... alert..?
+        alert("판매된 카드입니다.")
+      }
+    })
+
+  }
+
   return (
     <>
     <Container $baseContainer>
@@ -135,7 +149,10 @@ const AuctionDetail = () => {
     {/* 버튼 2개 */}
     <Container $baseContainer>
     <Wrap $spaceBetweenWrap>
-      <Button $halfWidthImeBuy>
+      {/* 클릭하면 즉시 구매 & 우리 꿈머니 차감 필요 */}
+      <Button $halfWidthImeBuy
+      onClick={buyDreamCardNow}
+      >
         <Text $isBold>즉시 구매</Text>
         <SmallText>{auctionItem?.immediatelyBuyMoney} 꿈포인트</SmallText>
       </Button>
