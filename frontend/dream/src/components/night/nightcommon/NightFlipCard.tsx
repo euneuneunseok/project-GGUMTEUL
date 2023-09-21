@@ -107,8 +107,9 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
             </NightFlipCardKeywordWrap>
             {/* d */}
             <ButtonDiv >
-              <Button $nightMiddlePurple className="blockClickEvent">꿈 경매</Button>
-            </ButtonDiv>
+              {/* 경매 상태 T일 때만 버튼 보임 */}
+              { reverseCardData?.auctionStatus === "T" &&             
+              <Button $nightMiddlePurple className="blockClickEvent">꿈 경매</Button>}            </ButtonDiv>
           </NightFlipCardKeyBtnWrap>
 
           <DreamCardGrade positiveGrade={reverseCardData?.positiveGrade} rareGrade={reverseCardData?.rareGrade}/>
