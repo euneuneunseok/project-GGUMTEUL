@@ -80,7 +80,7 @@ const SignUp = () => {
     // axios(url) 보냈는데 
     // response 가 중복(true)이라면 -> setWrongNicknameSign('double')
     // 중복 x -> setWrongNicknameSign('good')
-    basicHttp.get(`user/nickname/duplication/${nickname}`)
+    basicHttp.get(`/user/nickname/duplication/${nickname}`)
       .then((response)=>{
         console.log(response)
       })
