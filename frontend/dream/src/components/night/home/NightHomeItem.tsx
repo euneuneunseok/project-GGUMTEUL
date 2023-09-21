@@ -1,9 +1,6 @@
-// 제목
-{/* <NightFlipCard></NightFlipCard> */}
-// 좋아요
-
 // 리액트
 import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 // 외부 파일
 import axios from "axios";
@@ -79,8 +76,8 @@ export interface ReverseCardType {
 }
 
 const NightHomeItem = ({cardData}:NightHomeItemProps) => {
+  const navigation = useNavigate()
   const [reverseCard, setReverseCard] = useState<ReverseCardType | null>(null)
-  console.log(cardData)
   useEffect(()=> {
     basicHttp(`/night/dream/detail/${cardData.dreamCardId}`)
     .then(res=> {
@@ -89,6 +86,13 @@ const NightHomeItem = ({cardData}:NightHomeItemProps) => {
     })
     .catch(err => console.log(err, "아이템 에러"))
   }, [])
+
+  
+  // 꿈 주인 유저 프로필로 이동
+  const moveUserProfile = () => {
+    navigation(`/night/profile/${cardData?.dreamCardOwner}`)
+  }
+  
   return (
     <>
     <Container $baseContainer>
@@ -97,12 +101,14 @@ const NightHomeItem = ({cardData}:NightHomeItemProps) => {
         <ProfileWrap>
           <CustomImage 
           // 여기에 이동하는 곳
-          onClick={()=>console.log("짠")}
+          onClick={moveUserProfile}
           >
             {/* 에러나서 주석처리 */}
             {/* <img src={cardData?.ownerProfileUrl} alt="없음"/> */}
           </CustomImage>
-          <Text $verticalAlign $nightWhite> {reverseCard?.ownerNickname} </Text>
+          <Text $verticalAlign $nightWhite
+          onClick={moveUserProfile}
+          > {reverseCard?.ownerNickname} </Text>
         </ProfileWrap>
         <Text $verticalAlign $nightWhite>{changeDate(cardData.createAt)}</Text>
       </ProfileDateWrap>

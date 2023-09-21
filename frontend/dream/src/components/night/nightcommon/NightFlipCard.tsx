@@ -23,6 +23,7 @@ import Text from "style/Text";
 // 타입
 import { ReverseCardType } from "../home/NightHomeItem";
 import { changeDate } from "utils/dateForm";
+import { useNavigate } from "react-router-dom";
 
 const CustomKeywordBox = styled.div`
   background-color: #3b3170;
@@ -60,12 +61,19 @@ export interface ReverseCardProps {
 }
 
 const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
+  const navigation = useNavigate()
 
   const [isFlipCard, setIsFlipCard] = useState(false)
 
   const dreamCardFlipStyle = {
     transform: isFlipCard ? 'translateY(0)' : "translateY(100%)"
   }
+
+  // 꿈 주인 유저 프로필로 이동
+  const moveUserProfile = () => {
+    navigation(`/night/profile/${reverseCardData?.dreamCardOwner}`)
+  }
+  
 
   return (
     <>
@@ -105,7 +113,9 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
 
           <DreamCardGrade positiveGrade={reverseCardData?.positiveGrade} rareGrade={reverseCardData?.rareGrade}/>
           <NightFlipCardBotWrap >
-            <Text className="blockClickEvent"> {reverseCardData?.ownerNickname} </Text>
+            <Text className="blockClickEvent"
+            onClick={moveUserProfile}
+            > {reverseCardData?.ownerNickname} </Text>
             <Text>{changeDate(reverseCardData?.createdAt)}</Text>
           </NightFlipCardBotWrap>
         </div>
