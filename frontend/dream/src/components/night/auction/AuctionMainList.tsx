@@ -24,7 +24,7 @@ export interface AuctionMainType {
   size: number
 }
 
-export interface AuctionItemType {
+export interface AuctionCardType {
   dreamCardId: number;
   dreamCardImageUrl: string;
   keywords: string[];
@@ -36,7 +36,7 @@ export interface AuctionItemType {
   auctionId: number;
 }
 
-export interface AuctionListType extends Array<AuctionItemType> {}
+export interface AuctionListType extends Array<AuctionCardType> {}
 
 const AuctionMainList = () => {
   const [auctionList, setAuctionList] = useState<AuctionListType>([])

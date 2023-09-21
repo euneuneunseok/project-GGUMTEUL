@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // 컴포넌트
 
 // 타입 & 외부
-import { AuctionItemType } from "../auction/AuctionMainList";
+import { AuctionCardType } from "../auction/AuctionMainList";
 
 // 스타일
 import { Box } from "style/Box";
@@ -22,11 +22,12 @@ const AuctionCardFrame = styled.div`
 `
 
 export interface AuctionCardProps {
-  auctionCard ?: AuctionItemType | null
+  auctionCard ?: AuctionCardType | null
 }
 
 const AuctionCard = ({auctionCard} : AuctionCardProps) => {
   const navigation = useNavigate()
+
   // 시간 계산
   const diffHour = () :number => {
     const today = new Date()
