@@ -89,6 +89,7 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
                 (idx <= 2 && keyword !== null) ? (
                 <CustomKeywordBox className="blockClickEvent" key={idx}> 
                   <Text $nightKeword className="blockClickEvent">
+                    {/* 키워드가 빈 배열이라 에러 발생하여 임시로 막음 */}
                     {/* {keyword} */}
                   </Text>
                 </CustomKeywordBox >
