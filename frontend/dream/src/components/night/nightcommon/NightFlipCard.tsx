@@ -73,6 +73,11 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
   const moveUserProfile = () => {
     navigation(`/night/profile/${reverseCardData?.dreamCardOwner}`)
   }
+
+  // 경매장 입장
+  const enterAuctionSpace = () => {
+    navigation(`/night/auction/detail/${reverseCardData?.dreamCardId}`)
+  }
   
 
   return (
@@ -109,7 +114,9 @@ const NightFlipCard = ({reverseCardData}: ReverseCardProps) => {
             <ButtonDiv >
               {/* 경매 상태 T일 때만 버튼 보임 */}
               { reverseCardData?.auctionStatus === "T" &&             
-              <Button $nightMiddlePurple className="blockClickEvent">꿈 경매</Button>}            </ButtonDiv>
+              <Button $nightMiddlePurple className="blockClickEvent"
+              onClick={enterAuctionSpace}
+              >꿈 경매</Button>}            </ButtonDiv>
           </NightFlipCardKeyBtnWrap>
 
           <DreamCardGrade positiveGrade={reverseCardData?.positiveGrade} rareGrade={reverseCardData?.rareGrade}/>
