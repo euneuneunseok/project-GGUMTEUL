@@ -17,6 +17,7 @@ import basicHttp from "api/basicHttp";
 
 // 스타일
 import Wrap from "style/Wrap";
+import { useNavigate } from "react-router-dom";
 
 export interface AuctionMainType {
   color : string
@@ -38,7 +39,6 @@ export interface AuctionItemType {
 export interface AuctionListType extends Array<AuctionItemType> {}
 
 const AuctionMainList = () => {
-
   const [auctionList, setAuctionList] = useState<AuctionListType>([])
   const size = 10
 

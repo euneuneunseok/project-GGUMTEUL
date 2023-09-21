@@ -46,14 +46,13 @@ const AuctionCard = ({auctionCard} : AuctionCardProps) => {
     } else return endedHour - todayHour
   }
   
-  console.log(auctionCard?.keywords, "키워드들")
-  console.log(auctionCard?.keywords, "키워드들1")
-
   return (
     <>
     {/* <AuctionCardFrame>
     </AuctionCardFrame> */}
-    <div className="auction-card">
+    <div className="auction-card"
+    onClick={() => navigation(`/night/auction/detail/${auctionCard?.dreamCardId}`)}    
+    >
       <div className="auction-end-time"> 
       {diffHour() < 3 ? ( diffHour() > 0 ? `마감 ${diffHour()}시간 전` : "종료 임박") : "경매장 입장"}
       </div>
