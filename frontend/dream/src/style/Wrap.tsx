@@ -117,7 +117,7 @@ const StyledWrap = styled.div<WrapProps>`
           /* 닉네임 + 버튼 부분 */
           & > div:nth-child(1) {
             display: grid;
-            grid-template-columns: 4fr 3fr;
+            grid-template-columns: 4fr 2fr;
             align-items: center;
 
             & > div:nth-child(2){
