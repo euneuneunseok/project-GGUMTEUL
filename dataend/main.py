@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/")
+@app.get("/data")
 def root():
     return "Hello FastAPI"
 
