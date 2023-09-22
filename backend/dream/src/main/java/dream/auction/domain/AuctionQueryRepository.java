@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static dream.auction.domain.QAuction.auction;
 import static dream.card.domain.QDreamCard.dreamCard;
@@ -117,6 +118,35 @@ public class AuctionQueryRepository {
 
 
     }
+
+    public List<Bidding> findBiddingById(Long auctionId){
+
+        QBidding bidding = QBidding.bidding;
+
+        return queryFactory.selectFrom(bidding)
+                .distinct()
+                .leftJoin(bidding.user).fetchJoin()
+                .where(
+                        bidding.auction.auctionId.eq(auctionId)
+                )
+                .orderBy(bidding.biddingId.desc())
+                .fetch();
+    }
+    public Optional<Bidding> findTopBiddingById(Long auctionId){
+
+        QBidding bidding = QBidding.bidding;
+
+        return Optional.ofNullable(queryFactory.selectFrom(bidding)
+                .distinct()
+                .leftJoin(bidding.user).fetchJoin()
+                .where(
+                        bidding.auction.auctionId.eq(auctionId)
+                )
+                .orderBy(bidding.biddingId.desc())
+                .fetchOne());
+    }
+
+
 
     private BooleanExpression lastItemIdLt(Long lastItemId) {
         return lastItemId != null ? auction.auctionId.lt(lastItemId) : null;
