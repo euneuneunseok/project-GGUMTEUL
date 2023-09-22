@@ -15,7 +15,7 @@ import basicHttp from "api/basicHttp";
 // 컴포넌트
 import ChalDetailInfo from "./ChalDetailInfo";
 import Button from "components/common/Button";
-import ChalCertArticle from "./ChalCertArticle";
+import ChalCertArticleList from "./ChalCertArticleList";
 import Container from "style/Container";
 import { useNavigate } from "react-router-dom";
 
@@ -102,7 +102,7 @@ const ChalDetail = () => {
       )
     }
     {/* 인증글 목록 */}
-    <ChalCertArticle />
+    <ChalCertArticleList />
     </Container>
   )
 }

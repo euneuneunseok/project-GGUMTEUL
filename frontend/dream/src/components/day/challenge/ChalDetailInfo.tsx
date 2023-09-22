@@ -89,11 +89,6 @@ const ChalDetailInfo: React.FC<ChalDetailInfoProps> = (props) => {
           </Button>
         )
       }
-      
-      
-      
-      
-
     </Container>
   )
 }
