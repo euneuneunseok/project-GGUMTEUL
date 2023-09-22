@@ -184,6 +184,28 @@ const StyledWrap = styled.div<WrapProps>`
       z-index: 300;
 
       & > .story {
+
+        /* 터치 이벤트 오른쪽 영역 */
+        & > .storyRight {
+          position: absolute;
+          width: 50%;
+          height: 90%;
+          bottom: 0;
+          right: 0;
+          /* background-color: aliceblue; */
+          z-index: 999;
+        }
+
+        /* 터치 이벤트 왼쪽 영역 */
+        & > .storyLeft {
+          position: absolute;
+          width: 50%;
+          height: 90%;
+          bottom: 0;
+          left: 0;
+          /* background-color: aliceblue; */
+          z-index: 999;
+        }
         
         /* 터치 이벤트 높이 지정 */
         & > div > div:nth-child(3) {
