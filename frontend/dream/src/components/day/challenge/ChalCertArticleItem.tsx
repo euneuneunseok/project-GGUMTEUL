@@ -14,6 +14,7 @@ import { CertArticleItemType } from "./ChalCertArticleList";
 import Image from "style/Image";
 import styled from "styled-components";
 import Container from "style/Container";
+import { Box } from "style/Box";
 
 const ProfileDateWrap = styled.div`
   display: flex;
@@ -51,28 +52,58 @@ const MarginBot = styled.div`
 `
 
 const BottomContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 2fr 8fr;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
 `
 
 const HeartCommentContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 0.5rem;
-  & :first-child {
-    display: flex;
-    align-items: center;
-    /* justify-content: space-between; */
-    font-size: 1rem;
-    margin: 0;
-  }
-
   & > svg {
-    margin-left: 1rem;
     margin-right: 0.5rem;
     font-size: 1.2rem;
   }
+
+  & > div {
+    margin: 0;
+  }
+
 `
+
+// progress 속성을 정의
+interface ProgressBarProps {
+  progress: number;
+}
+
+const ProgressBar = styled.div<ProgressBarProps>`
+  height: 0.8rem;
+  border-radius: 1rem;
+  color: #997ad8;
+  position: relative;
+  background-color: #F9F9F9;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 calc(${props => 100 -props.progress}%) 0 0;
+    border-radius: inherit;
+    background: currentColor;
+    animation: p6 2s;
+  }
+  @keyframes p6 {
+    /* 100% {inset:0} */
+    0% {
+      width: 0;
+    }
+    100% {
+      width: ${props => props.progress}%; // 원하는 최대 너비
+    }
+  }
+`
+
 
 interface CertArticleItemProps {
   certData : CertArticleItemType
@@ -83,10 +114,9 @@ const moveUserProfile = () => {
 
 }
 
-
+// 메인 리턴 부분
 const ChalCertArticleItem = ({certData}:CertArticleItemProps) => {
-
-
+  const [progress, setProgress] = useState<number>(70);
 
   return (
     <>
@@ -117,21 +147,28 @@ const ChalCertArticleItem = ({certData}:CertArticleItemProps) => {
     {/* 인증 글 하단바 */}
     <BottomContainer>
 
-      {/* 좋아요 버튼 */ }
+      {/* 왼쪽 파트 (좋아요 댓글) */ }
       <HeartCommentContainer>
         <Heart
         isLike={certData.like}
         likedNumber={certData.likeCount}
         /> 
+      </HeartCommentContainer>
+
+      <HeartCommentContainer>
         <FaRegCommentDots/>
         <Text>{certData?.commentCount}</Text>
       </HeartCommentContainer>
 
-      {/* 하단 바 */}
+      {/* 오른쪽 파트 */}
+      <ProgressBar progress={progress}></ProgressBar>
     </BottomContainer>
 
-    {/* 게시글 */}
-    
+    {/* 게시글 내용 */}
+    <Box $day $wideTextBox>
+
+    </Box>
+
     <MarginBot/>   
     </>
   )
