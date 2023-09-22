@@ -161,12 +161,14 @@ const ChalCertArticleItem = ({certData}:CertArticleItemProps) => {
       </HeartCommentContainer>
 
       {/* 오른쪽 파트 */}
-      <ProgressBar progress={progress}></ProgressBar>
+      <ProgressBar progress={progress}>
+        
+      </ProgressBar>
     </BottomContainer>
 
     {/* 게시글 내용 */}
     <Box $day $wideTextBox>
-
+      {certData?.challengeDetailContent}
     </Box>
 
     <MarginBot/>   
