@@ -15,6 +15,8 @@ public class NoSuchElementException extends RuntimeException {
     public static final String NO_SUCH_CHALLENGE_DETAIL = "해당 챌린지에 인증글이 없습니다.";
 
     public static final String NO_SUCH_BADGE = "해당 뱃지는 존재하지 않습니다.";
+    public static final String NO_SUCH_TIMECAPSULE = "해당 챌린지에 타임캡슐이 없습니다.";
+
     public NoSuchElementException(String message) {
         super(message);
     }

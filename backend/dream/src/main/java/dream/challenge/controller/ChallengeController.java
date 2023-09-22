@@ -35,7 +35,7 @@ public class ChallengeController {
     public ResultTemplate getFollowUsers(@RequestParam(value = "lastItemId", required = false) Long lastItemId,
                                          @RequestParam(value = "size") int size) {
 
-        User user = userRepository.findByUserId(1L).
+        User user = userRepository.findByUserId(3L).
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         return challengeService.getFollowUsers(user, lastItemId, size);
@@ -178,5 +178,16 @@ public class ChallengeController {
                 orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         return challengeService.getMyChallengeInfo(user, challengeMidId);
+    }
+
+    @GetMapping(value = "/challenge/timecapsule/{challengeId}")
+    public ResultTemplate getTimeCapsules(@PathVariable("challengeId") Long challengeId,
+                                          @RequestParam(value = "lastItemId", required = false, defaultValue = "9999") Long lastItemId,
+                                          @RequestParam("size") int size) {
+
+        User user = userRepository.findByUserId(3L).
+                orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        return challengeService.getTimeCapsule(user, challengeId, lastItemId, size);
     }
 }
