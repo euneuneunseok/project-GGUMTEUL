@@ -269,6 +269,7 @@ const StyledButton = styled.button<ButtonProps>`
         props.$moreButton &&
         css`
             margin-top: 0.5rem;
+            padding: 0;
             background-color: transparent;
             & > p {
                 margin: 0;
