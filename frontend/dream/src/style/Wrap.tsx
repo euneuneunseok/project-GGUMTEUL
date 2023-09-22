@@ -207,6 +207,20 @@ const StyledWrap = styled.div<WrapProps>`
           /* background-color: aliceblue; */
           z-index: 999;
         }
+
+        /* contents 부분 */
+        & > div:nth-child(3) > div:nth-child(2) > .contents {
+          
+          & > img {
+            width: 100%;
+            height: 100%;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            object-fit: cover;
+            aspect-ratio: 1/1;
+          }
+        }
       }
 
       /* 내용이 없을 때 */
