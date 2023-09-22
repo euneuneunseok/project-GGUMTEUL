@@ -5,10 +5,7 @@ import dream.profile.service.DayProfileService;
 import dream.user.domain.User;
 import dream.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +22,13 @@ public class DayProfileController {
         User user = userService.getUserForDev(20L);
 
         return dayProfileService.getDayHeader(user, profileUserId);
+    }
+
+    @GetMapping("/badge/list/{profileUserId}")
+    public ResultTemplate getBadgeList(@PathVariable Long profileUserId,
+                                       @RequestParam(value = "lastItemId", required = false)
+                                           Long lastItemId, @RequestParam("size") int size){
+
+        return dayProfileService.getProfileBadgeList(profileUserId, lastItemId, size);
     }
 }
