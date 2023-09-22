@@ -4,10 +4,8 @@ import dream.card.domain.DreamCardRepository;
 import dream.challenge.domain.*;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.BadRequestException;
-import dream.profile.dto.response.ResponseNightProfileHeaderByOther;
-import dream.profile.dto.response.ResponseProfileChallengeBadge;
-import dream.profile.dto.response.ResponseProfileChallengeBadgeList;
-import dream.profile.dto.response.ResponseProfileHeaderBySelf;
+import dream.common.exception.NoSuchElementException;
+import dream.profile.dto.response.*;
 import dream.user.domain.FollowRepository;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
@@ -17,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.transform.Result;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,6 +31,9 @@ public class DayProfileService {
     private final ProfileService profileService;
     private final ChallengeParticipationRepository challengeParticipationRepository;
     private final BadgeQueryRepository badgeQueryRepository;
+    private final BadgeRepository badgeRepository;
+    private final ChallengeParticipationQueryRepository challengeParticipationQueryRepository;
+
     public ResultTemplate getDayHeader(User user, Long profileUserId) {
 
         User profileUser = userRepository.findByUserId(profileUserId).orElseThrow(()->{
@@ -46,8 +49,6 @@ public class DayProfileService {
            return profileService.getHeaderBySelf(profileUser);
         }else{
 
-            log.info("userId : {} ", user.getUserId());
-            log.info("List : {} ", challengeParticipationRepository.getChallengeParticipationListByUserAndStatus(profileUser.getUserId(), ChallengeStatus.S));
             int finishedChallengeCount  =  challengeParticipationRepository.getChallengeParticipationListByUserAndStatus(profileUser.getUserId(), ChallengeStatus.S).size();
             ResponseNightProfileHeaderByOther response = ResponseNightProfileHeaderByOther.from(profileUser, finishedChallengeCount, followerCount, followingCount);
             return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
@@ -66,12 +67,39 @@ public class DayProfileService {
         List<ResponseProfileChallengeBadge> badgeList = badges.stream()
                 .map(badge -> {
                     return ResponseProfileChallengeBadge.from(badge);
-                }).collect(Collectors.toList());
+                }).limit(size).collect(Collectors.toList());
 
         boolean hasNext = badges.size() > size;
 
         ResponseProfileChallengeBadgeList response = ResponseProfileChallengeBadgeList.from(badgeList, hasNext);
 
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
+    public ResultTemplate getProfileBadgeDetail(Long badgeId){
+
+       Badge badge = badgeRepository.findById(badgeId).orElseThrow(()->{
+          throw new NoSuchElementException(NoSuchElementException.NO_SUCH_BADGE);
+       });
+
+        ResponseProfileBadgeDetail response = ResponseProfileBadgeDetail.from(badge);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+
+    }
+
+    public ResultTemplate getFinishedChallengeListByProfileUser(Long profileUserId, Long lastItemId, int size){
+
+        List<ChallengeParticipation> challenges = challengeParticipationQueryRepository.getFinishedChallengeListByUserId(profileUserId, lastItemId, size);
+
+        boolean hasNext = challenges.size()>size;
+
+        List<ResponseProfileFinishedChallenge> list = challenges.stream()
+                .map(challenge -> {
+                    return ResponseProfileFinishedChallenge.from(challenge);
+                }).limit(size).collect(Collectors.toList());
+
+        ResponseProfileFinishedChallengeList response = ResponseProfileFinishedChallengeList.from(list, hasNext);
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 }

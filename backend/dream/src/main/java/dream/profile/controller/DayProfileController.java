@@ -18,7 +18,7 @@ public class DayProfileController {
 
 
     @GetMapping("/header/{profileUserId}")
-    public ResultTemplate getNightHeader(@PathVariable Long profileUserId){
+    public ResultTemplate getDayHeader(@PathVariable Long profileUserId){
         User user = userService.getUserForDev(20L);
 
         return dayProfileService.getDayHeader(user, profileUserId);
@@ -31,4 +31,21 @@ public class DayProfileController {
 
         return dayProfileService.getProfileBadgeList(profileUserId, lastItemId, size);
     }
+
+    @GetMapping("badge/detail/{badgeId}")
+    public ResultTemplate getBadgeDetail(@PathVariable Long badgeId){
+        return dayProfileService.getProfileBadgeDetail(badgeId);
+    }
+
+    @GetMapping("/mychallenge/end/list/{profileUserId}")
+    public ResultTemplate getFinishedChallengeList(@PathVariable Long profileUserId,
+                                       @RequestParam(value = "lastItemId", required = false)
+                                       Long lastItemId, @RequestParam("size") int size){
+
+        return dayProfileService.getFinishedChallengeListByProfileUser(profileUserId, lastItemId, size);
+    }
+
+
+
+
 }

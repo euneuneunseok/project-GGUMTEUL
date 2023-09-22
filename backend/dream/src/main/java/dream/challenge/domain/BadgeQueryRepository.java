@@ -23,9 +23,11 @@ public class BadgeQueryRepository {
 
         return queryFactory.selectFrom(badge)
                 .distinct()
-                .where(badge.user.userId.eq(userId),
+                .where(
+                        badge.user.userId.eq(userId),
                         lastItemIdLt(lastItemId)
                 )
+                .orderBy(badge.badgeId.desc())
                 .limit(size+1)
                 .fetch();
     }
