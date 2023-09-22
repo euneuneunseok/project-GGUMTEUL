@@ -45,15 +45,15 @@ export interface ChalDetailDataType {
 const initialChalDetail:ChalDetailInfoProps = {
   chalDetailData:{
     challengeContent :'',
-    challengeId :-1,
+    challengeId : 0,
     challengeTitle :'',
     keyword :'',
-    participationCount :-1,
+    participationCount :0,
     // badgeUrl :'',
     period :'',
     ranking: [
       {
-        ranking :-1,
+        ranking : 0,
         nickName :'',
       },
     ]
