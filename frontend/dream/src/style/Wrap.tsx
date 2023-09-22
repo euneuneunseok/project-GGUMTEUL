@@ -187,7 +187,7 @@ const StyledWrap = styled.div<WrapProps>`
         
         /* 터치 이벤트 높이 지정 */
         & > div > div:nth-child(3) {
-          top: 5rem;
+          // top: 5rem;
         }
       }
 
