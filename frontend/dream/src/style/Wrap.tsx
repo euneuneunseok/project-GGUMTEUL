@@ -206,28 +206,13 @@ const StyledWrap = styled.div<WrapProps>`
           /* background-color: aliceblue; */
           z-index: 999;
         }
-        
-        /* 터치 이벤트 높이 지정 */
-        & > div > div:nth-child(3) {
-          // top: 5rem;
-        }
       }
 
-      /* & > div:nth-child(1) {
-        display: grid;
-        grid-template-columns: 1fr 8fr 1fr;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
+      /* 내용이 없을 때 */
+      & > .noContent {
+        position: absolute;
+        top: 45%;
       }
-      
-      & > div:nth-child(2) {
-        margin-bottom: 5rem;
-        height: 100%;
-      } */
-      
     `
   }
 
