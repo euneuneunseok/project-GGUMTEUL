@@ -181,6 +181,7 @@ const StyledWrap = styled.div<WrapProps>`
       left: 0;
       overflow: scroll;
       background-image: url("/image/background-image/day-background.jpg");
+      background-size: cover;
       z-index: 300;
 
       & > .story {
