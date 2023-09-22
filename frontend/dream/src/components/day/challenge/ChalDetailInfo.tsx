@@ -20,7 +20,7 @@ import Button from "components/common/Button";
 import Container from "style/Container";
 import { Box, BoxTitle } from "style/Box";
 import Text from "style/Text";
-
+import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 // 타입
 import { ChalDetailInfoProps } from "./ChalDetail";
 
@@ -29,9 +29,7 @@ import { ChalDetailInfoProps } from "./ChalDetail";
 const ChalDetailInfo: React.FC<ChalDetailInfoProps> = (props) => {
 
   const chalDetail = props.chalDetailData
-  useEffect(()=>{
-    console.log(chalDetail)
-  })
+  const [moreData, setMoreData] = useState<boolean>(false)
 
   return (
     <Container $chalDetail>
@@ -54,20 +52,47 @@ const ChalDetailInfo: React.FC<ChalDetailInfoProps> = (props) => {
         </Box>
       </Container>
 
-      <Box $fullWidth $chalDetailBox>
-        <BoxTitle $boxTitle>미션</BoxTitle>
-        <Text $chalBoxInnerText>{chalDetail.challengeContent}</Text>
-      </Box>
-      <Box $fullWidth $chalDetailBox>
-        <BoxTitle $boxTitle>획득 뱃지</BoxTitle>
-        <Text $chalBoxInnerText>뱃지가 들어갑니다.</Text>
-        {/* <img src={`${chalDetail.badgeUrl}`} alt="뱃지 이미지" /> */}
-      </Box>
-      <Box $fullWidth $chalDetailBox>
-        <BoxTitle $boxTitle>랭킹</BoxTitle>
-        <Text $chalBoxInnerText>랭킹</Text>
-      </Box>
-      <Button >더보기</Button>
+      {
+        //닫기와 더보기 버튼 클릭했을 때 변경
+        moreData ? (
+          <>
+          <Box $fullWidth $chalDetailBox>
+            <BoxTitle $boxTitle>미션</BoxTitle>
+            <Text $chalBoxInnerText>{chalDetail.challengeContent}</Text>
+          </Box>
+          <Box $fullWidth $chalDetailBox>
+            <BoxTitle $boxTitle>획득 뱃지</BoxTitle>
+            <Text $chalBoxInnerText>뱃지가 들어갑니다.</Text>
+            {/* <img src={`${chalDetail.badgeUrl}`} alt="뱃지 이미지" /> */}
+          </Box>
+          <Box $fullWidth $chalDetailBox>
+            <BoxTitle $boxTitle>랭킹</BoxTitle>
+            <Text $chalBoxInnerText>랭킹</Text>
+          </Box>
+          <Button 
+            $fullWidth 
+            $moreButton
+            onClick={()=>{setMoreData(false)}}
+          >
+            <BsChevronCompactUp/>
+            <p>닫기</p>
+          </Button>
+          </>
+        ):(
+          <Button 
+            $fullWidth 
+            $moreButton
+            onClick={()=>{setMoreData(true)}}
+          >
+            <BsChevronCompactDown/>
+            <p>더보기</p>
+          </Button>
+        )
+      }
+      
+      
+      
+      
 
     </Container>
   )
