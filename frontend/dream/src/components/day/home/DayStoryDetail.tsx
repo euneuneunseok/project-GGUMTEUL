@@ -90,74 +90,22 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
   
-  // 스토리 터치 이벤트
-  // const storyEvent = new Event('story', { bubbles: true, cancelable: true });
-  // window.dispatchEvent(storyEvent);
-  // const storySelector = document.querySelectorAll('.story > div')
-  // console.log(storySelector)
-  // storySelector.addEventListener('onclick', function(event) {
-  //   event.preventDefault();
-    
-  // }, { passive: false });
-  // const handleClick = (e:any) => {
-  //   console.log('handleClick 실행')
-  //   console.log(e)
-    // if (!e.preventDefault) {
-    //   console.log('여기')
-    // }
-
-    // const storySelector = document.querySelectorAll('.story > div > div')
-    // console.log(storySelector[2])
-    
-    // console.log("=====", e)
-    // window.addEventListener('click', function(event) {
-    //   // event.preventDefault()
-    //   console.log("실행")
-      
-    //   console.log("==================", event)
-
-    //   event.preventDefault()
-
-    // }, {passive:true})
-
-    // console.log(e)
-    
-    // if (!e.preventDefault) {
-    //   // e.preventDefault = true
-    //   console.log('====')
-    // }
-    // e.preventDefault();
-  // }
-
-  // useEffect(() => {
-  //   const storySelector = document.querySelectorAll('div') // 루트 기준
-  //   console.log(storySelector[5].children[1].children[2]) // 선택하는 영역
-  //   console.log(storySelector[5].children[1].children) 
-  //   let region = storySelector[5].children[1].children[2]
-  //   region.addEventListener('onClick', (e:any) => {console.log(e)}, {passive:false})
-  // }, [setIsOpenModal])
-    // const storySelector = document.querySelectorAll('.story')
-    // console.log(storySelector[2])
-    // if (storySelector === null) return
-    // handleClick(storySelector)
-    // console.log(storySelector)
-    // console.log(window)
-    // storySelector[2].addEventListener('click', (e:any) => {if (e.preventDefault) {console.log(e)}}, {passive: false})
-    // storySelector[2].addEventListener('click', handleClick, {passive : false})
-    // console.log(storySelector[0].)
-    // storySelector[2].dispatchEvent()
-
-  // }, [setIsOpenModal])
-  
 
   // 인덱스로 제어
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleOnNext = () => {
-    console.log('다음 클릭')
-    let newIndex = currentIndex + 1
-    if (newIndex === stories.length) {return handleIsOpenModal()}
-    setCurrentIndex(newIndex)
+    console.log('다음 클릭');
+    let newIndex = currentIndex + 1;
+    if (newIndex === stories.length) {return handleIsOpenModal()};
+    setCurrentIndex(newIndex);
+  }
+
+  const handleOnPrevious = () => {
+    console.log('이전 클릭');
+    let newIndex = currentIndex - 1;
+    if (newIndex <= -1) {newIndex = 0};
+    setCurrentIndex(newIndex);
   }
 
   
@@ -175,8 +123,16 @@ const DayStoryDetail = ({setIsOpenModal} :DayStoryDetailProps) => {
       {/* 스토리 */}
       <div 
       className="story"
-      onClick={handleOnNext}
+      
       >
+        <div
+        className="storyRight"
+        onClick={handleOnNext}
+        ></div>
+        <div
+        className="storyLeft"
+        onClick={handleOnPrevious}
+        ></div>
       
         <ReactInstaStories
           preventDefault
