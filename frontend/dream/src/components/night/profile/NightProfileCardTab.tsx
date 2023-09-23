@@ -3,13 +3,14 @@
 // 사진 리스트 (NightImage)
 
 // 리액트
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // 컴포넌트
 import Button from "components/common/Button";
 import Image from "style/Image";
 import Wrap from "style/Wrap";
 import styled from "styled-components";
+import basicHttp from "api/basicHttp";
 
 // 스타일
 const ProfileCardButtonWrap = styled.div`
@@ -23,6 +24,20 @@ const ProfileDreamCardWrap = styled.div`
 `
 
 const NightProfileCardTab = () => {
+  // axios로 보내야 할 데이터
+  const [profileId, setProfileId] = useState<number>(3);
+  const [lastItemId, setLastItemId] = useState<number>(1);
+  let size = 6;
+
+  // axios로 받아서 업데이트 할 데이터
+  const [dreamCardList, setDreamCardList] = useState<string[]>([]);
+
+  // useEffect(() => {
+  //   basicHttp.get(`/api/profile/night/card/${profileId}?lastItemId=${lastItemId}&size=${size}`)
+  //   .then((res) => 
+  //   console.log(res))
+  //   .catch((err) => console.log(err))
+  // }, [])
 
   return (
     <>
