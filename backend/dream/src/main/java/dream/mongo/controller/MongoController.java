@@ -21,9 +21,15 @@ public class MongoController {
     private final MongoService mongoService;
 
     @GetMapping(value = "")
-    public ResultTemplate mongoTest(){
+    public ResultTemplate mongoTest() {
 
         List<dream> response = mongoService.getAllDream();
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
+    @GetMapping(value = "/find")
+    public ResultTemplate findBest(){
+
+        return mongoService.findBest("비둘기");
     }
 }
