@@ -3,7 +3,6 @@
 // <CategoryBox></CategoryBox>
 
 // 리액트
-import Button from "components/common/Button";
 import React from "react";
 import Text from "style/Text";
 import styled from "styled-components";
@@ -11,7 +10,18 @@ import styled from "styled-components";
 // 컴포넌트
 
 // 스타일
+import Button from "components/common/Button";
+
 const CategoryWrap = styled.div`
+  margin: 0.5rem;
+`
+
+const CategoryListWrap = styled.div`
+  margin: 1rem 0;
+  overflow-x: scroll;
+  white-space: nowrap;
+  display: flex;
+  gap: 0.5rem;
 `
 
 const DayCategoryList = () => {
@@ -23,12 +33,13 @@ const DayCategoryList = () => {
     <>
     <CategoryWrap>
       <Text $isBold>카테고리</Text>
-      {
-        categoryList.map((category, i) => 
-          <Button $category key={i}>{category}</Button>
-        
-        )
-      }
+      <CategoryListWrap>
+        {
+          categoryList.map((category, i) => 
+            <Button $category key={i}>{category}</Button>
+          )
+        }
+      </CategoryListWrap>
     </CategoryWrap>
     </>
   )
