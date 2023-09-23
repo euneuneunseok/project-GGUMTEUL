@@ -51,7 +51,7 @@ const NightProfileMain = () => {
   const [isdSellingTab, setIsdSellingTab] = useState(false);
 
   // 뱃지 탭 보여주기
-  const show1CardTab = () => {
+  const showCardTab = () => {
     setIsCardTab(true);
     setIsBuyingTab(false);
     setIsdSellingTab(false);
@@ -77,7 +77,7 @@ const NightProfileMain = () => {
 
     <DreamTabWrap>
       <CustomText 
-      onClick={show1CardTab}
+      onClick={showCardTab}
       $isActive={isCardTab}
       >카드</CustomText>
       
