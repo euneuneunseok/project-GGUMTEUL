@@ -191,9 +191,17 @@ const StyledImage = styled.div<ImageProps>`
     ${(props) =>
       props.$profileCard &&
       css`
-        width: 7rem;
-        height: 7rem;
-        margin: 1rem;
+        margin: 0.5rem;
+        background-color: transparent;
+
+        & > img {// 정사각형 만들기
+          width: 100%;
+          /* height: 100%; */
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+        }
       `
     }
 
