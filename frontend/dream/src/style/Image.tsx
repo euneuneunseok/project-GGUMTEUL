@@ -191,7 +191,8 @@ const StyledImage = styled.div<ImageProps>`
     ${(props) =>
       props.$profileCard &&
       css`
-        margin: 0.5rem;
+        margin-left: 0.5rem;
+        margin-bottom: 0.5rem;
         background-color: transparent;
 
         & > img {// 정사각형 만들기

@@ -19,7 +19,7 @@ const ProfileCardButtonWrap = styled.div`
 const ProfileDreamCardWrap = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin: 0 0.5rem;
+  margin-right: 0.5rem;
 `
 
 const NightProfileCardTab = () => {
@@ -33,6 +33,12 @@ const NightProfileCardTab = () => {
     </ProfileCardButtonWrap>
 
     <ProfileDreamCardWrap>
+      <Image $profileCard $nightImageBorder>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL1FLLXoD2D9jTPPy5nohrnuFBE0RypC2bdJucBEMGTQ&s"></img>
+      </Image>
+      <Image $profileCard $nightImageBorder>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL1FLLXoD2D9jTPPy5nohrnuFBE0RypC2bdJucBEMGTQ&s"></img>
+      </Image>
       <Image $profileCard $nightImageBorder>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL1FLLXoD2D9jTPPy5nohrnuFBE0RypC2bdJucBEMGTQ&s"></img>
       </Image>
