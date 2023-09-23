@@ -4,15 +4,15 @@
 
 // 리액트
 import React, { useEffect, useState } from "react";
-
-// 컴포넌트
-import Button from "components/common/Button";
-import Image from "style/Image";
-import Wrap from "style/Wrap";
-import styled from "styled-components";
 import basicHttp from "api/basicHttp";
 
+// 컴포넌트
+
 // 스타일
+import Button from "components/common/Button";
+import Image from "style/Image";
+import styled from "styled-components";
+
 const ProfileCardButtonWrap = styled.div`
   margin: 1rem 0.5rem;
 `
