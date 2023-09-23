@@ -26,7 +26,8 @@ const DreamTabWrap = styled.div`
 const TabLine = styled.hr`
   border: 1px solid #D9D9D9;
   opacity: 0.5;
-  margin: 0.25rem 1rem
+  margin: 0.25rem 1rem;
+  margin-bottom: 1rem;
 `
 
 const CustomText = styled(Text)<TabStyleType>`  
