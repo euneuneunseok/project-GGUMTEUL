@@ -63,6 +63,10 @@ const ProfileHeader = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false); // 팔로우 했는지 여부
   const [progress, setProgress] = useState<number>(70); // 꿈틀도 추후 변경하기
 
+  // axios 요청
+
+  
+  // 테마 확인
   useEffect(() => {
     if (themeMode.mode === 'night') {
       setIsNight(true);
@@ -71,6 +75,7 @@ const ProfileHeader = () => {
     }
   }, [themeMode.mode])
   
+  // 꿈틀도 별 클릭
   const handleStarClicked = () => {
     setIsStarClicked(!isStarClicked)
   }
