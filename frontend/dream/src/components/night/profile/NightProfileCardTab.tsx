@@ -26,18 +26,18 @@ const ProfileDreamCardWrap = styled.div`
 const NightProfileCardTab = () => {
   // axios로 보내야 할 데이터
   const [profileId, setProfileId] = useState<number>(3);
-  const [lastItemId, setLastItemId] = useState<number>(1);
-  let size = 6;
+  const [lastItemId, setLastItemId] = useState<number>(0);
+  let size = 3;
 
   // axios로 받아서 업데이트 할 데이터
   const [dreamCardList, setDreamCardList] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   basicHttp.get(`/api/profile/night/card/${profileId}?lastItemId=${lastItemId}&size=${size}`)
-  //   .then((res) => 
-  //   console.log(res))
-  //   .catch((err) => console.log(err))
-  // }, [])
+  useEffect(() => {
+    basicHttp.get(`/profile/night/card/${profileId}?lastItemId=${lastItemId}&size=${size}`)
+    .then((res) => 
+    console.log(res))
+    .catch((err) => console.log(err))
+  }, [])
 
   return (
     <>
