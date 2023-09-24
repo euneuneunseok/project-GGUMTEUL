@@ -53,15 +53,17 @@ const SignUp = () => {
   const imageUpload = (e:React.ChangeEvent<HTMLInputElement>):void => {
     e.preventDefault();
 
+    // 파일이 없으면 리턴
     if (!e.target.files) {return}
+    // 파일이 있으면 타겟 파일 변수 설정
     const file = e.target.files[0]
 
     if (file) {
       let image = window.URL.createObjectURL(file)
       setProfileImageURL(image)
       setProfileImage(file);
-      // console.log(image,'image')
-      // console.log(file,'file')
+      console.log(image,'image')
+      console.log(file,'file')
     }
   }
 
@@ -97,8 +99,13 @@ const SignUp = () => {
       alert('닉네임을 올바르게 입력해주세요.')
     }
     else {
-      // 가입이 완료되었습니다 페이지 있으면 좋겠음..
-      navigate('/sunset/main')
+      // 가입이 완료되었습니다 모달 있으면 좋겠음..
+      
+      // 닉네임 변경
+      
+      // 프로필 이미지 사진 넣기
+      
+      // navigate('/sunset/main')
     }
   }
 
