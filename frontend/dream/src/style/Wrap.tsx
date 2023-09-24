@@ -185,6 +185,9 @@ const StyledWrap = styled.div<WrapProps>`
       z-index: 300;
 
       & > .story {
+        width: 100%;
+        height: 100%;
+        padding: 0 0.5rem;
 
         /* 터치 이벤트 오른쪽 영역 */
         & > .storyRight {
@@ -208,6 +211,12 @@ const StyledWrap = styled.div<WrapProps>`
           z-index: 999;
         }
 
+        /* 상단바 부분 */
+        & > div:nth-child(3) > div:nth-child(1) > div {
+            // transition: none;
+            transform: none;
+        }
+
         /* contents 부분 */
         & > div:nth-child(3) > div:nth-child(2) > .contents {
           
@@ -223,11 +232,11 @@ const StyledWrap = styled.div<WrapProps>`
         }
       }
 
-      /* 내용이 없을 때 */
-      & > .noContent {
-        position: absolute;
-        top: 45%;
-      }
+      // /* 내용이 없을 때 */
+      // & > .noContent {
+      //   position: absolute;
+      //   top: 45%;
+      // }
     `
   }
 

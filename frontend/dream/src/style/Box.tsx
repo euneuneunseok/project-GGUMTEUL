@@ -6,6 +6,7 @@ import styled, {css} from 'styled-components';
 interface BoxProps {
   children ?: React.ReactNode;
   onClick ?: (e:any) => void;
+  style ?:any;
 
   // 사이즈 관련
   $fullWidth ?: boolean
