@@ -13,6 +13,8 @@ import Text from "style/Text";
 import { FaCircleCheck,FaCircleXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import basicHttp from "api/basicHttp";
+import tokenHttp from "api/tokenHttp";
+import fileTokenHttp from "api/fileTokenHttp";
 // import { BoxTitle } from "style/Box";
 
 
@@ -36,10 +38,9 @@ const CheckMessageBox = styled.div`
 const SignUp = () => {
 
   const navigate = useNavigate()
-
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const [profileImageURL, setProfileImageURL] = useState<string | undefined>(undefined)
-  const [nicknameInput,setNicknameInput] = useState('') 
+  const [nicknameInput,setNicknameInput] = useState<string>('') 
 
   // good 한글 7자 이하, 옳은 닉네임 / bad 자음만 있는 닉네임 / double 중복된 닉네임
   const [wrongNicknameSign, setWrongNicknameSign] = useState('good')
@@ -62,7 +63,7 @@ const SignUp = () => {
       let image = window.URL.createObjectURL(file)
       setProfileImageURL(image)
       setProfileImage(file);
-      console.log(image,'image')
+      // console.log(image,'image')
       console.log(file,'file')
     }
   }
@@ -99,12 +100,28 @@ const SignUp = () => {
       alert('닉네임을 올바르게 입력해주세요.')
     }
     else {
-      // 가입이 완료되었습니다 모달 있으면 좋겠음..
       
+      const nicknameData = {
+        nickname : nicknameInput
+      }
       // 닉네임 변경
+      tokenHttp.put('/user/signup/extra-info',nicknameData)
+        .then((response)=>{console.log(response, '닉네임 저장 성공')})
+        .catch((e)=>{console.log(e)})
       
       // 프로필 이미지 사진 넣기
-      
+
+      const formData = new FormData()
+      if (profileImage) {
+        formData.append('files', profileImage)
+      }
+
+      fileTokenHttp.post('/s3/userprofile', formData)
+        .then((response) => {console.log(response,'이미지 저장 성공')})
+        .catch((e)=>{console.log(e)})
+
+      // 가입이 완료되었습니다 모달 있으면 좋겠음..
+      // 그리고 둘다 성공해야 넘어갈 수 있음
       // navigate('/sunset/main')
     }
   }
