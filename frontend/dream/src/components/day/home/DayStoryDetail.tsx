@@ -22,30 +22,6 @@ export interface DayStoryDetailProps {
   isOpenModal :boolean,
 }
 
-// interface StoryHeaderType {
-//   heading :string,
-//   subheading :string,
-//   profileImage :string
-// }
-
-// interface StoriesObjType {
-//   url :string,
-//   header ?:StoryHeaderType,
-//   type ?:string,
-//   duration ?:number,
-//   // content :Renderer | undefined
-// }
-
-// interface StoryStylesType {
-//   width :number | string,
-//   height :number | string,
-//   margin :string,
-//   padding :string,
-//   borderRadius :string,
-//   objectFit :string;
-//   aspectRatio :number;
-// }
-
 interface StoryType {
   challengeDetailContent :string,
   challengeDetailId :number,
@@ -57,12 +33,6 @@ interface StoryType {
 
 
 // interface StoriesType extends Array<StoriesObjType> {}
-
-// 스토리 입장 -> n초 대기 -> 다음 화면 넘어가기
-// 입장 후 n초 대기 -> 기준time 0으로 초기화 -> handleOnNext 실행
-// 다음 클릭 -> handleOnNext 실행
-// 이전 클릭 -> handleOnPrevious 실행
-// 인덱스번호 변경 -> n초 대기 -> 기준time 0으로 초기화
 
 const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   // const auth = useSelector((state: RootState) => state.auth);
@@ -87,24 +57,308 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
       console.log(res);
       if (res.data.status === 200) {
         setStoryList(res.data.data); // 데이터 저장
-        // setStoryList(res.data.data.map((story: any) => ({
-        //   challengeDetailContent: story.challengeDetailContent,
-        //   challengeDetailId: story.challengeDetailId,
-        //   challengeTitle: story.challengeTitle,
-        //   nickName: story.nickName,
-        //   photoUrl: story.photoUrl,
-        //   userId: story.userId,
-        // })));
-        setIsStoryData(true)
+        // setIsStoryData(true)
       }
       // checkStoryData();
       // 팔로우한 유저가 올린 글이 없을 때
       if (res.data.status === 400) {
-        setIsStoryData(false)
+        // setIsStoryData(false)
       }
     })
     .catch(err => console.log(err))
   }, [])
+
+
+  // 인덱스로 제어
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  // const [currentTime, setCurrentTime] = useState<number>(999);
+  // let newIndex = 0;
+  // const [newIndex, setNewIndex] = useState<number>(0);
+  let interval = 3000;
+
+  
+  // 스토리 입장 -> n초 대기 -> 다음 화면 넘어가기
+  // 입장 후 n초 대기 -> 기준time 0으로 초기화 -> handleOnNext 실행
+  // 다음 클릭 -> handleOnNext 실행 -> n초 대기 -> handleOnNext 실행
+  // 이전 클릭 -> handleOnPrevious 실행 -> n초 대기 -> handleOnNext 실행
+  
+  const nextTime = (callback :() => void, time :number) => {
+    setTimeout(callback, time);
+  };
+
+  // 스토리 시작 시 실행
+  const storyStart = async () :Promise<void> => {
+    if (isOpenModal) {
+      await nextTime(() => {
+        console.log('시작');
+        setCurrentIndex(1);
+      }, interval);
+    }
+  }
+
+  // 일정시간 후 다음 페이지로 이동
+  const goToNextInterval = async () :Promise<void> => {
+    await nextTime(() => {
+      console.log('다음');
+      if (isOpenModal && currentIndex + 1 < storyList.length) {
+        setCurrentIndex(currentIndex+1);
+      } else {handleIsOpenModal()}
+      }, interval);
+  }
+    // return new Promise((resolve, reject) => {
+    //   if (isOpenModal) {
+    //     nextTime(() => {
+    //       console.log('go to next page');
+    //       resolve(currentIndex+1);
+    //     }, interval)
+    //   }
+    // })
+
+
+  // const storyStart = () :Promise<void> => { // storyStart 객체가 boolean을 반환하는 Promise 객체
+  //   return new Promise((resolve) => { // Promise 객체 반환
+  //     nextTime(() => { // Promise 내부 함수
+  //       console.log('시작');
+  //       resolve(setCurrentIndex(1)); // 성공 시 반환할 값 : 인덱스 1로 이동
+  //       // reject(false); // 실패 시 반환할 값
+  //     }, interval)
+  //   });
+  // }
+  
+  // storyStart() // storyStart 실행
+    // .then(progress => setCurrentIndex(currentIndex+1)); // n초 대기 후다음 화면으로 넘어감
+  
+  // // 일정시간 후 다음 페이지로 이동
+  // const goToNextInterval = () :Promise<number> => {
+  //   return new Promise((resolve, reject) => {
+  //     if (isOpenModal) {
+  //       nextTime(() => {
+  //         console.log('go to next page');
+  //         resolve(currentIndex+1);
+  //       }, interval)
+  //     }
+  //   })
+  // }
+
+  // goToNextInterval()
+  //   .then(progress => {
+  //     console.log('progress : ', progress, 'storyList.length : ', storyList.length)
+  //     if (progress < storyList.length) {
+  //       setCurrentIndex(progress)
+  //     } else {setIsOpenModal(false)}
+  //   }); // 인덱스에 +1
+
+  // // 이전 페이지로 이동
+  // const goToPrevious = () :Promise<void> => {
+  //   return new Promise((resolve, reject) => {
+  //     nextTime(() => {
+  //       console.log('go to previous page');
+  //       resolve(setCurrentIndex(currentIndex-1));
+  //     }, interval)
+  //   })
+  // }
+
+  
+
+  const handleOnNext = () => {
+    setCurrentIndex(currentIndex+1);
+  }
+
+  
+  const handleOnPrevious = () => {
+    // let newIndex = currentIndex - 1;
+    if (currentIndex - 1 < 0) return;
+    setCurrentIndex(currentIndex - 1);
+    console.log('이전');
+    // setTimeout(() => setCurrentTime(0), interval);
+  }
+
+  // 인덱스가 리스트 길이보다 작고 모달이 띄워져있을 때 실행
+  useEffect(() => {
+    if (currentIndex < storyList.length && isOpenModal) {
+      goToNextInterval();
+    };
+  }, [currentIndex, isOpenModal])
+
+  // 스토리 시작 시 setTimeOut
+  useEffect(() => {
+    if (isOpenModal) {
+      storyStart();
+    }
+  }, [storyList])
+
+
+  // storyList 개수만큼 div 태그 만들기 (상단바)
+  const newDivElement = document.createElement('div');
+  newDivElement.className = 'storyBarElement';
+  storyList.forEach((element, index) => {
+    document.querySelector('.storyBar')?.appendChild(newDivElement);
+  });
+  
+  return (
+    <>
+    {
+      isOpenModal &&
+      storyList && 
+      currentIndex < storyList.length &&
+      currentIndex > -1 &&
+      <Wrap $storyWrap>
+        {/* 닫기 버튼 */}
+        <AiOutlineClose
+        onClick={handleIsOpenModal}
+        className="closeButton"
+        style={{position: "fixed", top: "1.5rem", right: "1rem", width: "1.5rem", height: "1.5rem", zIndex: 1, color: "white"}}  
+        ></AiOutlineClose>
+
+        {
+          <div className="story">
+            {/* 클릭 영역 */}
+            <div
+            className="storyRight"
+            // onClick={handleOnNext}
+            onClick={handleOnNext}
+            ></div>
+            <div
+            className="storyLeft"
+            // onClick={handleOnPrevious}
+            onClick={handleOnPrevious}
+            ></div>
+
+            {/* 상단바 */}
+            <div className="storyBar"></div>
+
+            {/* 컨텐츠 영역 */}
+            {/* 헤더 */}
+            <div className="header">
+              <Box $mainTitleBox $day>
+                <Text>{storyList[currentIndex].challengeTitle}</Text>
+              </Box>
+            </div>
+              <Image $mainImage $nightImageBorder>
+                <img src={storyList[currentIndex].photoUrl}></img>
+              </Image>
+              <Text>{storyList[currentIndex].nickName}</Text>
+              <Box $challengeContentBox
+              style={{padding: "1.5rem"}}
+              >
+                {/* <Text>{storyList[currentIndex].challengeDetailContent}</Text> */}
+                {storyList[currentIndex].challengeDetailContent}
+              </Box>
+
+          </div>
+          }
+        
+
+
+        
+        {/* {
+          isStoryData
+          && <>
+            <div className="story">
+            <div
+            className="storyRight"
+            onClick={handleOnNext}
+            ></div>
+            <div
+            className="storyLeft"
+            onClick={handleOnPrevious}
+            ></div>
+            
+            <ReactInstaStories
+              // preventDefault
+              onStoryStart={() => console.log('스토리 시작')}
+              onAllStoriesEnd={handleIsOpenModal}
+              onNext={handleOnNext}
+              onPrevious={handleOnPrevious}
+              currentIndex={currentIndex}
+              // stories={storyList && storyList.map((story, i):any => ({
+              //   url: "https://picsum.photos/1080/1920",
+              //   header: { 
+              //         heading: story.nickName, 
+              //         subheading: i, 
+              //         profileImage: "https://picsum.photos/1080/1920" // 유저 프로필로 바꾸기
+              //       }
+              // }))}
+              stories={stories}
+              defaultInterval={interval} // 스토리가 넘어가는 시간
+              width={windowWidth}
+              height={windowHeight}
+              storyStyles={storyStyles} // 스토리 사진 크기 지정
+              />
+              </div>
+            </>
+          // : <>
+          //   <div className="noContent">
+          //     <Text>팔로우한 유저의 글이 없습니다.</Text>
+          //   </div>
+          //   </>
+          } */}
+
+      </Wrap>
+      }
+
+    </>
+  )
+
+  // return (
+  //   <>
+  //   <Wrap $storyWrap>
+  //     {/* 상단바 */}
+  //     <div>
+  //       <Image $tinyProfileImage><img /></Image>
+  //       <Text $isBold $nightWhite>나는프론트엔드</Text>
+  //       <AiOutlineClose onClick={handleIsOpenModal}></AiOutlineClose>
+  //     </div>
+  //     <div>
+  //       {/* 챌린지 제목 */}
+  //       <Box $mainTitleBox>
+  //         <img />
+  //         <Text>1일 1커밋 챌린지</Text>
+  //       </Box>
+
+  //       {/* 사진 */}
+  //       <Image $signupImage><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
+
+  //       {/* 내용 */}
+  //       <Box $storyContentsBox $day>
+  //         <Text>여기는 스토리 세부 내용 Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, sint nostrum? Dicta, provident maiores! Explicabo excepturi, odit ea facilis itaque neque laboriosam totam perspiciatis repellat quia aut consequatur dolorem accusantium!</Text>
+  //       </Box>
+  //     </div>
+
+
+  //   </Wrap>
+  //   </>
+  // )
+}
+
+export default DayStoryDetail
+
+
+// interface StoryHeaderType {
+//   heading :string,
+//   subheading :string,
+//   profileImage :string
+// }
+
+// interface StoriesObjType {
+//   url :string,
+//   header ?:StoryHeaderType,
+//   type ?:string,
+//   duration ?:number,
+//   // content :Renderer | undefined
+// }
+
+// interface StoryStylesType {
+//   width :number | string,
+//   height :number | string,
+//   margin :string,
+//   padding :string,
+//   borderRadius :string,
+//   objectFit :string;
+//   aspectRatio :number;
+// }
+
+
 
   // API로 받아올 데이터
   // const stories :StoriesType = [
@@ -286,178 +540,3 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   // let windowWidth = window.innerWidth;
   // let windowHeight = window.innerHeight;
   
-
-  // 인덱스로 제어
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [currentTime, setCurrentTime] = useState<number>(4);
-  // let newIndex = 0;
-  // const [newIndex, setNewIndex] = useState<number>(0);
-  let interval = 1000;
-
-  const handleOnNext = () => {
-    // setNewIndex(currentIndex + 1)
-    let newIndex = currentIndex + 1;
-    if (newIndex === storyList.length) {
-      setCurrentIndex(0);
-      handleIsOpenModal();
-      return 
-    };
-    setCurrentIndex(newIndex);
-    console.log('다음', currentIndex, newIndex);
-    // setTimeout(() => handleOnNext(), interval);
-  }
-
-  const handleOnPrevious = () => {
-    // setNewIndex(currentIndex - 1);
-    let newIndex = currentIndex - 1;
-    if (newIndex < 0) return;
-    setCurrentIndex(newIndex);
-    console.log('이전', currentIndex, newIndex);
-    // setTimeout(() => handleOnNext(), interval);
-  }
-
-
-  useEffect(() => {
-    setTimeout(() => handleOnNext, interval)
-  }, [handleOnPrevious, handleOnNext, currentIndex, setCurrentIndex])
-
-  // 스토리 시작 시 setTimeOut
-  useEffect(() => {
-    if (isOpenModal) {
-      setTimeout(() => handleOnNext(), interval)
-    }
-  }, [isOpenModal])
-
-  
-  return (
-    <>
-    {
-      isOpenModal &&
-      storyList && 
-      currentIndex < storyList.length &&
-      currentIndex > -1 &&
-      <Wrap $storyWrap>
-        {/* 닫기 버튼 */}
-        <AiOutlineClose
-        onClick={handleIsOpenModal}
-        className="closeButton"
-        style={{position: "fixed", top: "1.5rem", right: "1rem", width: "1.5rem", height: "1.5rem", zIndex: 1, color: "white"}}  
-        ></AiOutlineClose>
-        {
-          
-          <div className="story">
-            {/* 클릭 영역 */}
-            <div
-            className="storyRight"
-            onClick={handleOnNext}
-            ></div>
-            <div
-            className="storyLeft"
-            onClick={handleOnPrevious}
-            ></div>
-
-            {/* 컨텐츠 영역 */}
-            {/* 헤더 */}
-            <div className="header">
-              <Box $mainTitleBox $day>
-                <Text>{storyList[currentIndex].challengeTitle}</Text>
-              </Box>
-            </div>
-              <Image $mainImage $nightImageBorder>
-                <img src={storyList[currentIndex].photoUrl}></img>
-              </Image>
-              <Text>{storyList[currentIndex].nickName}</Text>
-              <Box $challengeContentBox
-              style={{padding: "1.5rem"}}
-              >
-                {/* <Text>{storyList[currentIndex].challengeDetailContent}</Text> */}
-                {storyList[currentIndex].challengeDetailContent}
-              </Box>
-
-          </div>
-          }
-        
-
-
-        
-        {/* {
-          isStoryData
-          && <>
-            <div className="story">
-            <div
-            className="storyRight"
-            onClick={handleOnNext}
-            ></div>
-            <div
-            className="storyLeft"
-            onClick={handleOnPrevious}
-            ></div>
-            
-            <ReactInstaStories
-              // preventDefault
-              onStoryStart={() => console.log('스토리 시작')}
-              onAllStoriesEnd={handleIsOpenModal}
-              onNext={handleOnNext}
-              onPrevious={handleOnPrevious}
-              currentIndex={currentIndex}
-              // stories={storyList && storyList.map((story, i):any => ({
-              //   url: "https://picsum.photos/1080/1920",
-              //   header: { 
-              //         heading: story.nickName, 
-              //         subheading: i, 
-              //         profileImage: "https://picsum.photos/1080/1920" // 유저 프로필로 바꾸기
-              //       }
-              // }))}
-              stories={stories}
-              defaultInterval={interval} // 스토리가 넘어가는 시간
-              width={windowWidth}
-              height={windowHeight}
-              storyStyles={storyStyles} // 스토리 사진 크기 지정
-              />
-              </div>
-            </>
-          // : <>
-          //   <div className="noContent">
-          //     <Text>팔로우한 유저의 글이 없습니다.</Text>
-          //   </div>
-          //   </>
-          } */}
-
-      </Wrap>
-      }
-
-    </>
-  )
-
-  // return (
-  //   <>
-  //   <Wrap $storyWrap>
-  //     {/* 상단바 */}
-  //     <div>
-  //       <Image $tinyProfileImage><img /></Image>
-  //       <Text $isBold $nightWhite>나는프론트엔드</Text>
-  //       <AiOutlineClose onClick={handleIsOpenModal}></AiOutlineClose>
-  //     </div>
-  //     <div>
-  //       {/* 챌린지 제목 */}
-  //       <Box $mainTitleBox>
-  //         <img />
-  //         <Text>1일 1커밋 챌린지</Text>
-  //       </Box>
-
-  //       {/* 사진 */}
-  //       <Image $signupImage><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
-
-  //       {/* 내용 */}
-  //       <Box $storyContentsBox $day>
-  //         <Text>여기는 스토리 세부 내용 Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, sint nostrum? Dicta, provident maiores! Explicabo excepturi, odit ea facilis itaque neque laboriosam totam perspiciatis repellat quia aut consequatur dolorem accusantium!</Text>
-  //       </Box>
-  //     </div>
-
-
-  //   </Wrap>
-  //   </>
-  // )
-}
-
-export default DayStoryDetail
