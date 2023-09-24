@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()                 .and()
                 .oauth2Login()
                 .successHandler(socialLoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정
-//                .failureHandler(socialLoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
+                .failureHandler(socialLoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
                 .userInfoEndpoint().userService(socialLoginService); // customUserService 설정
 
 

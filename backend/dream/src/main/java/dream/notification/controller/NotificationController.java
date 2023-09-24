@@ -1,14 +1,12 @@
 package dream.notification.controller;
 
 import dream.common.domain.ResultTemplate;
+import dream.notification.dto.request.RequestNotificationId;
 import dream.notification.service.NotificationService;
 import dream.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import dream.user.domain.User;
 @RestController
 @RequestMapping("/api/notification")
@@ -25,6 +23,11 @@ public class NotificationController {
         User user = userService.getUserForDev(1L);
         log.info("USERID : {} ",user.getUserId());
         return notificationService.getNotificationList(user, lastItemId, size);
+    }
+
+    @PutMapping("/state")
+    public ResultTemplate updateNotificationIsRead(@RequestBody RequestNotificationId requestNotificationId){
+        return notificationService.updateIsRead(Long.valueOf(requestNotificationId.getNotificationId()));
     }
 }
 

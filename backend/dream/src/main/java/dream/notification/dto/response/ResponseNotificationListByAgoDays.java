@@ -1,4 +1,4 @@
-package dream.notification.dto;
+package dream.notification.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -48,12 +48,14 @@ public class UserService {
 
 
     // 로그아웃
-    public ResultTemplate logout(User user, HttpServletRequest request){
+    public ResultTemplate logout(HttpServletRequest request){
 
         //헤더에서 access를 추출하여 refreshToken 삭제 후 blackList에 등록
         String accessToken = jwtService.extractAccessToken(request).get();
         if(jwtService.isAccessTokenValid(accessToken)){
-            String email = user.getEmail();
+            String email = jwtService.extractEmailFromRefreshToken(accessToken).orElseThrow(() -> {
+                throw new InvalidAccessTokenException(InvalidAccessTokenException.INVALID_ACCESS_TOKEN);
+            });
             Optional<String> refreshToken = tokenRepository.findByKey(email);
             if(!refreshToken.isEmpty()){
                 //redis에서 해당 email key 값 삭제
@@ -62,6 +64,8 @@ public class UserService {
                 //blacklist에 등록
                 tokenRepository.saveBlackList(accessToken,  jwtService.getExpiration(accessToken)  );
 
+            }else{
+                throw new InvalidAccessTokenException(InvalidAccessTokenException.INVALID_ACCESS_TOKEN);
             }
 
         }

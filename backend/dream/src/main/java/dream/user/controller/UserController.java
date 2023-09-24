@@ -41,11 +41,6 @@ public class UserController {
         return resultTemplate;
     }
 
-    @PostMapping("/refresh-token")
-    public ResultTemplate reissueRefreshToken() {
-
-        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
-    }
 
     @PutMapping("signup/extra-info")
     public ResultTemplate setExtraInfo(HttpServletResponse response, @UserInfo User user, @RequestBody RequestNickname request) {
@@ -54,9 +49,9 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResultTemplate logout(@UserInfo User user, HttpServletRequest request) {
+    public ResultTemplate logout(HttpServletRequest request) {
 
-        return userService.logout(user, request);
+        return userService.logout(request);
 
     }
 

@@ -1,15 +1,19 @@
 package dream.notification.service;
 
+import dream.common.domain.BaseCheckType;
 import dream.common.domain.ResultTemplate;
+import dream.common.exception.NoSuchElementException;
 import dream.notification.domain.Notification;
 import dream.notification.domain.NotificationQueryRepository;
 import dream.notification.domain.NotificationRepository;
-import dream.notification.dto.ResponseNotification;
-import dream.notification.dto.ResponseNotificationListByAgoDays;
+import dream.notification.dto.response.ResponseNotification;
+import dream.notification.dto.response.ResponseNotificationListByAgoDays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import dream.user.domain.*;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,9 +26,9 @@ public class NotificationService {
 
     private final NotificationQueryRepository notificationQueryRepository;
 
-    public ResultTemplate getNotificationList(User user, Long lastItemId, int size){
+    public ResultTemplate getNotificationList(User user, Long lastItemId, int size) {
 
-        List<Notification> list = notificationQueryRepository.getNotificationListByUserId(user.getUserId(),lastItemId, size);
+        List<Notification> list = notificationQueryRepository.getNotificationListByUserId(user.getUserId(), lastItemId, size);
 
         List<ResponseNotification> insertList = list.stream().map(notification -> {
             return ResponseNotification.from(notification);
@@ -39,6 +43,18 @@ public class NotificationService {
 
     }
 
+
+    @Transactional
+    public ResultTemplate updateIsRead(Long notificationId) {
+
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> {
+           throw new NoSuchElementException(NoSuchElementException.NO_SUCH_NOTIFICATION);
+        });
+
+        if(notification.getIsRead().equals(BaseCheckType.F)) notification.updateIsRead();
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
 
 
 }
