@@ -205,7 +205,7 @@ public class AuctionService {
                 .orElseThrow(() -> new NotFoundException(NotFoundException.AUCTION_NOT_FOUND));
 
 
-//        if (BaseCheckType.F.equals(findAuction.getDreamCard().getAuctionStatus())) throw new BiddingException(BiddingException.ALREADY_AUCTION_END);
+        if (BaseCheckType.F.equals(findAuction.getDreamCard().getAuctionStatus())) throw new BiddingException(BiddingException.ALREADY_AUCTION_END);
         if (findAuction.getBidding().isEmpty()) throw new NotFoundException(NotFoundException.BIDDING_NOT_FOUND);
         if (LocalDateTime.now().isBefore(findAuction.getEndedAt())) throw new BiddingException(BiddingException.BEFORE_AUCTION_END);
 
