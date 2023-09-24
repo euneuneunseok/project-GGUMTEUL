@@ -16,6 +16,7 @@ import Text from "style/Text";
 import { Renderer } from "react-insta-stories/dist/interfaces";
 import { Box } from "style/Box";
 import Image from "style/Image";
+import styled from "styled-components";
 
 export interface DayStoryDetailProps {
   setIsOpenModal :Dispatch<SetStateAction<boolean>>,
@@ -31,6 +32,20 @@ interface StoryType {
   userId :number
 }
 
+interface StoryBarProps {
+  storyLength :number,
+  currentIndex :number,
+  index :number,
+}
+
+const StoryBar = styled.div<StoryBarProps>`
+  width: calc(${props => 100/props.storyLength*(props.currentIndex+1)}%);
+  height: 0.4rem;
+  background-color: ${props =>
+    props.currentIndex >= props.index ? "#3D5665" : "#E4E8E7"};
+  border-radius: 1rem;
+  border: 1px solid #3D5665;
+  `
 
 // interface StoriesType extends Array<StoriesObjType> {}
 
@@ -161,16 +176,18 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   
 
   const handleOnNext = () => {
-    setCurrentIndex(currentIndex+1);
+    if (currentIndex + 1 >= storyList.length) {
+      handleIsOpenModal();
+      return
+    }
+    setCurrentIndex(currentIndex + 1);
   }
 
   
   const handleOnPrevious = () => {
-    // let newIndex = currentIndex - 1;
     if (currentIndex - 1 < 0) return;
     setCurrentIndex(currentIndex - 1);
     console.log('이전');
-    // setTimeout(() => setCurrentTime(0), interval);
   }
 
   // 인덱스가 리스트 길이보다 작고 모달이 띄워져있을 때 실행
@@ -188,12 +205,28 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   }, [storyList])
 
 
-  // storyList 개수만큼 div 태그 만들기 (상단바)
-  const newDivElement = document.createElement('div');
-  newDivElement.className = 'storyBarElement';
-  storyList.forEach((element, index) => {
-    document.querySelector('.storyBar')?.appendChild(newDivElement);
-  });
+  // // storyList 개수만큼 div 태그 만들기 (상단바)
+  // useEffect(() => {
+  //   const newDivElement = document.createElement('div');
+  //   newDivElement.className = 'storyBarElement';
+  //   storyList.forEach((element, index) => {
+  //     document.querySelector('.storyBar')?.appendChild(newDivElement);
+  //   });
+  // }, [storyList])
+
+  // currentIndex까지의 StoryBar 배경색을 특정색으로 지정
+  useEffect(() => {
+    const storyBars = document.querySelectorAll(".storyBar");
+    storyBars.forEach((storyBar, index) => {
+      const element = storyBar as HTMLElement; // 타입 어설션
+      if (index <= currentIndex) {
+        element.style.backgroundColor = "#3D5665";
+      } else {
+        element.style.backgroundColor = "transparent"; // currentIndex 이후는 투명 배경색
+      }
+    });
+  }, [currentIndex]);
+
   
   return (
     <>
@@ -225,7 +258,16 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
             ></div>
 
             {/* 상단바 */}
-            <div className="storyBar"></div>
+            <div className="storyBarBox">
+              {storyList.map((element, i) => (
+                  <StoryBar 
+                  key={i} 
+                  storyLength={storyList.length}
+                  currentIndex={currentIndex}
+                  index={i}
+                  ></StoryBar>
+              ))}
+            </div>
 
             {/* 컨텐츠 영역 */}
             {/* 헤더 */}
