@@ -1,16 +1,16 @@
 package dream.card.service;
 
+import dream.auction.domain.Auction;
+import dream.auction.domain.AuctionRepository;
 import dream.card.domain.*;
 import dream.card.dto.request.RequestDreamCardDetail;
 import dream.card.dto.request.RequestDreamCardIsShow;
-import dream.card.dto.request.RequestKeyword;
 import dream.card.dto.response.*;
 import dream.common.domain.BaseCheckType;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.DeleteException;
 import dream.common.exception.NotFoundException;
 import dream.common.exception.NotMatchException;
-import dream.security.jwt.domain.UserInfo;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,6 +32,7 @@ public class DreamCardService {
     private final DreamCardQueryRepository dreamCardQueryRepository;
     private final UserRepository userRepository;
     private final DreamKeywordRepository dreamKeywordRepository;
+    private final AuctionRepository auctionRepository;
 
     /**
      * 밤 메인 화면에서 카드 리스트를 조회 하는 함수 !
@@ -65,8 +65,11 @@ public class DreamCardService {
         DreamCard findCard = dreamCardRepository.findDetailsById(id)
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
 
+        List<Auction> findAuctions = auctionRepository.findByDreamCardId(id);
+        long auctionId = -1;
+        if (!findAuctions.isEmpty()) auctionId = findAuctions.get(0).getAuctionId();
 
-        ResponseFlipDreamCardDetail response = ResponseFlipDreamCardDetail.from(findCard);
+        ResponseFlipDreamCardDetail response = ResponseFlipDreamCardDetail.from(findCard, auctionId);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }

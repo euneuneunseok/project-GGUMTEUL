@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +64,7 @@ public class DreamCard extends BaseTimeEntity {
     private List<CardKeyword> cardKeyword;
 
     @OneToMany(mappedBy = "dreamCard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WriggleReview> wriggleReviews;
+    private List<WriggleReview> wriggleReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "dreamCard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Auction> auction;
@@ -139,8 +140,8 @@ public class DreamCard extends BaseTimeEntity {
         this.auctionStatus = BaseCheckType.F;
     }
 
-    public void addReview(User buyer, User seller){
-        wriggleReviews.add(WriggleReview.makeReview(this, buyer, seller));
+    public void addReview(User buyer, User seller, int reviewPoint){
+        wriggleReviews.add(WriggleReview.makeReview(this, buyer, seller, reviewPoint));
     }
 
 }
