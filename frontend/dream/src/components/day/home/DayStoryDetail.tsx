@@ -22,29 +22,29 @@ export interface DayStoryDetailProps {
   isOpenModal :boolean,
 }
 
-interface StoryHeaderType {
-  heading :string,
-  subheading :string,
-  profileImage :string
-}
+// interface StoryHeaderType {
+//   heading :string,
+//   subheading :string,
+//   profileImage :string
+// }
 
-interface StoriesObjType {
-  url :string,
-  header ?:StoryHeaderType,
-  type ?:string,
-  duration ?:number,
-  // content :Renderer | undefined
-}
+// interface StoriesObjType {
+//   url :string,
+//   header ?:StoryHeaderType,
+//   type ?:string,
+//   duration ?:number,
+//   // content :Renderer | undefined
+// }
 
-interface StoryStylesType {
-  width :number | string,
-  height :number | string,
-  margin :string,
-  padding :string,
-  borderRadius :string,
-  objectFit :string;
-  aspectRatio :number;
-}
+// interface StoryStylesType {
+//   width :number | string,
+//   height :number | string,
+//   margin :string,
+//   padding :string,
+//   borderRadius :string,
+//   objectFit :string;
+//   aspectRatio :number;
+// }
 
 interface StoryType {
   challengeDetailContent :string,
@@ -56,8 +56,13 @@ interface StoryType {
 }
 
 
-interface StoriesType extends Array<StoriesObjType> {}
+// interface StoriesType extends Array<StoriesObjType> {}
 
+// 스토리 입장 -> n초 대기 -> 다음 화면 넘어가기
+// 입장 후 n초 대기 -> 기준time 0으로 초기화 -> handleOnNext 실행
+// 다음 클릭 -> handleOnNext 실행
+// 이전 클릭 -> handleOnPrevious 실행
+// 인덱스번호 변경 -> n초 대기 -> 기준time 0으로 초기화
 
 const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   // const auth = useSelector((state: RootState) => state.auth);
@@ -106,13 +111,13 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
 
   // ]
 
-  // 데이터가 존재하는지 여부 확인
-  const checkStoryData = () => {
-    // 데이터가 존재할 때
-    if (storyList.length > 0) return setIsStoryData(true);
-    // 데이터가 존재하지 않을 때
-    setIsStoryData(false);
-  }
+  // // 데이터가 존재하는지 여부 확인
+  // const checkStoryData = () => {
+  //   // 데이터가 존재할 때
+  //   if (storyList.length > 0) return setIsStoryData(true);
+  //   // 데이터가 존재하지 않을 때
+  //   setIsStoryData(false);
+  // }
 
   // 더미 데이터
   // const stories :StoriesType = [{
@@ -177,14 +182,14 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   //   console.log(storyList)
   // }, [storyList, setStoryList])
 
-  const stories: StoriesType = storyList.map((story, index) => ({
-    url: "https://picsum.photos/1000/1000", // storyList의 각 요소를 url로 사용
-    header: {
-      heading: story.nickName,
-      subheading: story.photoUrl,
-      profileImage: 'https://picsum.photos/1000/1000', // 프로필 이미지 URL
-    },
-  }));
+  // const stories: StoriesType = storyList.map((story, index) => ({
+  //   url: "https://picsum.photos/1000/1000", // storyList의 각 요소를 url로 사용
+  //   header: {
+  //     heading: story.nickName,
+  //     subheading: story.photoUrl,
+  //     profileImage: 'https://picsum.photos/1000/1000', // 프로필 이미지 URL
+  //   },
+  // }));
 
   
   
@@ -265,54 +270,63 @@ const DayStoryDetail = ({setIsOpenModal, isOpenModal} :DayStoryDetailProps) => {
   // console.log(stories.length)
 
 
-  // 스토리에 나오는 사진 크기 지정
-  const storyStyles = {
-    width: '100%',
-    height: '100%',
-    margin: 'auto',
-    padding: '0.5rem',
-    borderRadius: '1rem',
-    objectFit: 'cover',
-    aspectRatio: 1/1,
+  // // 스토리에 나오는 사진 크기 지정
+  // const storyStyles = {
+  //   width: '100%',
+  //   height: '100%',
+  //   margin: 'auto',
+  //   padding: '0.5rem',
+  //   borderRadius: '1rem',
+  //   objectFit: 'cover',
+  //   aspectRatio: 1/1,
     
-  }
+  // }
 
-  // 화면 크기
-  let windowWidth = window.innerWidth;
-  let windowHeight = window.innerHeight;
+  // // 화면 크기
+  // let windowWidth = window.innerWidth;
+  // let windowHeight = window.innerHeight;
   
 
   // 인덱스로 제어
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(4);
   // let newIndex = 0;
-  const [newIndex, setNewIndex] = useState<number>(0);
-  let interval = 4000;
+  // const [newIndex, setNewIndex] = useState<number>(0);
+  let interval = 1000;
 
   const handleOnNext = () => {
-    setNewIndex(currentIndex + 1);
-    if (currentIndex + 1 === storyList.length) {return handleIsOpenModal()};
-    setCurrentIndex(currentIndex + 1);
+    // setNewIndex(currentIndex + 1)
+    let newIndex = currentIndex + 1;
+    if (newIndex === storyList.length) {
+      setCurrentIndex(0);
+      handleIsOpenModal();
+      return 
+    };
+    setCurrentIndex(newIndex);
     console.log('다음', currentIndex, newIndex);
-    // setTimeout(() => handleOnNext(),interval);
+    // setTimeout(() => handleOnNext(), interval);
   }
 
   const handleOnPrevious = () => {
-    setNewIndex(currentIndex - 1);
-    if (currentIndex - 1 <= 0) {setNewIndex(0)};
+    // setNewIndex(currentIndex - 1);
+    let newIndex = currentIndex - 1;
+    if (newIndex < 0) return;
     setCurrentIndex(newIndex);
     console.log('이전', currentIndex, newIndex);
-    // setTimeout(() => handleOnNext(),interval);
+    // setTimeout(() => handleOnNext(), interval);
   }
 
 
   useEffect(() => {
-    if (currentIndex <= -1) {
-      setIsOpenModal(false)
-      setCurrentIndex(0)
+    setTimeout(() => handleOnNext, interval)
+  }, [handleOnPrevious, handleOnNext, currentIndex, setCurrentIndex])
+
+  // 스토리 시작 시 setTimeOut
+  useEffect(() => {
+    if (isOpenModal) {
+      setTimeout(() => handleOnNext(), interval)
     }
-    // setTimeout(() => handleOnNext, interval)
-  }, [currentIndex])
+  }, [isOpenModal])
 
   
   return (
