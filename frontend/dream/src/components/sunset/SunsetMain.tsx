@@ -6,10 +6,14 @@
 // 밤의꿈 꾸러가기
 {/* => <NightHomePage/> */}
 
+import basicHttp from "api/basicHttp";
+import tokenHttp from "api/tokenHttp";
 import Button from "components/common/Button";
-import React from "react";
+import React, {useEffect} from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Container from "style/Container";
+import store from "store";
+import userdataReducer, { UserdataType, getCurrentUserdata } from "store/userdataReducer";
 
 import styled from "styled-components";
 
@@ -31,12 +35,23 @@ const StartIcon = styled.div`
     width: 6rem;
     height: 6rem;
   }
-
 `;
 
-const SunsetMain = () => {
 
+
+const SunsetMain = () => {
+  
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  //유저 로그인 정보 리덕스에 저장
+  useEffect(()=>{
+    basicHttp.get('/user/2')
+      .then((response)=> {
+        console.log(response.data.data)
+        dispatch(getCurrentUserdata(response.data.data))
+      })  
+      .catch((e)=>{console.log(e)})
+  },[])
 
   return (
     <SunsetMainContainer>
