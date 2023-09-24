@@ -214,20 +214,11 @@ const StyledWrap = styled.div<WrapProps>`
         /* 상단바 */
         & > .storyBarBox {
           height: 0.5rem;
-          width: 90%;
-          // position: ;
-          // top: 0;
+          width: 98%;
           margin: 1rem auto;
           display: flex;
-          // background-color: #E4E8E7;
           border-radius: 1rem;
           align-items: center;
-
-          & > .storyBarElement {
-            // height: 0.2rem;
-            // width: 25%;
-            // background-color: blue;
-          }
         }
 
         /* contents 부분 */
@@ -244,12 +235,6 @@ const StyledWrap = styled.div<WrapProps>`
           }
         }
       }
-
-      // /* 내용이 없을 때 */
-      // & > .noContent {
-      //   position: absolute;
-      //   top: 45%;
-      // }
     `
   }
 
