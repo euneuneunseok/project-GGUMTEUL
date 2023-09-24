@@ -211,10 +211,23 @@ const StyledWrap = styled.div<WrapProps>`
           z-index: 999;
         }
 
-        /* 상단바 부분 */
-        & > div:nth-child(3) > div:nth-child(1) > div {
-            // transition: none;
-            transform: none;
+        /* 상단바 */
+        & > .storyBarBox {
+          height: 0.5rem;
+          width: 90%;
+          // position: ;
+          // top: 0;
+          margin: 1rem auto;
+          display: flex;
+          // background-color: #E4E8E7;
+          border-radius: 1rem;
+          align-items: center;
+
+          & > .storyBarElement {
+            // height: 0.2rem;
+            // width: 25%;
+            // background-color: blue;
+          }
         }
 
         /* contents 부분 */
