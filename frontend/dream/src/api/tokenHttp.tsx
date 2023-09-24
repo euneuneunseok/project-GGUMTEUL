@@ -1,11 +1,11 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import jwt_decode, { JwtPayload } from "jwt-decode";
 import dayjs from "dayjs";
 
 // 토큰이 필요한 인증에 사용
 
 // const baseURL = process.env.REACT_APP_SERVER_URL;
-const baseURL = "https://i9b107.p.ssafy.io:5157";
+const baseURL = "https://j9b301.p.ssafy.io/api";
 
 const tokenHttp = axios.create({
   baseURL,
@@ -22,8 +22,8 @@ tokenHttp.interceptors.request.use(async (req) => {
     throw new Error("expire token");
   }
 
-  const user = jwt_decode(accessToken);
-  const isExpired = dayjs().diff(dayjs.unix(user.exp)) < 1;
+  const user = jwt_decode<JwtPayload>(accessToken);
+  const isExpired = dayjs().diff(dayjs.unix(user.exp as number)) < 1;
 
   // access token 이 만료되지 않았다면 access-token 을 넣어 요청 실행
   if (isExpired) {
