@@ -1,1 +1,0 @@
-rawData[idx]['content']
