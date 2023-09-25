@@ -29,7 +29,7 @@ export interface NightHomeListType extends Array<NightHomeItemType>{}
 const NightHomeList = () => {
 
   const [nightHomeDataSet, setNightHomeDataSet] = useState<NightHomeListType>([])
-  const [lastItemId, setLastItemId] = useState<number>(0);
+  const [lastItemId, setLastItemId] = useState<number>(-1);
   let size = 5;
 
   // api 요청하는 함수
@@ -37,7 +37,7 @@ const NightHomeList = () => {
     let apiAddress :string = "";
 
     // 처음 요청 받을 때 : lastItemId 없음
-    if (lastItemId === 0) {apiAddress = `/night/?size=${size}`}
+    if (lastItemId === -1) {apiAddress = `/night/?size=${size}`}
     // 두번째부터 요청 할 때
     else {apiAddress = `/night/?lastItemId=${lastItemId}&size=${size}`}
     
