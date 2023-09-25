@@ -11,11 +11,8 @@ export function checkWrongInput(inputData:string):boolean {
 
 export function checkCertInput(inputData:string):boolean {
   const blank_pattern = /^\s*$/; // 공백만 있을 때
-  const special_pattern = /^[^\w\s]+$/; // 특수문자만 있을 때
   if (blank_pattern.test(inputData)){
     return false
-  } else if( special_pattern.test(inputData)){
-    return false
-  }
+  } 
   return true
 }

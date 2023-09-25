@@ -253,6 +253,34 @@ ${(props) =>
         }
       `
     }
+${(props) =>
+      props.$certImage &&
+      css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        aspect-ratio: 1/1;
+        background-size: cover;
+        border-radius: 1rem;
+        background-color: #666666;
+        
+        & > svg {
+          font-size: 5rem;
+          color: white;
+        }
+
+        & > img { // 정사각형 만들기
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+          object-fit: cover;
+        }
+      `
+    }
 
 `
 

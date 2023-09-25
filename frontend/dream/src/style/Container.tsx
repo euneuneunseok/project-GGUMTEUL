@@ -8,11 +8,13 @@ interface ContainerProps {
   $baseContainer ?: boolean
   $centerContainer ?: boolean
   $spaceBetweenContainer ?: boolean
+  $columnCenterContainer ?: boolean
 
   // 5개 넘어가면 한줄 띄어가는 keyword
   $nightKeyword ?: boolean
 
   $dayCreate ?: boolean
+  $certCreate ?: boolean
   $dayBaseContainer ?: boolean
   // 챌린지 디테일 내용 컨테이너
   $chalDetail ?: boolean
@@ -38,6 +40,16 @@ const StyledContainer = styled.div<ContainerProps>`
     props.$centerContainer &&
     css`
       display: flex;
+      justify-content: center;
+      align-content: center;
+      margin: 1rem auto;
+    `
+  }
+  ${(props) =>
+    props.$columnCenterContainer &&
+    css`
+      display: flex;
+      flex-direction: column;
       justify-content: center;
       align-content: center;
       margin: 1rem auto;
@@ -76,7 +88,18 @@ const StyledContainer = styled.div<ContainerProps>`
   ${(props) =>
     props.$dayCreate &&
     css`
-      margin-top: 4rem;
+      margin-top: 2rem;
+    `
+  }
+  // 인증글 생성 컨테이너
+  ${(props) =>
+    props.$certCreate &&
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
     `
   }
 

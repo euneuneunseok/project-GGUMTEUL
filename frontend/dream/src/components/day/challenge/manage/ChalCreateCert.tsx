@@ -103,18 +103,35 @@ const ChalCreateCert = () => {
   const checkContent = (inputData: string): void => {
     setChallengeContent(inputData)
     // 공백만 들어있거나 특수문자 들어있음
-    if (!checkCertInput(inputData)) {
-      alert('내용에 공백만 들어갔거나, 특수문자만 들어갔습니다.')
+    if (inputData != '' && !checkCertInput(inputData)) {
+      alert('내용에 공백만 들어갔습니다.')
     }
   }
 
   return (
-    <Container $dayBaseContainer $dayCreate>
+    <Container $dayBaseContainer $certCreate>
       <Box $mainTitleBox>
         {/* 뱃지 이미지 아직 안됨 */}
         <img src={`${chalData?.badgeUrl}`}></img>
-        {chalData?.challengeTitle}
+        {/* {chalData?.challengeTitle} */}
+        이런 아무말도 가능
       </Box>
+
+      {profileImageURL ? (
+        <Image $certImage>
+          <img
+            src={profileImageURL}
+            onClick={imageInputClick}
+          />
+        </Image>
+      ) : (
+        <Image $certImage 
+          onClick={imageInputClick}
+        >
+          <RiImageAddLine />
+        </Image>
+      )}
+
       <TextArea
         $chalDetailValue
         placeholder="오늘의 인증 글"
@@ -123,29 +140,13 @@ const ChalCreateCert = () => {
         }}
       ></TextArea>
 
-      {
-        profileImageURL ? (
-          <>
-            <Image $certImage>
-              <img src={profileImageURL}></img>
-            </Image>
-            <Button
-              $fullWidth
-              $dayBlue
-              style={{ color: 'black' }}
-              onClick={()=>{}}
-            >완료</Button>
-          </>
-          ) : (
-            <Button
-              $fullWidth
-              $dayBlue
-              $icon
-              style={{ color: 'black' }}
-              onClick={imageInputClick}
-            ><RiImageAddLine /></Button>
-        )
-      }
+
+      <Button
+        $fullWidth
+        $dayBlue
+        style={{ color: 'black' }}
+        onClick={() => { }}
+      >완료</Button>
 
       <input
         type="file"
