@@ -34,7 +34,7 @@ for idx in range(0, dataLength-1, n):
 
 # pprint(data_list)
 
-output_path = "C:\\Users\\dl_sk\\Desktop\\spepjt\\S09P22B301\\dataend\\output1.json"
+output_path = "C:\\Users\\dl_sk\\Desktop\\spepjt\\S09P22B301\\dataend\\output1.csv"
 
 with open(output_path, 'w', encoding='utf-8') as out:
     json.dump(data_list, fp=out, ensure_ascii=False, indent=4)
