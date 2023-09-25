@@ -23,7 +23,7 @@ import React, {useEffect,useState} from "react";
 import Button from "components/common/Button";
 import Container from "style/Container";
 import { Box, BoxTitle } from "style/Box";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import basicHttp from "api/basicHttp";
 import { ChalDetailDataType, ChalDetailInfoProps } from "../ChalDetail";
 import Wrap from "style/Wrap";
@@ -87,8 +87,9 @@ const initialChalDetail:ChalDetailInfoProps = {
 
 const ChalManageDetail = () => {
   const params = useParams()
+  const navigate = useNavigate()
   const currentChallengeId = Number(params.challengeId)
-  const [chalData, setChalData] = useState<ChalDetailDataType>()
+  const [chalData, setChalData] = useState<ChalDetailDataType>(initialChalDetail.chalDetailData)
 
   const [progress, setProgress] = useState<number>(70); // 꿈틀도 추후 변경하기
   
@@ -140,7 +141,10 @@ const ChalManageDetail = () => {
       </Box>
 
       {/* 챌린지 인증하기 버튼 */}
-      <Button $fullWidth $dayBlue $chalCertButton>
+      <Button 
+        $fullWidth $dayBlue $chalCertButton
+        onClick={()=>{navigate(`/day/mychallenge/${currentChallengeId}/cert/create`)}}
+      >
         <Text $isBold>챌린지 인증하기</Text>
       </Button>
       

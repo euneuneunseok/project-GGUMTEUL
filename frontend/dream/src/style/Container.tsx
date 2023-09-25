@@ -76,7 +76,7 @@ const StyledContainer = styled.div<ContainerProps>`
   ${(props) =>
     props.$dayCreate &&
     css`
-      margin-top: 5rem;
+      margin-top: 4rem;
     `
   }
 

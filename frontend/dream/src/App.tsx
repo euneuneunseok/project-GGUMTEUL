@@ -123,7 +123,7 @@ function App() {
         <Route path="/day/mychallenge/list" element={<ChalManagePage/>}/>
         <Route path="/day/mychallenge/:challengeId" element={<ChalManageDetailPage/>}/>
         {/* 인증글 올리기 */}
-        <Route path="/day/mychallenge/cert/create" element={<ChalCreateCertPage/>}/>        
+        <Route path="/day/mychallenge/:challengeId/cert/create" element={<ChalCreateCertPage/>}/>        
 
         {/* 낮 프로필 */}        
         <Route path="/day/profile/:userId" element={<DayProfilePage/>}/>

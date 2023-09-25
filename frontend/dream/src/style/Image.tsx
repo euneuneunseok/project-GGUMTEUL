@@ -35,6 +35,7 @@ interface ImageProps {
     $auctionCard ?: boolean;
 
     $signupImage ? :boolean;
+    $certImage ? :boolean;
 }
 
 const StyledImage = styled.div<ImageProps>`

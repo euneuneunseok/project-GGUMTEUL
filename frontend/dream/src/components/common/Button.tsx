@@ -108,6 +108,8 @@ const StyledButton = styled.button<ButtonProps>`
     ${(props) =>
         props.$icon &&
         css`
+        line-height: 1.5rem;
+        font-size: 1.5rem;
         padding: 0.5rem;
         margin: 0.5rem;
         border: none;
