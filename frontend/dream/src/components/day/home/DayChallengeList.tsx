@@ -15,7 +15,8 @@ import tokenHttp from "api/tokenHttp";
 export interface DayChallengeObjType {
   title :string,
   period :string,
-  challengeId :number
+  challengeId :number,
+  challengeTitle ?:string,
 }
 
 export interface DayChallengeListType extends Array<DayChallengeObjType> {}
