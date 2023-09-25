@@ -105,7 +105,7 @@ const Dropdown = (props:DropdownProps) => {
             return (
             <Option 
               key={optionArray.indexOf(option)} 
-              onClick={(e)=>{selectOption(option)}}
+              onClick={()=>{selectOption(option)}}
             >
               {option}
             </Option>)

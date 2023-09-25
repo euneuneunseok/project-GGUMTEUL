@@ -20,6 +20,7 @@ import TextArea from "style/TextArea";
 import Container from "style/Container";
 import basicHttp from "api/basicHttp";
 import { checkWrongInput } from "utils/alert/checkInput";
+import { useNavigate } from "react-router";
 
 interface categoryListType {
   "keywordId" : number;
@@ -28,9 +29,11 @@ interface categoryListType {
 
 const ChalCreate = () => {
 
+  const navigate = useNavigate()
+
   const [challengeTitle, setChallengeTitle] = useState<string>('')
   const [challengeContent, setChallengeContent] = useState<string>('')
-  const [categoryList,setCategoryList] = useState<string[]>(['keyword1','keyword2','keyword3','keyword4','keyword5'])
+  const [categoryList,setCategoryList] = useState<string[]>(['Keyword 1','Keyword 2','Keyword 3','Keyword 4','Keyword 5'])
   const [periodList,setPeriodList] = useState<string[]>(['7일','30일','100일','365일'])
  
   const [selectCategory, setSelectCategory] = useState<string>('');
@@ -58,19 +61,27 @@ const ChalCreate = () => {
   }
 
   const createChallenge = () => {
-    console.log(selectPeriod)
-    console.log(selectCategory)
-
+    // console.log(selectPeriod)
+    // console.log(selectCategory)
+    // console.log(categoryList)
+    // console.log(categoryList.indexOf(selectCategory)+1)
+    // Keyword ID 하드코딩함
 
     const challengeData = {
       "challengeTitle" : challengeTitle,
       "challengeContent" : challengeContent,
       "badgeUrl" : "S3 저장경로",
-      "keywordId" : 2,
-      "period" : "7일"
+      "keywordId" : categoryList.indexOf(selectCategory)+1,
+      "period" : selectPeriod
     }
     basicHttp.post('day/challenge/new', challengeData)
-      .then((response) => console.log(response))
+      .then((response) => {
+        navigate('/day/challenge/:challangeId/timecapsule/create', {
+          state:{
+            challengeId: response.data.data.challengeId
+          }
+        })
+      })
       .catch((e)=>{console.log(e)})
   }
 
@@ -82,13 +93,10 @@ const ChalCreate = () => {
         
         let keywordList:string[] = []
         res.map((keywordObj:categoryListType)=>{
-          console.log(keywordObj)
           keywordList = [...keywordList, keywordObj.keyword]
         })
 
         setCategoryList(keywordList)
-        console.log(keywordList)
-
       })
       .catch((e)=>{console.log(e)})
   },[])
