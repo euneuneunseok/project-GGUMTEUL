@@ -108,7 +108,7 @@ const ChalManageDetail = () => {
   },[])
 
   return (
-    <Container $dayBaseContainer>
+    <Container $dayBaseContainer $dayCreate>
       <Box $mainTitleBox>
         {/* 뱃지 이미지 아직 안됨 */}
         <img src={`${chalData?.badgeUrl}`}></img> 
@@ -138,6 +138,18 @@ const ChalManageDetail = () => {
         <BoxTitle $boxTitle>성취도</BoxTitle>
         <Text $progressPercent>{progress}%</Text>
       </Box>
+
+      {/* 챌린지 인증하기 버튼 */}
+      <Button $fullWidth $dayBlue $chalCertButton>
+        <Text $isBold>챌린지 인증하기</Text>
+      </Button>
+      
+
+      <Text $dayMoney $timeCapsuleText>다른 사람들의 응원 메세지를 확인해보세요.</Text>
+      <Button $fullWidth $dayYellow $chalCertButton>
+        <img src={`${process.env.PUBLIC_URL}/image/icon/timecapsule.png`}></img>
+        <Text $isBold>타임 캡슐</Text>
+      </Button>
 
     </Container>
   )
