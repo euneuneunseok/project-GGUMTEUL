@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import dream.user.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -25,6 +27,8 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     private final NotificationQueryRepository notificationQueryRepository;
+
+    private final Map<Long, String> tokenMap = new HashMap<>();
 
     public ResultTemplate getNotificationList(User user, Long lastItemId, int size) {
 
@@ -55,6 +59,11 @@ public class NotificationService {
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
+
+    public void register(final Long userId, final String token) {
+        tokenMap.put(userId, token);
+    }
+
 
 
 }

@@ -54,6 +54,10 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	//webSocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	//fcm
+	implementation 'com.google.firebase:firebase-admin:8.1.0'
+
 }
 
 //querydsl

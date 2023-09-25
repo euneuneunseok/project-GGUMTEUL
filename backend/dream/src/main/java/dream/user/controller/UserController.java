@@ -3,6 +3,7 @@ package dream.user.controller;
 import dream.common.domain.ResultTemplate;
 import dream.security.jwt.domain.UserInfo;
 import dream.user.domain.User;
+import dream.user.dto.request.RequestFcmToken;
 import dream.user.dto.request.RequestNickname;
 import dream.user.dto.request.RequestToId;
 import dream.user.dto.response.ResponseUser;
@@ -49,9 +50,9 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResultTemplate logout(HttpServletRequest request) {
+    public ResultTemplate logout(HttpServletRequest request, @RequestBody RequestFcmToken requestFcmToken) {
 
-        return userService.logout(request);
+        return userService.logout(request, requestFcmToken);
 
     }
 
