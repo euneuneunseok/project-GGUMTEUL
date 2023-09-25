@@ -17,12 +17,12 @@ text = "집에 들어갔다가 방에 들어간다 그리고 학교에 들어갈
 text2 = "저는 지금 공부하고 싶습니다. 과연 나는 어떤 데이터가 추출될까요?"
 
 # .,!? 제거
-newText = re.sub(",|.|!|?", " ", text)
-print(newText)
-exit()
+# newText = re.sub(",|.|!|?", " ", text)
+# print(newText)
+# exit()
 
 # 불용어 처리
-input_path = "C:\\Users\\SSAFY\\Desktop\\pjt301\\S09P22B301\\dataend\\stopwords.txt"
+input_path = ".\\stopwords.txt"
 txt = open(input_path, 'r', encoding='utf-8')
 stopWords = set()
 
