@@ -31,7 +31,7 @@ const NightProfileBuyingTab = () => {
     basicHttp.get(`/profile/night/auction/participation/list?lastItemId=${lastItemId}&$size={size}`)
     .then((res) => {
       console.log("== 꿈 받기 탭 ==", res); 
-      setAuctionBuyingDataList(res.data.data);
+      setAuctionBuyingDataList(res.data.data.auctionList);
     })
     .catch((err) => console.log("== 꿈 받기 탭 ==", err))
   }
@@ -55,15 +55,18 @@ const NightProfileBuyingTab = () => {
 
   return (
     <>
-    <InfiniteScroll 
-    setArriveEnd={setArriveEnd} 
-    // lastItemId={lastItemId}
-    component={
-      auctionBuyingDataList?.map((data, i) => (
-        <AuctionCard auctionCard={data} key={i}/>
-      ))
+    {
+      auctionBuyingDataList &&
+      <InfiniteScroll 
+      setArriveEnd={setArriveEnd} 
+      // lastItemId={lastItemId}
+      component={
+        auctionBuyingDataList?.map((data, i) => (
+          <AuctionCard auctionCard={data} key={i}/>
+          ))
+      }
+      />
     }
-    />
     </>
   )
 }
