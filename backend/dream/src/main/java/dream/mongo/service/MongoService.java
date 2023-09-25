@@ -4,7 +4,7 @@ import dream.common.domain.ResultTemplate;
 import dream.mongo.domain.DataDream;
 import dream.mongo.domain.RequestDream;
 import dream.mongo.domain.ResponseDream;
-import dream.mongo.domain.dream;
+import dream.mongo.domain.Dream;
 import dream.mongo.repository.MongoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +21,9 @@ import java.util.Set;
 public class MongoService {
 
     private final MongoRepository mongoRepository;
-    public List<dream> getAllDream() {
+    public List<Dream> getAllDream() {
 
-        List<dream> response = mongoRepository.findAll();
+        List<Dream> response = mongoRepository.findAll();
         return response;
     }
 
@@ -33,7 +33,7 @@ public class MongoService {
                 70, 20);
 
         String regTitle = ".*" + title + ".*";
-        List<dream> list = mongoRepository.findByDreamRegex(title);
+        List<Dream> list = mongoRepository.findByDreamRegex(title);
         double max = Integer.MIN_VALUE;
         int idx = -1;
         for(int i = 0; i < list.size(); i++){
