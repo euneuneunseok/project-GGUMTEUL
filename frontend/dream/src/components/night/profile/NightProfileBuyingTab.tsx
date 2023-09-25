@@ -32,6 +32,7 @@ const NightProfileBuyingTab = () => {
     .then((res) => {
       console.log("== 꿈 받기 탭 ==", res); 
       setAuctionBuyingDataList(res.data.data.auctionList);
+      // setLastItemId(auctionBuyingDataList[-1]["challengeId"]); // 마지막 item id 변경
     })
     .catch((err) => console.log("== 꿈 받기 탭 ==", err))
   }
@@ -43,13 +44,11 @@ const NightProfileBuyingTab = () => {
   // infinite scroll
   const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
 
+  // 바닥에 다다랐으면 axios 요청
   useEffect(() => {
-    // 바닥에 다다랐으면 axios 요청
     if (arriveEnd) {
-      // axios 요청
       getAxios();
-      // setArriveEnd(false);
-      // setLastItemId(auctionBuyingDataList[-1]["challengeId"]); // 마지막 item id 변경
+      setArriveEnd(false);
     }
   }, [arriveEnd])
 
