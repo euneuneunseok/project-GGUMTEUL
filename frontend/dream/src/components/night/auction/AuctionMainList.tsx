@@ -1,9 +1,3 @@
-{/* <SearchInput></SearchInput> */}
-
-{/* <AuctionCard></AuctionCard> */}
-{/* <AuctionCard></AuctionCard> */}
-{/* <AuctionCard></AuctionCard> */}
-
 // 리액트
 import React, { useEffect, useState } from "react";
 
