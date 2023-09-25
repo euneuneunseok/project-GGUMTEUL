@@ -78,11 +78,12 @@ export interface ReverseCardType {
 const NightHomeItem = ({cardData}:NightHomeItemProps) => {
   const navigation = useNavigate()
   const [reverseCard, setReverseCard] = useState<ReverseCardType | null>(null)
+
   useEffect(()=> {
     basicHttp(`/night/dream/detail/${cardData.dreamCardId}`)
     .then(res=> {
       setReverseCard(res.data.data)
-      console.log(res.data.data)
+      // console.log(res.data.data)
     })
     .catch(err => console.log(err, "아이템 에러"))
   }, [])
