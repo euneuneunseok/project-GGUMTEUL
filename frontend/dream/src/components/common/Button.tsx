@@ -32,6 +32,7 @@ interface ButtonProps {
     $moreButton?: boolean;
     $category?: boolean;
     $chalCertButton?: boolean;
+    $goHomeButton?: boolean;
 
     // 색상 지정
     $nightPurple?: boolean
@@ -266,6 +267,16 @@ const StyledButton = styled.button<ButtonProps>`
         props.$dayCreate &&
         css`
             margin-top: 3rem;
+        `
+    }
+    // 404 정상화 버튼
+    ${(props) =>
+        props.$goHomeButton &&
+        css`
+            background-color: #1c3658;
+            color: aliceblue;
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
         `
     }
 
