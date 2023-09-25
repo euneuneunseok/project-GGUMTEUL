@@ -47,7 +47,7 @@ const ChalCapsuleCreate = () => {
     console.log(axiosData)
     
     // 챌린지 참여 axios
-    await basicHttp.post('day/challenge', {"challengeId" : currentChallengeId})
+    await basicHttp.post('/day/challenge', {"challengeId" : currentChallengeId})
       .then((response)=>{console.log(response, '챌린지 참여 axios')})
       .catch((e)=>{console.log(e)})
 
