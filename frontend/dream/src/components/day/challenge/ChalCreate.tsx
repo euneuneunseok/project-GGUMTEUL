@@ -76,11 +76,8 @@ const ChalCreate = () => {
     }
     basicHttp.post('day/challenge/new', challengeData)
       .then((response) => {
-        navigate('/day/challenge/:challangeId/timecapsule/create', {
-          state:{
-            challengeId: response.data.data.challengeId
-          }
-        })
+        const challengeId = response.data.data.challengeId
+        navigate(`/day/challenge/${challengeId}/timecapsule/create`)
       })
       .catch((e)=>{console.log(e)})
   }
