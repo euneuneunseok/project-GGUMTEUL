@@ -1,13 +1,21 @@
 // 리액트
 import React, { useEffect, useState } from "react";
+import basicHttp from "api/basicHttp";
 
 // 컴포넌트
 import AuctionCard from "../nightcommon/AuctionCard";
-import basicHttp from "api/basicHttp";
 import InfiniteScroll from "components/common/InfiniteScroll";
-import { AuctionCardType } from "../auction/AuctionMainList";
 
 // 스타일
+import { AuctionCardType } from "../auction/AuctionMainList";
+import Text from "style/Text";
+import styled from "styled-components";
+
+const NoCardMsgWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+`
 
 const NightProfileSellingTab = () => {
 
@@ -15,13 +23,21 @@ const NightProfileSellingTab = () => {
   // const [auctionSellingDataList, setAuctionSellingDataList] = useState<AuctionSellingAxiosType[]>();
   const [auctionSellingDataList, setAuctionSellingDataList] = useState<AuctionCardType[]>();
   const [lastItemId, setLastItemId] = useState<number>(0);
+  const [noCardMsg, setNoCardMsg] = useState<string>("");
   let size = 12;
   
   const getAxios = () => {
     basicHttp.get(`/profile/night/auction/list?lastItemId=${lastItemId}&size=${size}`)
     .then((res) => {
       console.log("== 꿈 팔기 탭 ==", res); 
-      setAuctionSellingDataList(res.data.data.auctionList);
+      // 데이터가 있을 때
+      if (res.data.data.auctionList) {
+        setAuctionSellingDataList(res.data.data.auctionList);
+        // setLastItemId(auctionSellingDataList[-1][""]); // 마지막 item id 변경
+      } else {
+        setNoCardMsg("판매 중인 카드가 없습니다.");
+        console.log('여기');
+      }
     })
     .catch((err) => console.log("== 꿈 팔기 탭 ==", err))
   }
@@ -33,13 +49,12 @@ const NightProfileSellingTab = () => {
   // infinite scroll
   const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
 
+  // 바닥에 다다랐으면 axios 요청
   useEffect(() => {
-    // 바닥에 다다랐으면 axios 요청
     if (arriveEnd) {
       // axios 요청
       getAxios();
-      // setArriveEnd(false);
-      // setLastItemId(auctionSellingDataList[-1]["challengeId"]); // 마지막 item id 변경
+      setArriveEnd(false);
     }
   }, [arriveEnd])
 
@@ -57,6 +72,11 @@ const NightProfileSellingTab = () => {
         }
       />
     }
+
+    {/* 꿈 카드가 없을 때 */}
+    <NoCardMsgWrap>
+      <Text $nightWhite>{noCardMsg}</Text>
+    </NoCardMsgWrap>
     </>
   )
 }
