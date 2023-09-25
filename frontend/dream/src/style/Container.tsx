@@ -88,7 +88,7 @@ const StyledContainer = styled.div<ContainerProps>`
   ${(props) =>
     props.$dayCreate &&
     css`
-      margin-top: 2rem;
+      margin-top: 5rem;
     `
   }
   // 인증글 생성 컨테이너
