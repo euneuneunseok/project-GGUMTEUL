@@ -30,7 +30,7 @@ const NightHomeList = () => {
 
   const [nightHomeDataSet, setNightHomeDataSet] = useState<NightHomeListType>([])
   const [lastItemId, setLastItemId] = useState<number>(0);
-  let size = 6;
+  let size = 5;
 
   // api 요청하는 함수
   const getAxios = () => {
@@ -43,19 +43,11 @@ const NightHomeList = () => {
     
     tokenHttp.get(apiAddress)
     .then((res)=> {
-      console.log("MAIN : ", res)
-      setNightHomeDataSet([...nightHomeDataSet, ...res.data.data.list]);
-      nightHomeDataSet[nightHomeDataSet.length - 1] && setLastItemId(nightHomeDataSet[nightHomeDataSet.length - 1].dreamCardId)
-      console.log("lastItemId : ", lastItemId);
-      // getLastIndex(res)
-      // console.log(res.data.data.list[].dreamCardId)
-      // setLastItemId(res.data.data.list[]["dreamCardId"])
-      
-      // setNightHomeDataSet((prev:any) => {
-        //   [...prev, ...res.data.list]
-        // })
-        // console.log(res.data.data.list)
-      })
+      // type이 object (배열)인 것만 저장
+      // TS는 배열을 object로 인식
+      if (typeof res.data.data.list === "object") {
+        setNightHomeDataSet([...nightHomeDataSet, ...res.data.data.list]);
+      }})
     .catch(err=>console.log("===", err))
   };
 
@@ -63,15 +55,11 @@ const NightHomeList = () => {
     getAxios();
   }, []);
 
-  // nightHomeDataSet에 axios로 데이터가 들어온 뒤 마지막 인덱스 저장
-  const getLastIndex = async (res :any) :Promise<void> => {
-    // setNightHomeDataSet([...nightHomeDataSet, res.data.data.list])
-    console.log("************", [...nightHomeDataSet, ...res.data.data.list])
-    setNightHomeDataSet([...nightHomeDataSet, ...res.data.data.list])
-    // console.log("nightHomeDataSet : ", nightHomeDataSet)
-    await nightHomeDataSet[nightHomeDataSet.length - 1] && setLastItemId(nightHomeDataSet[nightHomeDataSet.length - 1].dreamCardId)
-    console.log("lastItemId : ", lastItemId)
-  }
+  // nightHomeDataSet에 새로운 내용이 들어오면 lastItemId 변경
+  useEffect(() => {
+    nightHomeDataSet[nightHomeDataSet.length - 1] && 
+    setLastItemId(nightHomeDataSet[nightHomeDataSet.length - 1].dreamCardId)
+  }, [setNightHomeDataSet, nightHomeDataSet])
 
 
   // infinite scroll
