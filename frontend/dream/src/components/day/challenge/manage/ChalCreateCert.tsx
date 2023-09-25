@@ -28,6 +28,7 @@ import TextArea from "style/TextArea";
 import { checkCertInput } from "utils/alert/checkInput";
 import Image from "style/Image";
 import { RiImageAddLine } from "react-icons/ri";
+import basicHttp from "api/basicHttp";
 
 // 스타일
 
@@ -64,7 +65,7 @@ const ChalCreateCert = () => {
 
   useEffect(() => {
     // 렌더링되었을 때 참여
-    tokenHttp.get(`day/challenge/item/${currentChallengeId}`)
+    tokenHttp.get(`/day/challenge/item/${currentChallengeId}`)
       .then((response) => {
         const res = response.data.data
         setChalData(res.detail)

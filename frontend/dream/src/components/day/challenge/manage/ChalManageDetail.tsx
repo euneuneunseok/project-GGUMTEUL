@@ -95,7 +95,7 @@ const ChalManageDetail = () => {
   
   useEffect(()=>{
     // 렌더링되었을 때 참여
-    tokenHttp.get(`day/challenge/item/${currentChallengeId}`)
+    tokenHttp.get(`/day/challenge/item/${currentChallengeId}`)
       .then((response)=>{
         const res = response.data.data
         setChalData(res.detail)
