@@ -8,6 +8,7 @@ import basicHttp from "api/basicHttp";
 // 컴포넌트
 import NightHomeItem from "./NightHomeItem";
 import InfiniteScroll from "components/common/InfiniteScroll";
+import tokenHttp from "api/tokenHttp";
 
 
 // 타입
@@ -40,10 +41,13 @@ const NightHomeList = () => {
     // 두번째부터 요청 할 때
     else {apiAddress = `/night/?lastItemId=${lastItemId}&size=${size}`}
     
-    basicHttp.get(apiAddress)
+    tokenHttp.get(apiAddress)
     .then((res)=> {
       console.log("MAIN : ", res)
-      getLastIndex(res)
+      setNightHomeDataSet([...nightHomeDataSet, ...res.data.data.list]);
+      nightHomeDataSet[nightHomeDataSet.length - 1] && setLastItemId(nightHomeDataSet[nightHomeDataSet.length - 1].dreamCardId)
+      console.log("lastItemId : ", lastItemId);
+      // getLastIndex(res)
       // console.log(res.data.data.list[].dreamCardId)
       // setLastItemId(res.data.data.list[]["dreamCardId"])
       
@@ -62,10 +66,10 @@ const NightHomeList = () => {
   // nightHomeDataSet에 axios로 데이터가 들어온 뒤 마지막 인덱스 저장
   const getLastIndex = async (res :any) :Promise<void> => {
     // setNightHomeDataSet([...nightHomeDataSet, res.data.data.list])
-    // console.log("************", [...nightHomeDataSet, ...res.data.data.list])
+    console.log("************", [...nightHomeDataSet, ...res.data.data.list])
     setNightHomeDataSet([...nightHomeDataSet, ...res.data.data.list])
     // console.log("nightHomeDataSet : ", nightHomeDataSet)
-    await nightHomeDataSet && setLastItemId(nightHomeDataSet[nightHomeDataSet.length - 1].dreamCardId)
+    await nightHomeDataSet[nightHomeDataSet.length - 1] && setLastItemId(nightHomeDataSet[nightHomeDataSet.length - 1].dreamCardId)
     console.log("lastItemId : ", lastItemId)
   }
 
