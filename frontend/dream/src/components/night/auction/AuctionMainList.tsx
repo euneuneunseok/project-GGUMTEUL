@@ -7,7 +7,7 @@ import SearchBar from "components/common/SearchBar";
 import Input from "style/Input";
 
 // 외부 라이브러리
-import basicHttp from "api/basicHttp";
+import tokenHttp from "api/tokenHttp";
 
 // 스타일
 import Wrap from "style/Wrap";
@@ -37,7 +37,7 @@ const AuctionMainList = () => {
   const size = 10
 
   useEffect(() => {
-    basicHttp.get(`/auction/list?size=${size}`)
+    tokenHttp.get(`/auction/list?size=${size}`)
     .then(res => {
       setAuctionList(res.data.data.list)
       console.log(res.data.data.list, "옥션리스트")
