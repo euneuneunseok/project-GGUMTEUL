@@ -9,28 +9,28 @@ import { AuctionCardType } from "../auction/AuctionMainList";
 import tokenHttp from "api/tokenHttp";
 
 // 스타일
-// export interface AuctionBuyingAxiosType {
-//   dreamCardId :number,
-//   dreamCardImageUrl :string, 
-//   positivePoint :string,
-//   rarePoint :string,
-//   keywords :string[],
-//   endedAt :string,
-//   auctionStatus :string,
-// }
+export interface AuctionBuyingAxiosType {
+  auctionStatus :string,
+  dreamCardId :number,
+  dreamCardImageUrl :string, 
+  endedAt :string,
+  keywords :string[],
+  positivePoint :string,
+  rarePoint :string,
+}
 
 
 const NightProfileBuyingTab = () => {
 
   // axios로 데이터 받기
   // const [auctionBuyingDataList, setAuctionBuyingDataList] = useState<AuctionBuyingAxiosType[]>();
-  const [auctionBuyingDataList, setAuctionBuyingDataList] = useState<AuctionCardType[]>();
+  const [auctionBuyingDataList, setAuctionBuyingDataList] = useState<AuctionCardType[]>([]);
   const [lastItemId, setLastItemId] = useState<number>(0);
   const [hasNext, setHasNext] = useState<boolean>(true); 
   let size = 12;
 
   // infinite scroll
-  const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
+  const [arriveEnd, setArriveEnd] = useState<boolean>(true); // 바닥에 다다름을 알려주는 변수
 
   const getAxios = () => {
     let apiAddress :string = "";
@@ -45,10 +45,11 @@ const NightProfileBuyingTab = () => {
       .then((res)=>{
         const response = res.data.data
         const auctionList = response.auctionList
-        setAuctionBuyingDataList(auctionList);
-        // setLastItemId[auctionList[auctionList.length - 1].challengeId]
+        setAuctionBuyingDataList([...auctionBuyingDataList, ...auctionList]);
+        setLastItemId(auctionList[auctionList.length - 1].dreamCardId);
+        setHasNext(response.hasNext);
         console.log("== 꿈 받기 탭 ==", res); 
-      })    
+      })
       .catch((err) => console.log("== 꿈 받기 탭 ==", err))
     }
   }
@@ -76,7 +77,7 @@ const NightProfileBuyingTab = () => {
       component={
         auctionBuyingDataList?.map((data, i) => (
           <AuctionCard auctionCard={data} key={i}/>
-          ))
+        ))
       }
       />
     }
