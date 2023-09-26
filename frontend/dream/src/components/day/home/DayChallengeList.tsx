@@ -13,10 +13,12 @@ import tokenHttp from "api/tokenHttp";
 
 // 스타일
 export interface DayChallengeObjType {
-  title :string,
+  title ?:string,
   period :string,
   challengeId :number,
   challengeTitle ?:string,
+  challengeParticipateId ?:number,
+  participationCount ?:number
 }
 
 export interface DayChallengeListType extends Array<DayChallengeObjType> {}
@@ -31,6 +33,7 @@ const DayChallengeList = () => {
   const getAxios = () => {
     let apiAddress :string = "";
 
+    // 현재는 api 주소에 슬래시 하나 더 추가된 상태라(/day/?size~) 화면에 나타나지 않음 => 추후 수정
     // 처음 요청 받을 때 : lastItemId 없음
     if (lastItemId === -1) {apiAddress = `/day?size=${size}`}
     // 두번째부터 요청 할 때
