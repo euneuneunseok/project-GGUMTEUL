@@ -40,6 +40,7 @@ import BackgroundImage from 'style/backgroundImage';
 import DayProfilePage from 'pages/day/profile/DayProfilePage';
 import NotFoundPage from 'pages/sunset/NotFoundPage';
 import StartPage from 'pages/sunset/StartPage';
+import ChalCapsuleLoadingPage from 'pages/day/capsule/ChalCapsuleLoadingPage';
 
 
 function App() {
@@ -129,7 +130,8 @@ function App() {
         <Route path="/day/challenge/create" element={<ChalCreatePage/>}/>
         {/* 타임캡슐 */}
         {/* 모달 */}
-        {/* <Route path="/day/challenge/:challengeId/timecapsule" element={<ChalCapsuleListPage/>}/> */}
+        <Route path="/day/challenge/:challengeId/timecapsule/loading" element={<ChalCapsuleLoadingPage/>}/>
+        <Route path="/day/challenge/:challengeId/timecapsule" element={<ChalCapsuleListPage/>}/>
         <Route path="/day/challenge/:challengeId/timecapsule/create" element={<ChalCapsuleCreatePage/>}/>
         
         {/* 챌린지 매니지(내 챌린지) 관련 */}
