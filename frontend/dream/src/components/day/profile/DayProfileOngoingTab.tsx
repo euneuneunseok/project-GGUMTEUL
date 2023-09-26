@@ -11,9 +11,11 @@ import InfiniteScroll from "components/common/InfiniteScroll";
 
 // 스타일
 export interface DayChallengeObjType {
-  title :string,
+  challengeTitle :string,
   period :string,
-  challengeId :number
+  challengeId :number,
+  challengeParticipateId ?:number,
+  participationCount ?:number
 }
 
 export interface DayChallengeListType extends Array<DayChallengeObjType> {}
