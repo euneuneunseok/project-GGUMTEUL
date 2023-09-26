@@ -94,10 +94,19 @@ const StyledImage = styled.div<ImageProps>`
     ${(props) =>
       props.$badge &&
       css`
-        width: 6rem;
-        height: 6rem;
-        margin: 1rem;
+        width: 5rem;
+        height: 5rem;
+        margin: 0.5rem;
         /* border: 0.5rem solid black; */
+        & > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          content: "";
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+        }
       `
     }
     
