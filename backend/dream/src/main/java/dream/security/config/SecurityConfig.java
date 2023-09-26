@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 //                .antMatchers("/api/user/jwt-test/**","/api/user/").hasRole("GUEST")
                 .antMatchers("/ws-stomp/**").permitAll()
+                .antMatchers("/api/s3/**").permitAll()
                 .anyRequest().permitAll()                 .and()
                 .oauth2Login()
                 .successHandler(socialLoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정
