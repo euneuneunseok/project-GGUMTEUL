@@ -16,7 +16,7 @@ import { DayChallengeObjType } from "../home/DayChallengeList";
 // 스타일
 
 interface ChalContentListItemProps {
-  key: number
+  key: number,
   chal: DayChallengeObjType;
 }
 
