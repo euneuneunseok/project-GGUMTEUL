@@ -52,14 +52,19 @@ def estimateScore(score):
 # if __name__ == "__main__":
 #     asyncio.run(analyze_text_sentiment(dream))
 
-input_path = ".\\addKeywordsMod\\addKeywordsMod1.json"
+input_path = ".\\addKeywordsMod\\addKeywordsMod2.json"
+output_path = ".\\addEmotion\\addEmotion2.json"
 with open(input_path, 'r', encoding='utf-8') as file:
     keyData = json.load(file)
-output_path = ".\\addEmotion\\addEmotion1.json"
+
+print(len(keyData))
+
+# exit()
 
 idx = 0
 for data in keyData:
     idx+=1
+    # if idx<5600: continue
     dreamOriginScore = asyncio.run(analyze_text_sentiment(data["dream"]))
     tellingOriginScore = asyncio.run(analyze_text_sentiment(data["analysis"]["dreamTelling"]))
 
@@ -74,16 +79,13 @@ for data in keyData:
     if idx % 100 == 0:
         with open(output_path, 'w', encoding='utf-8') as out:
             json.dump(keyData[:idx], fp=out, ensure_ascii=False, indent=2)
-        print(idx, "번째까지 완료")
-    print("#####")
+            print(idx, "번째까지 완료")
+    print(idx, "#####")
 
+with open(output_path, 'w', encoding='utf-8') as out:
+    json.dump(keyData, fp=out, ensure_ascii=False, indent=2)
+    print(idx, "번째까지 완료")
 
-print(keyData[0])
-print(keyData[1])
-print(keyData[2])
-
-
-    
 # exit()
 
 
