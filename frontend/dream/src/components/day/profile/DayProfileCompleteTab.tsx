@@ -25,7 +25,7 @@ const DayProfileCompleteTab = () => {
     let apiAddress :string = "";
 
     // 처음 요청 받을 때 : lastItemId 없음
-    if (lastItemId === -1) {apiAddress = `/day/mychallenge/end/list/20?size=${size}`}
+    if (lastItemId === -1) {apiAddress = `/day/mychallenge/end/list/${profileUserId}/?size=${size}`}
     // 두번째부터 요청 할 때
     else {apiAddress = `/day/mychallenge/end/list/${profileUserId}?lastItemId=${lastItemId}&size=${size}`}
     
@@ -36,7 +36,7 @@ const DayProfileCompleteTab = () => {
         setAllChalList([...allChalList, ...res.data.data.challengeList]);
       }
     })
-    .catch(err=>console.log("===", err))
+    .catch(err=>console.log("DayProfileCompleteTab", err))
   };
 
   useEffect(() => {
