@@ -149,6 +149,8 @@ public class DreamCardService {
 
         DreamCard makeDreamCard = DreamCard.makeDreamCard(request, author, keywords, fileName, responseDreamAnalysis);
         dreamCardRepository.save(makeDreamCard);
+
+        // 챌린지 추천할꺼 추가
         ResponseDreamCardId response = ResponseDreamCardId.from(makeDreamCard);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
