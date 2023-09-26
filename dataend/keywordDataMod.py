@@ -8,6 +8,7 @@ with open(input_path, 'r', encoding='utf-8') as file:
 
 for data in keyData:
     if "욕설" in data['analysis']['keywords']:
+        # 아래 코드는 꼭 넣어라.
         data['dream'] = data['dream'].replace("음란/욕설이 담긴 글을 등록할 경우 해당 게시물은 경고 없이 삭제됩니다", " ")
         data['analysis']['keywords'].remove("욕설")
         
