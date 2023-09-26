@@ -43,11 +43,11 @@ const DayStoryList = () => {
     
     tokenHttp.get(apiAddress)
     .then((res) => {
-      // console.log(res.data.data.resultList)
+      console.log(res)
       if (typeof res.data.data.resultList === "object") {
         setStoryDataList([...storyDataList, ...res.data.data.resultList]);
       }})
-    .catch((err) => console.log(err))  
+    .catch((err) => console.log("DayStoryList : ", err))  
   };
 
   useEffect(() => {
