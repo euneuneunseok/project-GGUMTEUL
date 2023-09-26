@@ -65,7 +65,7 @@ const NightProfileCardTab = () => {
         // let newData = res.data.data.dreamCardList
         setDreamCardList([...dreamCardList, ...res.data.data.dreamCardList]);
         setLastItemId(res.data.data.dreamCardList[res.data.data.dreamCardList.length - 1].dreamCardId) 
-      }
+      } 
       // 생성된 꿈카드가 없을 때
       if (res.data.status === 400) {
         setNoCardMsg(res.data.data);
