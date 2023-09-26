@@ -9,15 +9,15 @@ import { AuctionCardType } from "../auction/AuctionMainList";
 import tokenHttp from "api/tokenHttp";
 
 // 스타일
-export interface AuctionBuyingAxiosType {
-  auctionStatus :string,
-  dreamCardId :number,
-  dreamCardImageUrl :string, 
-  endedAt :string,
-  keywords :string[],
-  positivePoint :string,
-  rarePoint :string,
-}
+// export interface AuctionBuyingAxiosType {
+//   auctionStatus :string,
+//   dreamCardId :number,
+//   dreamCardImageUrl :string, 
+//   endedAt :string,
+//   keywords :string[],
+//   positivePoint :string,
+//   rarePoint :string,
+// }
 
 
 const NightProfileBuyingTab = () => {
