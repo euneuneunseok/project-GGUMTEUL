@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/datatest")
 public class DataTestController {
 
-    @GetMapping()
+    @GetMapping("/a")
     public ResultTemplate test(){
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
