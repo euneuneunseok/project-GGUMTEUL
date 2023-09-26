@@ -1,5 +1,6 @@
 package dream.mongo.service;
 
+import dream.card.service.DreamAnalysisService;
 import dream.common.domain.ResultTemplate;
 import dream.mongo.domain.DataDream;
 import dream.mongo.domain.RequestDream;
@@ -19,10 +20,18 @@ import java.util.*;
 public class MongoService {
 
     private final MongoRepository mongoRepository;
+    private final DreamAnalysisService dreamAnalysisService;
     public List<Dream> getAllDream() {
 
         List<Dream> response = mongoRepository.findAll();
         return response;
+    }
+
+    public ResultTemplate saveDream(List<Dream> dreams){
+
+        mongoRepository.saveAll(dreams);
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
     public ResultTemplate findBest(String title) {
@@ -32,7 +41,12 @@ public class MongoService {
 
         String regTitle = ".*" + title + ".*";
         List<Dream> list = mongoRepository.findByDreamRegex(title);
-        log.info("list size : {}", list.size());
+        List<String> strList = new ArrayList<>();
+        strList.add("비둘기");
+        strList.add("방");
+        strList.add("들어가다");
+        List<Dream> list2 = dreamAnalysisService.findDreamsWithKeywords(strList);
+        log.info("list size2 : {}", list2.size());
         double max = Integer.MIN_VALUE;
         int idx = -1;
         for(int i = 0; i < list.size(); i++){
