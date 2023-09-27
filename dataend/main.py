@@ -10,6 +10,9 @@ import requests
 
 from pydantic import BaseModel
 
+# 내가 만든 함수
+from wordExtractService import getDreamKeywords
+from emotionAnalysisService import getEmotionScore
 
 # 꿈 데이터
 class DreamModel(BaseModel):
@@ -53,17 +56,18 @@ async def dreamProcessing(data: DreamModel):
     dreamCardContent = data.dreamCardContent
     dreamCardAuthor = data.dreamCardAuthor
     isShow = data.isShow
+    wordKeywords = getDreamKeywords(dreamCardAuthor)
+    positivePoint, negativePoint = getEmotionScore(dreamCardContent)
     toJavaData = {
         "dreamCardContent": dreamCardContent,
         "dreamCardAuthor": dreamCardAuthor,
         "isShow": isShow,
-        "positivePoint": 50,
-        "negativePoint": 30,
+        "positivePoint": positivePoint,
+        "negativePoint": negativePoint,
         "keywords": ["학업", "재물"],
-        "wordKeywords": ["돈", "부자", "공부"]
+        "wordKeywords": wordKeywords
     }
     response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', toJavaData, files=None)
-    # return {"message": "성공했어!! 옹예!"}
     
     return response
 
