@@ -1,5 +1,6 @@
 package dream.mongo.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dream.common.domain.ResultTemplate;
 import dream.mongo.domain.Dream;
@@ -44,15 +45,18 @@ public class MongoController {
         List<Dream> dreams = new ArrayList<>();
         
         // 파일 읽어서 꿈 객체로 변환
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("tt1.txt"), StandardCharsets.UTF_8));
-        String line;
-        while ((line = br.readLine()) != null){
-            ObjectMapper objectMapper = new ObjectMapper();
-            // JSON 문자열을 Dream 객체로 변환
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("addEmotion1.json"), StandardCharsets.UTF_8));
+        StringBuilder jsonContent = new StringBuilder();
 
-            Dream dream = objectMapper.readValue(line, Dream.class);
-            dreams.add(dream);
+        String line;
+        while ((line = br.readLine()) != null) {
+            jsonContent.append(line);
         }
+        ObjectMapper objectMapper = new ObjectMapper();
+        // JSON 배열을 List<Dream>으로 변환
+        dreams = objectMapper.readValue(jsonContent.toString(), new TypeReference<List<Dream>>() {});
+        log.info("{}", dreams);
+
         return mongoService.saveDream(dreams);
     }
 
