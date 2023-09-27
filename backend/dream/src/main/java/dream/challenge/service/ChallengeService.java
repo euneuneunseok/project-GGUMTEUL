@@ -418,7 +418,7 @@ public class ChallengeService {
         }
 
 
-        boolean hasNext = (list.size() > size);
+        boolean hasNext = (timeCapsules.size() > size);
         ResponseTimeCapsuleResult response = ResponseTimeCapsuleResult.from(challenge, timeCapsules, hasNext);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
