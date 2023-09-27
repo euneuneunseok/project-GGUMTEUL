@@ -12,6 +12,7 @@ import React from "react";
 // 컴포넌트
 import { Box } from "style/Box";
 import { DayChallengeObjType } from "../home/DayChallengeList";
+import { useNavigate } from "react-router-dom";
 
 // 스타일
 
@@ -21,10 +22,13 @@ interface ChalContentListItemProps {
 }
 
 const ChalContentListItem = ({chal}:ChalContentListItemProps) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
       $challengeContentBox
+      onClick={() => navigate(`/day/challenge/${chal.challengeId}`)}
       >
         <img></img>
         <div><p>{chal.title}</p><p>참여자 : 1.1k</p></div>
