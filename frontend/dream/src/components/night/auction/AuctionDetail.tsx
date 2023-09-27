@@ -62,14 +62,14 @@ const AuctionDetail = () => {
   const navigation = useNavigate()
   const location = useLocation()
 
-  const {dreamCardId} = useParams()
+  const {auctionId} = useParams()
   const [auctionItem, setAuctionItem] = useState<AuctionDetailType>()
   const [isFirstAuctionPage, setIsFirstAuctionPage] = useState(true)
 
   // const myMoney = useSelector((state:RootState) => state)
 
   useEffect(()=> {
-    basicHttp.get(`/auction/detail/${dreamCardId}`)
+    basicHttp.get(`/auction/detail/${auctionId}`)
     .then(res => {
       setAuctionItem(res.data.data)
       console.log(res.data.data, "경매장 입장")
@@ -176,7 +176,7 @@ const AuctionDetail = () => {
           <SmallText>{auctionItem?.immediatelyBuyMoney} 꿈포인트</SmallText>
         </Button>
         <Button $halfWidth $nightPurple
-        onClick={()=> navigation(`/night/auction/bidding/${dreamCardId}`)}
+        onClick={()=> navigation(`/night/auction/bidding/${auctionId}`)}
         >참여하기</Button>
       </Wrap>
       {/* 꿈머니 구현 이후 */}
