@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from "react-router-dom";
 
 // 외부 
-import basicHttp from "api/basicHttp";
+import tokenHttp from "api/tokenHttp";
 import { changeDateHour } from "utils/dateForm";
 import { RootState } from "store";
 
@@ -69,7 +69,7 @@ const AuctionDetail = () => {
   // const myMoney = useSelector((state:RootState) => state)
 
   useEffect(()=> {
-    basicHttp.get(`/auction/detail/${auctionId}`)
+    tokenHttp.get(`/auction/detail/${auctionId}`)
     .then(res => {
       setAuctionItem(res.data.data)
       console.log(res.data.data, "경매장 입장")
@@ -108,7 +108,7 @@ const AuctionDetail = () => {
   const buyDreamCardNow = () => {
     // 내 꿈머니보다 즉시구매가 높으면 돌려보내기 구현 필요
 
-    basicHttp.put(`/auction/purchase`, auctionItem?.dreamCardId)
+    tokenHttp.put(`/auction/purchase`, auctionItem?.dreamCardId)
     .then(res => {
       if (res.data.status === 204) {
         // 고새 누가 구매해서 카드 없으면... alert..?
