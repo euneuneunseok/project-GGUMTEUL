@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dream.common.domain.ResultTemplate;
 import dream.mongo.domain.Dream;
+import dream.mongo.domain.RequestTestKeyword;
 import dream.mongo.service.MongoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -33,10 +32,10 @@ public class MongoController {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
-    @GetMapping(value = "/find")
-    public ResultTemplate findBest(){
+    @PostMapping(value = "/find")
+    public ResultTemplate findBest(@RequestBody RequestTestKeyword request){
 
-        return mongoService.findBest("비둘기");
+        return mongoService.findBest(request);
     }
     
     @GetMapping(value = "/savetest")
