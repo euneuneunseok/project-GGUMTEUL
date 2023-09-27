@@ -39,7 +39,7 @@ async def dreamProcessing(data: DreamModel):
     dreamCardContent = data.dreamCardContent
     dreamCardAuthor: data.dreamCardAuthor
     isShow = "T" if data.isShow else "F"
-
+    print("ㅋㅋㅋㅋ")
     toJavaData = {
         "dreamCardDetail": {
             "dreamCardContent": dreamCardContent,
