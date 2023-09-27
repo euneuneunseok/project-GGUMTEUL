@@ -416,7 +416,8 @@ public class ChallengeService {
                 }
             }
         }
-
+        
+        // 리스트에는 지금 담겨있는 로직이 쿼리로 날릴때랑 달라서 처리하기가 힘듦
 
         boolean hasNext = (list.size() > size);
         ResponseTimeCapsuleResult response = ResponseTimeCapsuleResult.from(challenge, timeCapsules, hasNext);
