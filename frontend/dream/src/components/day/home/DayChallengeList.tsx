@@ -10,6 +10,7 @@ import ChalContentListItem from "../daycommon/ChalContentListItem";
 import InfiniteScroll from "components/common/InfiniteScroll";
 import Text from "style/Text";
 import tokenHttp from "api/tokenHttp";
+import { CategoryAxiosType } from "../daycommon/DayCategoryList";
 
 // 스타일
 export interface DayChallengeObjType {
@@ -23,8 +24,11 @@ export interface DayChallengeObjType {
 
 export interface DayChallengeListType extends Array<DayChallengeObjType> {}
 
+export interface CategoryToChalProps {
+  categoryProps :CategoryAxiosType
+}
 
-const DayChallengeList = () => {
+const DayChallengeList = (props :CategoryToChalProps) => {
   const [allChalList, setAllChalList] = useState<DayChallengeListType>([]);
   const [lastItemId, setLastItemId] = useState<number>(0);
   const [hasNext, setHasNext] = useState<boolean>(true); 
@@ -72,6 +76,7 @@ const DayChallengeList = () => {
     }
   }, [arriveEnd])
 
+  // console.log("chal List 탭 : ", props.categoryProps)
 
   return (
     <>
@@ -84,7 +89,9 @@ const DayChallengeList = () => {
       setArriveEnd={setArriveEnd} 
       // lastItemId={lastItemId}
       component={
-        allChalList?.map((chal :DayChallengeObjType) => (
+        allChalList
+        // .filter((keyword) => (keyword))
+        .map((chal :DayChallengeObjType) => (
           <ChalContentListItem key={chal.challengeId} chal={chal} />))
         }
         >
