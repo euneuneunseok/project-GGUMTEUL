@@ -29,7 +29,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://${MONGO_ID}:${MONGO_PASSWORD}@${MONGO_URI}/${MONGO_DATABASE_NAME}
+#      uri: mongodb+srv://${MONGO_ID}:${MONGO_PASSWORD}@${MONGO_URI}/${MONGO_DATABASE_NAME}
 #      host: ${PUBLIC_IP}
 #      port: ${MONGO_DB_PORT}
 #      authentication-database: admin
@@ -40,6 +40,7 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.springframework.security: DEBUG
+  org.springframework.web.client.RestTemplate: DEBUG
 
 # S3
 cloud:
