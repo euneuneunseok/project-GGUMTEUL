@@ -93,9 +93,9 @@ function App() {
     <GlobalStyle/>
       <Routes>
         {/* 초기 3개 화면 */}
-        <Route path="/" element={<StartPage/>}/>
+        <Route path="/a" element={<StartPage/>}/>
         <Route path="/sunset/main" element={<SunsetMainPage/>} />
-        <Route path="/sunset/login" element={<LoginPage/>}/>
+        <Route path="/" element={<LoginPage/>}/>
         <Route path="/sunset/signup" element={<SignUpPage/>}/>
         <Route path="/sunset/token" element={<GetTokenPage/>}/>
 
