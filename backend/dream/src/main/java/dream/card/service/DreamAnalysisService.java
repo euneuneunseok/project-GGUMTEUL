@@ -43,6 +43,7 @@ public class DreamAnalysisService {
 
         // 동적 쿼리 날려서 Mongo에서 해당 ROW 다 가져오기
         List<Dream> list = findDreamsWithKeywords(requestDream.getWordKeywords());
+        if (list.isEmpty()) return null;
         log.info("findDreamsWithKeywordsListSize : {}", list.size());
         for (Dream dream : list) {
             log.info("찾은 꿈 내용 : " + dream.getDream());
