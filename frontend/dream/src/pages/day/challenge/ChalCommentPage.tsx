@@ -5,7 +5,7 @@
 import React from "react";
 
 // 컴포넌트
-import ChalComment from "components/day/challenge/ChalComment";
+import ChalComment from "components/day/challenge/ChalCommentList";
 
 // 스타일
 

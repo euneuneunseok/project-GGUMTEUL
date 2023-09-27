@@ -12,12 +12,13 @@ import ChalCommentItem from "./ChalCommentItem";
 
 // 스타일
 
-const ChalComment = () => {
+const ChalCommentList = () => {
 
   return (
     <>
+      
     </>
   )
 }
 
-export default ChalComment
+export default ChalCommentList
