@@ -9,15 +9,17 @@ import React from "react";
 
 // 컴포넌트
 import ChalCommentItem from "./ChalCommentItem";
+import Container from "style/Container";
 
 // 스타일
 
-const ChalComment = () => {
+const ChalCommentList = () => {
 
   return (
-    <>
-    </>
+    <Container $baseContainer>
+      {/* 챌린지 리스트 */}
+    </Container>
   )
 }
 
-export default ChalComment
+export default ChalCommentList

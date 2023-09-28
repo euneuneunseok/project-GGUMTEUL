@@ -19,6 +19,8 @@ interface ContainerProps {
   // 챌린지 디테일 내용 컨테이너
   $chalDetail ?: boolean
   
+  // 댓글 모달 컨테이너
+  $commentContainer ?: boolean
 }
 const StyledContainer = styled.div<ContainerProps>`
 
@@ -113,6 +115,18 @@ const StyledContainer = styled.div<ContainerProps>`
       border-radius: 1rem;
       display: flex;
       flex-direction: column;
+    `
+  }
+
+  // 댓글 모달창 컨테이너
+  ${(props) =>
+    props.$commentContainer &&
+    css`
+      background-color: white;
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      // 트랜지션으로 올라오게하면 좋지 않을까..?
     `
   }
 

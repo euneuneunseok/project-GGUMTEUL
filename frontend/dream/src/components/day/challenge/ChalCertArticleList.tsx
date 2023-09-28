@@ -47,9 +47,10 @@ export interface CertArticleListType extends Array<CertArticleItemType>{}
 
 const ChalCertArticleList = () => {
 
+  const navigate = useNavigate()
   const params = useParams()
   const currentChallengeId = params.challangeId
-  const navigate = useNavigate()
+
   const [certArticleList, setCertArticleList] = useState<CertArticleListType>([])
   const [arriveEnd, setArriveEnd] = useState<boolean>(true); // 바닥에 다다름을 알려주는 변수
   const [lastItemId, setLastItemId] = useState<number>(0); // db엔 0번이 없음
@@ -64,6 +65,8 @@ const ChalCertArticleList = () => {
       axiosUrl = `/day/challange/detail/${currentChallengeId}/list?lastItemId=${lastItemId}&size=6`
     }
     
+    console.log('axios 연결', axiosUrl)
+
     if (arriveEnd && hasNext) {  // 끝에 도달하고 다음이 있을 때 다음 데이터 호출
       tokenHttp.get(axiosUrl)
         .then((response)=>{
@@ -76,7 +79,7 @@ const ChalCertArticleList = () => {
           setHasNext(res.hasNext)
           setLastItemId(resultList[resultList.length-1].challengeDetailId); // 마지막 item id 변경
         })
-        .catch((e)=>{console.log(e)})
+        .catch((err)=>{console.log('챌린지 인증글 무한스크롤 에러' ,err)})
       }
   },[arriveEnd])
 

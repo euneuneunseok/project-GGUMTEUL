@@ -15,6 +15,7 @@ import Image from "style/Image";
 import styled from "styled-components";
 import Container from "style/Container";
 import { Box } from "style/Box";
+import ChalCommentModal from "pages/day/challenge/ChalCommentModal";
 
 const ProfileDateWrap = styled.div`
   display: flex;
@@ -116,10 +117,17 @@ const moveUserProfile = () => {
 
 // 메인 리턴 부분
 const ChalCertArticleItem = ({certData}:CertArticleItemProps) => {
+  
+  const [commentModalState, setCommentModalState] = useState<boolean>(false)
+  
   const [progress, setProgress] = useState<number>(70);
 
   return (
+    
     <>
+    {/* 댓글 창 */}
+    { commentModalState && <ChalCommentModal></ChalCommentModal>}
+
     <ProfileDateWrap>
     {/* 상단바 */ }
     <ProfileWrap>
@@ -155,7 +163,9 @@ const ChalCertArticleItem = ({certData}:CertArticleItemProps) => {
         /> 
       </HeartCommentContainer>
 
-      <HeartCommentContainer>
+      <HeartCommentContainer
+        onClick={()=>{setCommentModalState(!commentModalState)}}
+      >
         <FaRegCommentDots/>
         <Text>{certData?.commentCount}</Text>
       </HeartCommentContainer>
