@@ -9,19 +9,23 @@ import React, { useEffect, useState } from "react";
 import dataHttp from "api/dataHttp";
 
 // 컴포넌트
+import SoundToText from "./SoundToText";
 
 // 스타일
 import Button from "components/common/Button";
 import TextArea from "style/TextArea";
 import styled from "styled-components";
 import { IoMicOutline } from "react-icons/io5"
-import SoundToText from "./SoundToText";
 import Wrap from "style/Wrap";
 import "components/night/dream/DreamCreate.css"
 import Text from "style/Text";
 
 const DreamCreateContainer = styled.div`
-  margin: 6rem 0.5rem;
+  margin: 1.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  // height: 100dvh;
+  overflow-y: scroll;
 `;
 
 const IconRecord = styled(IoMicOutline)`
