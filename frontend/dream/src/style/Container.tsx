@@ -125,8 +125,10 @@ const StyledContainer = styled.div<ContainerProps>`
       background-color: white;
       position: fixed;
       top: 0;
+      left: 0;
       height: 100vh;
       width: 100vw;
+      z-index: 100;
       // 트랜지션으로 올라오게하면 좋지 않을까..?
     `
   }

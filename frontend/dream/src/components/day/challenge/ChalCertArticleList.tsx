@@ -26,6 +26,7 @@ import basicHttp from "api/basicHttp";
 import ChalCertArticleItem from "./ChalCertArticleItem";
 import tokenHttp from "api/tokenHttp";
 import InfiniteScroll from "components/common/InfiniteScroll";
+import ChalCommentModal from "pages/day/challenge/ChalCommentModal";
 
 // 스타일
 
@@ -50,7 +51,7 @@ const ChalCertArticleList = () => {
   const navigate = useNavigate()
   const params = useParams()
   // const currentChallengeId = params.challangeId
-  const currentChallengeId = 2
+  const currentChallengeId = 2 // 임시
 
   const [certArticleList, setCertArticleList] = useState<CertArticleListType>([])
   const [arriveEnd, setArriveEnd] = useState<boolean>(true); // 바닥에 다다름을 알려주는 변수

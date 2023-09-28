@@ -124,7 +124,7 @@ function App() {
         {/* 챌린지 관련 */}
         {/* 챌린지 상세조회 */}
         <Route path="/day/challenge/:challengeId" element={<ChalDetailPage/>}/>
-        <Route path="/day/challenge/:challengeId/comments/:detailId" element={<ChalCommentPage/>}/>
+        <Route path="/day/challenge/:challengeId/comments/:challengeDetailId" element={<ChalCommentPage/>}/>
         <Route path="/day/challenge/create" element={<ChalCreatePage/>}/>
         {/* 타임캡슐 */}
         {/* 모달 */}

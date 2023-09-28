@@ -24,14 +24,14 @@ export interface ChalCommentAxiosType {
 const ChalCommentList = () => {
 
   useEffect(()=>{
-    tokenHttp.get('')
+
   })
 
   return (
     <>
       <Container>
 
-      {/* 챌린지 리스트 */}
+      {/* 댓글 리스트 */}
       </Container>
     </>
   )

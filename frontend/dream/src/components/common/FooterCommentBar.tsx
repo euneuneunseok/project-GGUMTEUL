@@ -13,21 +13,16 @@ import Image from "style/Image";
 import Text from "style/Text";
 import Button from "./Button";
 import { checkCertInput } from "utils/alert/checkInput";
-import { async } from "q";
+
 import tokenHttp from "api/tokenHttp";
+import { async } from "q";
 
-interface NavTitleProps {
-  children ?: React.ReactNode;
-  commentDetailId ?: number;
-}
-
-const FooterCommentBar = (props:NavTitleProps) => {
+const FooterCommentBar = () => {
 
   const [comment, setComment] = useState<string>('')
   const userdata = useSelector((state: RootState) => state.auth.userdata);
   const userProfileImage = userdata.profileUrl
   const userNickname = userdata.nickname
-  const navigate = useNavigate();
 
   const addComment = async() => {
     if (await checkCertInput(comment)) {
@@ -38,7 +33,10 @@ const FooterCommentBar = (props:NavTitleProps) => {
       }
 
       await tokenHttp.post('/day/challenge/detail/comment', commentData)
-        .then((response) => {console.log("댓글 생성 성공", response)})
+        .then((response) => {
+          console.log("댓글 생성 성공", response)
+          setComment('')
+        })
         .catch((e)=>{console.log("댓글 생성 실패", e)})
     }
   }
@@ -53,6 +51,7 @@ const FooterCommentBar = (props:NavTitleProps) => {
       <Input 
         $commentInput 
         placeholder={`${userNickname}(으)로 댓글달기...`}
+        value={comment}
         onChange={(e)=>{
           setComment(e.target.value)
         }}
