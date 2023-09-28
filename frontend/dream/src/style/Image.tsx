@@ -18,6 +18,7 @@ interface ImageProps {
     $badge ?: boolean;
     $largeBadge ?: boolean;
     $timeCapsuleImage ?: boolean;
+    $timeCapsuleLoading ?: boolean;
 
     // 뱃지 색
     $gold ?: boolean;
@@ -279,6 +280,25 @@ ${(props) =>
           height: 100%;
           object-fit: cover;
           aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+          object-fit: cover;
+        }
+      `
+    }
+// 타임 캡슐 로딩
+${(props) =>
+      props.$timeCapsuleLoading &&
+      css`
+        width: 100vw;
+        height: 100vh;
+        background-size: cover;
+        border-radius: 1rem;
+        background-color: none;
+        margin-top: 2rem;
+        & > img { // 정사각형 만들기
+          width: 100%;
+          object-fit: cover;
           object-position: center;
           border-radius: 1rem;
           object-fit: cover;
