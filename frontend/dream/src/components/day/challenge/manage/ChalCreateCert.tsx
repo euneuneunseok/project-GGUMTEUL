@@ -55,13 +55,15 @@ const initialChalDetail: ChalDetailInfoProps = {
 
 const ChalCreateCert = () => {
 
-  const params = useParams()
   const navigate = useNavigate()
+  const params = useParams()
   const currentChallengeId = Number(params.challengeId)
   const [chalData, setChalData] = useState<ChalDetailDataType>(initialChalDetail.chalDetailData)
   const [challengeContent, setChallengeContent] = useState<string>('')
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const [profileImageURL, setProfileImageURL] = useState<string | undefined>(undefined)
+  const [ imageFile, setImageFile ] = useState<{}>({}) 
+
 
   useEffect(() => {
     // 렌더링되었을 때 참여
@@ -91,7 +93,8 @@ const ChalCreateCert = () => {
     if (!e.target.files) { return }
     // 파일이 있으면 타겟 파일 변수 설정
     const file = e.target.files[0]
-
+    setImageFile(file)
+  
     if (file) {
       let image = window.URL.createObjectURL(file)
       setProfileImageURL(image)
@@ -107,6 +110,25 @@ const ChalCreateCert = () => {
     if (inputData != '' && !checkCertInput(inputData)) {
       alert('내용에 공백만 들어갔습니다.')
     }
+  }
+
+  const createCert = () => {
+    const axiosData = {
+      "challengeDetail" : {
+        "challengeId" : currentChallengeId,
+        "challengeDetailTitle" : '',
+        "challengeDetailContent" : challengeContent,
+      },
+      "file" : imageFile,
+    }
+    tokenHttp.post('/s3/challenge/detail/new', axiosData)
+      .then((response) => {
+        console.log("인증 글 생성 완료",response)
+        navigate(`/day/mychallenge/${currentChallengeId}`)
+      })
+      .catch((err)=>{console.log("인증글 생성 에러",err)})
+
+
   }
 
   return (
@@ -146,7 +168,7 @@ const ChalCreateCert = () => {
         $fullWidth
         $dayBlue
         style={{ color: 'black' }}
-        onClick={() => { }}
+        onClick={() => {createCert()}}
       >완료</Button>
 
       <input
