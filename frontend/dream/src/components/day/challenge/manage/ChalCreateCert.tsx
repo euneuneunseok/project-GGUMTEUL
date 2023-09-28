@@ -33,6 +33,9 @@ import basicHttp from "api/basicHttp";
 // 스타일
 
 
+// 타입
+
+
 
 // 챌린지 디테일 초기값
 const initialChalDetail: ChalDetailInfoProps = {
@@ -62,7 +65,7 @@ const ChalCreateCert = () => {
   const [challengeContent, setChallengeContent] = useState<string>('')
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const [profileImageURL, setProfileImageURL] = useState<string | undefined>(undefined)
-  const [ imageFile, setImageFile ] = useState<{}>({}) 
+  const [ imageFile, setImageFile ] = useState<File|null>(null) 
 
 
   useEffect(() => {
@@ -113,14 +116,17 @@ const ChalCreateCert = () => {
   }
 
   const createCert = () => {
-    const axiosData = {
-      "challengeDetail" : {
-        "challengeId" : currentChallengeId,
-        "challengeDetailTitle" : '',
-        "challengeDetailContent" : challengeContent,
-      },
-      "file" : imageFile,
+    const axiosData = new FormData()
+
+    if (imageFile){
+      axiosData.append('file', imageFile)
     }
+    axiosData.append("challengeDetail", JSON.stringify({
+      "challengeId" : currentChallengeId,
+      "challengeDetailTitle" : '',
+      "challengeDetailContent" : challengeContent,
+    }))
+
     tokenHttp.post('/s3/challenge/detail/new', axiosData)
       .then((response) => {
         console.log("인증 글 생성 완료",response)

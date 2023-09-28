@@ -156,15 +156,19 @@ const ChalCertArticleItem = ({certData}:CertArticleItemProps) => {
     <BottomContainer>
 
       {/* 왼쪽 파트 (좋아요 댓글) */ }
+      {/* 좋아요 */}
       <HeartCommentContainer>
         <Heart
         isLike={certData.like}
         likedNumber={certData.likeCount}
         /> 
       </HeartCommentContainer>
-
+      {/* 댓글 */}
       <HeartCommentContainer
-        onClick={()=>{setCommentModalState(!commentModalState)}}
+        onClick={()=>{
+          setCommentModalState(!commentModalState)
+          console.log(certData)
+        }}
       >
         <FaRegCommentDots/>
         <Text>{certData?.commentCount}</Text>

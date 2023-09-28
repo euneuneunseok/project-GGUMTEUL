@@ -49,7 +49,8 @@ const ChalCertArticleList = () => {
 
   const navigate = useNavigate()
   const params = useParams()
-  const currentChallengeId = params.challangeId
+  // const currentChallengeId = params.challangeId
+  const currentChallengeId = 2
 
   const [certArticleList, setCertArticleList] = useState<CertArticleListType>([])
   const [arriveEnd, setArriveEnd] = useState<boolean>(true); // 바닥에 다다름을 알려주는 변수
@@ -60,9 +61,9 @@ const ChalCertArticleList = () => {
     let axiosUrl :string = ''
 
     if (lastItemId === 0) {
-      axiosUrl = `/day/challange/detail/${currentChallengeId}/list?size=6`
+      axiosUrl = `/day/challenge/detail/${currentChallengeId}/list?size=6`
     } else {
-      axiosUrl = `/day/challange/detail/${currentChallengeId}/list?lastItemId=${lastItemId}&size=6`
+      axiosUrl = `/day/challenge/detail/${currentChallengeId}/list?lastItemId=${lastItemId}&size=6`
     }
     
     console.log('axios 연결', axiosUrl)

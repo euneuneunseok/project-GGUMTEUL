@@ -31,7 +31,6 @@ const FooterCommentBar = (props:NavTitleProps) => {
 
   const addComment = async() => {
     if (await checkCertInput(comment)) {
-      console.log(comment)
       const commentData = {
         // 'detailId' : props.commentDetailId, // 임시
         'detailId' : 2, // 임시
