@@ -5,20 +5,35 @@
 // Input // end에 게시 , placeholder
 
 // 리액트
-import React from "react";
+import React, {useEffect} from "react";
 
 // 컴포넌트
 import ChalCommentItem from "./ChalCommentItem";
 import Container from "style/Container";
+import Input from "style/Input";
+import tokenHttp from "api/tokenHttp";
 
 // 스타일
 
+// 타입
+export interface ChalCommentAxiosType {
+
+}
+
+
 const ChalCommentList = () => {
 
+  useEffect(()=>{
+    tokenHttp.get('')
+  })
+
   return (
-    <Container $baseContainer>
+    <>
+      <Container>
+
       {/* 챌린지 리스트 */}
-    </Container>
+      </Container>
+    </>
   )
 }
 

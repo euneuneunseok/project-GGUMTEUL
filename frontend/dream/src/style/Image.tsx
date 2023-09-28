@@ -92,6 +92,24 @@ const StyledImage = styled.div<ImageProps>`
       `
     }
 
+    // 댓글 프로필 이미지
+    ${(props) =>
+      props.$tinyProfileImage && 
+      css`
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 1rem 0.5rem;
+        background-color: blue;
+        & > img {
+          width: 100%;
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 50%;
+        }
+      `
+    }
+
     // badge
     ${(props) =>
       props.$badge &&
