@@ -13,20 +13,15 @@ interface NavTitleProps {
   children ?: React.ReactNode;
 }
 
-const NavTitleBar = (props:NavTitleProps) => {
+const NavCommentBar = (props:NavTitleProps) => {
 
-  const [nightDayMode, setNightDayMode] = useState<boolean>(true);
   const themeMode = useSelector((state :RootState) => state.themeMode.themeMode);
   const navigate = useNavigate();
-
-  useEffect(()=>{
-    setNightDayMode(themeMode.mode === 'night' ? true : false)
-  })
 
   return (
     <>
     {/* <h1>NavTitleBar</h1> */}
-    <Bar $navTitle $day={!nightDayMode} $night={nightDayMode}>
+    <Bar $navCommentTitle>
       <div>{props.children}</div>
       <Button 
       onClick={() => navigate(-1)}
@@ -37,4 +32,4 @@ const NavTitleBar = (props:NavTitleProps) => {
   )
 }
 
-export default NavTitleBar
+export default NavCommentBar

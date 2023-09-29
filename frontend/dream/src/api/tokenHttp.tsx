@@ -2,6 +2,8 @@ import axios from "axios";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import dayjs from "dayjs";
 
+// import { token } from "ignore/token";
+
 // 토큰이 필요한 인증에 사용
 
 // const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -10,15 +12,17 @@ const baseURL = "https://j9b301.p.ssafy.io/api";
 
 const tokenHttp = axios.create({
   baseURL,
-  withCredentials:false, //임시, 후에 지워야함
+  // withCredentials:false, //임시, 후에 지워야함
   headers: {
     "Content-Type": "application/json",
   },
 });
 
+
 // 요청 인터셉터 설정 (요청 보내기 전에 수행되는 함수)
 tokenHttp.interceptors.request.use(async (req) => {
   const accessToken = sessionStorage.getItem("accessToken");
+  // const accessToken = token;
   if (!accessToken) {
     console.log("token 이 존재하지 않습니다.");
     throw new Error("expire token");
@@ -43,6 +47,7 @@ tokenHttp.interceptors.request.use(async (req) => {
       {
         headers: {
           Authorization: sessionStorage.getItem("refreshToken"),
+          // Authorization: token,
         },
       }
     )
@@ -59,6 +64,7 @@ tokenHttp.interceptors.request.use(async (req) => {
     });
 
   req.headers["Authorization"] = sessionStorage.getItem("accessToken");
+  // req.headers["Authorization"] = token;
   return req;
 });
 

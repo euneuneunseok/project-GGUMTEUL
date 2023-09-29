@@ -5,6 +5,9 @@
 // 리액트
 import React, { useEffect, useState } from "react";
 
+// 외부
+import dataHttp from "api/dataHttp";
+
 // 컴포넌트
 
 // 스타일
@@ -26,8 +29,8 @@ const IconRecord = styled(IoMicOutline)`
   height: 2rem;
 `
 
-
 const DreamCreate = () => {
+
   const [recordStart, setRecordStart] = useState<boolean>(false); // 녹음 시작
   const [allText, setAllText] = useState<string>(""); // 입력본 + 녹음본 모두 합친 것
   const { startListening, stopListening, accenting, setAccentText, accentText } = SoundToText();
@@ -37,6 +40,7 @@ const DreamCreate = () => {
   // const [accentClickable, setAccentClickable] = useState<boolean>(false);
   // const [accentText, setAccentText] = useState<string>("");
 
+  
   // 녹음 시작 & 종료
   useEffect(() => {
     if (recordStart) {
@@ -45,18 +49,35 @@ const DreamCreate = () => {
       stopListening();
     }
   }, [setRecordStart, recordStart]);
-
+  
   // 변환된 텍스트 저장
   useEffect(() => {
     if (accentText) {
       setAllText(allText + " " + accentText); // 기존 입력된 값과 합치기
     }
   }, [setAccentText, accentText])
-
+  
   // 체크박스 변화 감지
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+
+  // allText: 보낼 데이터
+  // isChecked가 공개 여부
+  // userId
+  // const userId:number = 1
+  const sendDreamToPython = () => {
+    const dreamCardAuthor:number = 3
+    const isShow = isChecked
+    const dreamCardContent = allText
+    const data = {dreamCardAuthor, isShow, dreamCardContent}
+    console.log(data, "보낼 데이터!")
+    dataHttp.post("/night/dream/create", data)
+    .then(res => {
+      console.log(res, "생성!")
+    })
+    .catch(err => console.log(err))
+  }
 
   return (
     <>
@@ -90,6 +111,7 @@ const DreamCreate = () => {
           <Button $nightPalePurple>취소</Button>
           <Button 
           $nightPurple
+          onClick={sendDreamToPython}
           // onClick={} // Karlo 백 서버 API 연결 - 보낼 데이터 : allText
           >등록</Button>
         </div>

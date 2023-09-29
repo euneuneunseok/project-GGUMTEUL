@@ -32,9 +32,9 @@ registerRoute(
   // Return false to exempt requests from being fulfilled by index.html.
   ({ request, url }: { request: Request; url: URL }) => {
     // If this isn't a navigation, skip.
-    // if (request.mode !== 'navigate') {
-    //   return false;
-    // }
+    if (request.mode !== 'navigate') {
+      return false;
+    }
 
     // If this is a URL that starts with /_, skip.
     if (url.pathname.startsWith('/_')) {
@@ -81,19 +81,23 @@ self.addEventListener('message', (event) => {
 
 self.addEventListener('fetch', event => {
   const checkurl = event.request.url;
-  const currentUrl = window.location.href
+  const currentUrl = event.request.referrer
   console.log('서비스 워커', checkurl)
   console.log('현재 url', currentUrl)
   console.log('event request', event.request)
 
   if (currentUrl.includes('/oauth2')) {
+    console.log('현재 url에 /oauth2 들어있음')
     event.respondWith(fetch(event.request))
     return;
   }
 
   // Directly fetch the request if it includes /img/404error.jpg or if it's an API request
   if (checkurl.includes('/api') || checkurl.includes('/oauth2')) {
-    event.respondWith(fetch(event.request));
+    console.log(' checkurl에 api oauth2 들어있음')
+    // event.respondWith(fetch(event.request));
+    const newRequest = new Request(event.request, {referrer: 'your-new-referrer-url'});
+    event.respondWith(fetch(newRequest));
     return;
   }
 
@@ -101,9 +105,9 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(cachedResponse => {
-        // if (cachedResponse) {
-        //   return cachedResponse;
-        // }
+        if (cachedResponse) {
+          return cachedResponse;
+        }
         return fetch(event.request);
       })
   );
