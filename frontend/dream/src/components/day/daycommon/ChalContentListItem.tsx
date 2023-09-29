@@ -31,7 +31,7 @@ const ChalContentListItem = ({chal}:ChalContentListItemProps) => {
       onClick={() => navigate(`/day/challenge/${chal.challengeId}`)}
       >
         <img src={chal.badgeUrl}></img>
-        <div><p>{chal.challengeTitle}</p><p>참여자 : 1.1k</p></div>
+        <div><p>{chal.challengeTitle ? chal.challengeTitle : chal.title}</p><p>참여자 : 1.1k</p></div>
         <div><p>Day</p><p>{chal.period}</p></div>
       </Box>
     </>
