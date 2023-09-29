@@ -15,46 +15,48 @@ import { useParams } from "react-router-dom";
 
 const DayProfileCompleteTab = () => {
   const [allChalList, setAllChalList] = useState<DayChallengeListType>([]);
-  const [lastItemId, setLastItemId] = useState<number>(-1); // 마지막 아이템 번호
+  const [lastItemId, setLastItemId] = useState<number>(0); // 마지막 아이템 번호
+  const [hasNext, setHasNext] = useState<boolean>(true); 
   // const profileUserId = useParams();
   const profileUserId :number = 20;
-  let size :number = 10;
+  let size :number = 6;
+  
+  // infinite scroll
+  const [arriveEnd, setArriveEnd] = useState<boolean>(true); // 바닥에 다다름을 알려주는 변수
   
   // api 요청
   const getAxios = () => {
     let apiAddress :string = "";
 
     // 처음 요청 받을 때 : lastItemId 없음
-    if (lastItemId === -1) {apiAddress = `/profile/day/mychallenge/end/list/${profileUserId}?size=${size}`}
+    if (lastItemId === 0) {apiAddress = `/profile/day/mychallenge/end/list/${profileUserId}?size=${size}`}
     // 두번째부터 요청 할 때
     else if (lastItemId > -1) {apiAddress = `/profile/day/mychallenge/end/list/${profileUserId}?lastItemId=${lastItemId}&size=${size}`}
     
-    tokenHttp.get(apiAddress)
-    .then((res)=> {
-      console.log(res)
-      if (typeof res.data.data.challengeList === "object") {
-        setAllChalList([...allChalList, ...res.data.data.challengeList]);
-        setLastItemId(res.data.data.challengeList[res.data.data.challengeList.length - 1].challengeId)
-      }
-    })
-    .catch(err=>console.log("DayProfileCompleteTab", err))
+    if (arriveEnd && hasNext) {
+      tokenHttp.get(apiAddress)
+      .then((res)=> {
+        console.log("프로필 완료 탭 : ", res)
+        const response = res.data.data
+        const challengeList = response.challengeList
+        setAllChalList([...allChalList, ...challengeList]);
+        setLastItemId(challengeList[challengeList.length - 1].challengeId);
+        setHasNext(response.hasNext);
+      })
+      .catch(err=>console.log("프로필 완료 탭 : ", err))
+    }
   };
 
   useEffect(() => {
     getAxios();
   }, [])
 
-
-  // infinite scroll
-  const [arriveEnd, setArriveEnd] = useState<boolean>(false); // 바닥에 다다름을 알려주는 변수
-
   useEffect(() => {
     // 바닥에 다다랐으면 axios 요청
-    console.log("arrive End : ", arriveEnd)
     if (arriveEnd) {
       getAxios();
+      setArriveEnd(false);
     }
-    setArriveEnd(false);
   }, [arriveEnd])
 
 
