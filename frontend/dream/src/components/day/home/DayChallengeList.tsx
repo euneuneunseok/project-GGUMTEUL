@@ -19,7 +19,8 @@ export interface DayChallengeObjType {
   challengeId :number,
   challengeTitle ?:string,
   challengeParticipateId ?:number,
-  participateCount ?:number
+  participateCount ?:number,
+  badgeUrl ?:string,
 }
 
 export interface DayChallengeListType extends Array<DayChallengeObjType> {}
