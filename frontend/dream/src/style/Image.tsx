@@ -98,7 +98,7 @@ const StyledImage = styled.div<ImageProps>`
       css`
         width: 2.5rem;
         height: 2.5rem;
-        margin: 1rem 0.5rem;
+        margin: 0.7rem 0.5rem;
         background-color: blue;
         & > img {
           width: 100%;

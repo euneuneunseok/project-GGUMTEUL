@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, Dispatch, SetStateAction} from "react"
 import { useSelector } from "react-redux";
 import { RootState } from "store";
 
@@ -17,7 +17,11 @@ import { checkCertInput } from "utils/alert/checkInput";
 import tokenHttp from "api/tokenHttp";
 import { async } from "q";
 
-const FooterCommentBar = () => {
+interface FooterCommentBarProps {
+  currentDetailId :number
+}
+
+const FooterCommentBar = ({currentDetailId}:FooterCommentBarProps) => {
 
   const [comment, setComment] = useState<string>('')
   const userdata = useSelector((state: RootState) => state.auth.userdata);
@@ -27,8 +31,7 @@ const FooterCommentBar = () => {
   const addComment = async() => {
     if (await checkCertInput(comment)) {
       const commentData = {
-        // 'detailId' : props.commentDetailId, // 임시
-        'detailId' : 2, // 임시
+        'detailId' : currentDetailId, 
         'content' : comment,
       }
 
@@ -36,6 +39,7 @@ const FooterCommentBar = () => {
         .then((response) => {
           console.log("댓글 생성 성공", response)
           setComment('')
+          location.reload(); // 이거 같이 고민좀
         })
         .catch((e)=>{console.log("댓글 생성 실패", e)})
     }

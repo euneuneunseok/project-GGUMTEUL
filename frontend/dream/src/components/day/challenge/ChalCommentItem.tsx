@@ -15,24 +15,23 @@ import styled from "styled-components";
 import Text from "style/Text";
 import Image from "style/Image";
 import Wrap from "style/Wrap";
+import { ChalCommentAxiosType } from "./ChalCommentList";
 
-// interface CommentItemTypeProps{
-//   data: 
-// }
+interface CommentItemTypeProps{
+  commentData : ChalCommentAxiosType,
+}
 
-const ChalCommentItem = (
-  // {data:CommentItemTypeProps}
-  ) => {
+const ChalCommentItem = ({commentData}:CommentItemTypeProps) => {
 
   return (
     <>
-    <Wrap $alertWrap>
+    <Wrap $commentWrap>
       <Image $tinyProfileImage>
         <img></img>
       </Image>
       <div className="contentarea">
-        {/* <Text $black>{data.title}</Text> */}
-        {/* <Text $black>{data.content}</Text> */}
+        <Text $black $isBold>{commentData.nickname}</Text>
+        <Text $black>{commentData.content}</Text>
       </div>
     </Wrap>
     </>

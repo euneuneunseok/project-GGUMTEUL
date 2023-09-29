@@ -81,6 +81,7 @@ const BarContainer = styled.div<NavProps>`
   // 댓글 제목 바
   ${(props) => props.$navCommentTitle && 
     css`
+      background-color: white;
       left: 0;
       top: 0;
       display: flex;
@@ -105,10 +106,12 @@ const BarContainer = styled.div<NavProps>`
     css`
       height: 4rem;
       left: 0;
-      bottom: 0;
+      bottom: -1px;
       display: flex;
       align-items: center;
+      justify-content: center;
       border-top: 1px solid gray;
+      background-color: white;
     // 프로필 사진
     & > img {
 

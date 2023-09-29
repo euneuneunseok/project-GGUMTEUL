@@ -2,7 +2,7 @@
 // <ChalComment></ChalComment>
 
 // 리액트
-import React from "react";
+import React, {useState} from "react";
 
 // 컴포넌트
 import ChalCommentList from "components/day/challenge/ChalCommentList";
@@ -16,13 +16,15 @@ import { useParams } from "react-router";
 const ChalCommentPage = () => {
 
   const params = useParams()
-  const currentDetailId = params.detailId
+  const currentDetailId = Number(params.challengeDetailId)
 
   return (
     <Container $commentContainer>
       <NavCommentBar>댓글</NavCommentBar>
       <ChalCommentList />
-      <FooterCommentBar ></FooterCommentBar>
+      <FooterCommentBar 
+        currentDetailId = {currentDetailId} 
+      ></FooterCommentBar>
     </Container>
   )
 }
