@@ -67,6 +67,7 @@ interface ProfileHeaderAxiosType {
   userId :number,
   wrigglePoint :number,
   point ?:number,
+  finishChallengeCount ?:number,
 }
 
 const ProfileHeader = () => {
@@ -81,20 +82,34 @@ const ProfileHeader = () => {
   const [userData, setUserData] = useState<ProfileHeaderAxiosType>();
   let profileUserId = 20; // 추후 바꾸기
 
-  // axios 요청
-  useEffect(() => {
-    let mode :string
-    // console.log(themeMode.mode)
-    if (isNight) {mode = "night"}
-    else {mode = "day"}
+  // // axios 요청
+  // useEffect(() => {
+  //   let mode :string
+  //   // console.log(themeMode.mode)
+  //   if (isNight) {mode = "night"}
+  //   else {mode = "day"}
 
-    tokenHttp.get(`/profile/${mode}/header/${profileUserId}`)
+  //   await tokenHttp.get(`/profile/${mode}/header/${profileUserId}`)
+  //   .then((res) => {
+  //     console.log(res);
+  //     setUserData(res.data.data);
+  //   })
+  //   .catch((err) => console.log("ProfileHeader 오류 : ", err))
+  // }, [themeMode.mode])
+
+  const getAxios = async (mode :string) => {
+    // let mode :string
+    // // console.log(themeMode.mode)
+    // if (isNight) {mode = "night"}
+    // else {mode = "day"}
+
+    await tokenHttp.get(`/profile/${mode}/header/${profileUserId}`)
     .then((res) => {
-      // console.log(res);
+      console.log("프로필 헤더 axios : ", res);
       setUserData(res.data.data);
     })
     .catch((err) => console.log("ProfileHeader 오류 : ", err))
-  }, [themeMode.mode])
+  }
 
   // 꿈틀도 값 변경
   useEffect(() => {
@@ -106,9 +121,12 @@ const ProfileHeader = () => {
     console.log("테마 확인 : ", themeMode.mode)
     if (themeMode.mode === 'night') {
       setIsNight(true);
+      
     } else {
       setIsNight(false);
+      
     }
+    getAxios(themeMode.mode)
   }, [themeMode.mode])
   
   // 꿈틀도 별 클릭
@@ -148,8 +166,9 @@ const ProfileHeader = () => {
           </div>
           <div>
             <div>
-              { isNight ? <p>꿈 카드</p> : <p>완료 챌린지</p>}
-              <p>{userData?.dreamCardCount}</p>
+              { isNight 
+              ? <><p>꿈 카드</p><p>{userData?.dreamCardCount}</p></> 
+              : <><p>완료 챌린지</p><p>{userData?.finishChallengeCount}</p></>}
             </div>
             <div>
               <p>팔로워</p>
