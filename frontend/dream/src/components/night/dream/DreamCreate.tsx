@@ -15,7 +15,7 @@ import SoundToText from "./SoundToText";
 import Button from "components/common/Button";
 import TextArea from "style/TextArea";
 import styled from "styled-components";
-import { IoMicOutline } from "react-icons/io5"
+import { IoMicOutline, IoMicSharp } from "react-icons/io5"
 import Wrap from "style/Wrap";
 import "components/night/dream/DreamCreate.css"
 import Text from "style/Text";
@@ -44,6 +44,11 @@ const IconRecord = styled(IoMicOutline)`
   height: 2rem;
 `
 
+const IconRecording = styled(IoMicSharp)`
+  width: 2rem;
+  height: 2rem;
+`
+
 const DreamCreate = () => {
 
   const [recordStart, setRecordStart] = useState<boolean>(false); // 녹음 시작
@@ -54,8 +59,8 @@ const DreamCreate = () => {
   // const [accentScript, setAccentScript] = useState<string>("");
   // const [accentClickable, setAccentClickable] = useState<boolean>(false);
   // const [accentText, setAccentText] = useState<string>("");
-
   
+
   // 녹음 시작 & 종료
   useEffect(() => {
     if (recordStart) {
@@ -112,8 +117,14 @@ const DreamCreate = () => {
         setRecordStart(!recordStart); // 녹음 시작, 종료
         accenting(); // 텍스트로 변환
       }}
+      $isRecording={recordStart}
       >
-        <IconRecord/>
+        {
+          recordStart
+          ? <IconRecording/>
+          : <IconRecord/>
+        }
+        
       </Button>
       <DreamTextAreaWrapper height={textAreaHeight}>
         <TextArea
