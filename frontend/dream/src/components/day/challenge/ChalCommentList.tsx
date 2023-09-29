@@ -25,7 +25,12 @@ export interface ChalCommentAxiosType {
   content :string,
 }
 
-const ChalCommentList = () => {
+interface ChalCommentListProps {
+  newCommentSignal : boolean
+  setNewCommentSignal: Dispatch<SetStateAction<boolean>>
+}
+
+const ChalCommentList = ({newCommentSignal, setNewCommentSignal}:ChalCommentListProps) => {
 
   const params = useParams()
   const challengeId = params.challengeId
@@ -53,6 +58,10 @@ const ChalCommentList = () => {
       tokenHttp.get(apiAddress)
         .then((response) => {
           const res = response.data.data
+          if (commentList[commentList.length-1]) {
+            setLastItemId(Number(commentList[commentList.length-1].commentId))
+          }
+
           setCommentList([...commentList,...res.resultList])
           setHasNext(res.hasNext)
           console.log("댓글 무한스크롤 성공",res)
@@ -62,10 +71,23 @@ const ChalCommentList = () => {
   }
 
   useEffect(()=>{
-    if (commentList[commentList.length-1]) {
-      setLastItemId(Number(commentList[commentList.length-1].commentId))
-    }
-  },[setCommentList,commentList])
+    tokenHttp.get(`/day/challenge/detail/${challengeDetailId}/comment?size=1`)
+      .then((response)=>{
+        const res = response.data.data.resultList
+        if (newCommentSignal){
+          setCommentList([...res, ...commentList])
+          setNewCommentSignal(false)
+        }
+        console.log(res)
+      })
+      .catch((err)=>{console.log("댓글 한개 추가 실패",err)})
+  },[newCommentSignal])
+
+  // useEffect(()=>{
+  //   if (commentList[commentList.length-1]) {
+  //     setLastItemId(Number(commentList[commentList.length-1].commentId))
+  //   }
+  // },[commentList])
 
   useEffect(() => {
     if (arriveEnd) {
