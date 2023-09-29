@@ -24,7 +24,6 @@ const DreamCreateContainer = styled.div`
   margin: 1.5rem 0.5rem;
   display: flex;
   flex-direction: column;
-  // height: 100dvh;
   overflow-y: scroll;
 `;
 
@@ -99,8 +98,6 @@ const DreamCreate = () => {
   const [textAreaHeight, setTextAreaHeight] = useState<number>(0);
 
   useEffect(() => {
-    // console.log(window.document.querySelector('#textarea')?.childNodes[0]?.textContent?.length);
-    // console.log(window.document.querySelector('#textarea')?.clientHeight);
     setTextAreaHeight(window.document.querySelector('#textarea')?.scrollHeight ?? 0)
   }, [allText])
 
