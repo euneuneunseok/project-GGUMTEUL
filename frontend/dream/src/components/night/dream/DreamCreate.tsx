@@ -28,6 +28,18 @@ const DreamCreateContainer = styled.div`
   overflow-y: scroll;
 `;
 
+interface DreamTextAreaWrapperProps {
+  height :number;
+} 
+
+const DreamTextAreaWrapper = styled.div<DreamTextAreaWrapperProps>`
+  width: 100%;
+  height: calc(${props => props.height/16 > 22 ? props.height/16 : 22}rem);
+  // min-height: 22rem;
+  margin-bottom: 2rem;
+  transition: height 0.3s ease;
+`;
+
 const IconRecord = styled(IoMicOutline)`
   width: 2rem;
   height: 2rem;
@@ -83,6 +95,15 @@ const DreamCreate = () => {
     .catch(err => console.log(err))
   }
 
+  // TextArea 높이 감지
+  const [textAreaHeight, setTextAreaHeight] = useState<number>(0);
+
+  useEffect(() => {
+    // console.log(window.document.querySelector('#textarea')?.childNodes[0]?.textContent?.length);
+    // console.log(window.document.querySelector('#textarea')?.clientHeight);
+    setTextAreaHeight(window.document.querySelector('#textarea')?.scrollHeight ?? 0)
+  }, [allText])
+
   return (
     <>
     <DreamCreateContainer>
@@ -97,11 +118,14 @@ const DreamCreate = () => {
       >
         <IconRecord/>
       </Button>
-      <TextArea
-      $nightDreamInput
-      value={allText}
-      onChange={(e) => setAllText(e.target.value)}
-      />
+      <DreamTextAreaWrapper height={textAreaHeight}>
+        <TextArea
+        $nightDreamInput
+        id="textarea"
+        value={allText}
+        onChange={(e) => setAllText(e.target.value)}
+        />
+      </DreamTextAreaWrapper>
 
       <Wrap $nightBotButtonWrap $nightButtonCheckWrap>
         <div>
