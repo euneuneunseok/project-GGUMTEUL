@@ -44,7 +44,7 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
       border-radius: 2rem;   
       margin: 1rem 0;
       display: flex;
-      height: 100%;
+      height: inherit;
     `
   }
 
