@@ -75,6 +75,16 @@ public class ProfileService {
     }
 
 
+    public ResultTemplate updatePoint(User user, int point){
+        if(user.getPoint()+point>=0) {
+            user.plusPoint(point);
+        }else{
+            user.minusPoint(user.getPoint());
+        }
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
 
 
 }
