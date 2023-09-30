@@ -17,7 +17,13 @@ import Text from "style/Text";
 
 // 스타일
 
-const DaySearchResultList = () => {
+// 타입
+interface SearchResultProps {
+  searchWord :string
+}
+
+
+const DaySearchResultList = ({searchWord}: SearchResultProps) => {
 
   const [categoryProps, setCategoryProps] = useState<CategoryAxiosType>({keyword: '', keywordId: 0});
 
@@ -26,7 +32,7 @@ const DaySearchResultList = () => {
     <>
     <DayCategoryList setCategoryProps={setCategoryProps} />
     <Text $isBold $daySearchText>검색 결과</Text>
-    <DayChallengeList categoryProps={categoryProps}/>
+    <DayChallengeList searchWord={searchWord} categoryProps={categoryProps}/>
     </>
   )
 }

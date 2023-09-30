@@ -18,15 +18,13 @@ const DaySearchPage = () => {
 
   const [searchWord, setSearchWord] = useState<string>('')
 
-  
-
   return (
     <>
     <Container $dayBaseContainer>
       {searchWord==='' ? (<DaySearchMain/>):(null)}
       <SearchBar setSearchWord={setSearchWord}/>
     </Container>
-    {searchWord==='' ? (null):(<DaySearchResultList/>)}
+    {searchWord==='' ? (null):(<DaySearchResultList searchWord={searchWord}/>)}
     
 
     </>

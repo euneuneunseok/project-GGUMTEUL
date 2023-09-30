@@ -27,6 +27,7 @@ export interface DayChallengeListType extends Array<DayChallengeObjType> {}
 
 export interface CategoryToChalProps {
   categoryProps :CategoryAxiosType
+  searchWord ?:string
 }
 
 const DayChallengeList = (props :CategoryToChalProps) => {
@@ -91,9 +92,18 @@ const DayChallengeList = (props :CategoryToChalProps) => {
       // lastItemId={lastItemId}
       component={
         allChalList
+        // // 내용 검색 필터
+        .filter((chal: DayChallengeObjType) => { 
+          if(props.searchWord){
+            return chal.title?.includes(props.searchWord)
+          } else {
+            return true
+          }
+        })
+        // 카테고리
         .filter((chal: DayChallengeObjType) => {
           if (props.categoryProps.keywordId !== 0) {
-            chal.dreamKeywordId === props.categoryProps.keywordId
+            return chal.dreamKeywordId === props.categoryProps.keywordId
           } else {
             return true
           }
