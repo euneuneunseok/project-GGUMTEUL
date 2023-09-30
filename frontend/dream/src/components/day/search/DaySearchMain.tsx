@@ -15,7 +15,7 @@ const DaySearchMain = () => {
   return (
     <>
     {/* 글자들 */}
-    <Text $dayWhite>
+    <Text $dayWhite $textStartMargin>
       어떤 도전을 하고 싶으신가요?<br/>
       함께 찾아봐요.
     </Text>

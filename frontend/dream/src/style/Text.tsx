@@ -17,6 +17,7 @@ interface TextProps {
   $MBHalf ?: boolean
   $dayHomeText ?: boolean
   $daySearchText ?: boolean
+  $textStartMargin ?: boolean
 
   // 수직정렬
   $verticalAlign ?: boolean
@@ -143,6 +144,14 @@ const StyledText = styled.div<TextProps>`
     props.$dayWhite &&
     css`
       color: #e8e8e8;
+      line-height: 1.5rem;
+      font-size: 1rem;
+      margin-top: 8rem;
+    `
+  }
+  ${(props) =>
+    props.$textStartMargin &&
+    css`
       line-height: 1.5rem;
       font-size: 1rem;
       margin-top: 8rem;
