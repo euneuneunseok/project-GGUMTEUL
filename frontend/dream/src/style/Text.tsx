@@ -15,6 +15,8 @@ interface TextProps {
 
   // 마진
   $MBHalf ?: boolean
+  $dayHomeText ?: boolean
+  $daySearchText ?: boolean
 
   // 수직정렬
   $verticalAlign ?: boolean
@@ -57,6 +59,20 @@ const StyledText = styled.div<TextProps>`
     props.$MBHalf &&
     css`
       margin-bottom: 0.5rem;
+    `
+  }
+  ${(props) =>
+    props.$dayHomeText &&
+    css`
+      margin-left: 1rem;
+      margin-top: 1rem;
+    `
+  }
+  ${(props) =>
+    props.$daySearchText &&
+    css`
+      margin-left: 1rem;
+      margin-top: 2rem;
     `
   }
 

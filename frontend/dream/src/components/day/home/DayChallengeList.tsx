@@ -81,9 +81,9 @@ const DayChallengeList = (props :CategoryToChalProps) => {
 
   return (
     <>
-    <div style={{margin: "0.5rem"}}>
+    {/* <div style={{margin: "0.5rem"}}>
       <Text $isBold>Hot Challenge</Text>
-    </div>
+    </div> */}
     {
       allChalList &&
       <InfiniteScroll 

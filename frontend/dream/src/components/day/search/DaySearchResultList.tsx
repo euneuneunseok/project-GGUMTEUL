@@ -7,20 +7,26 @@
 // ChalContentListItem
 
  // 리액트
-import React from "react";
+import React, {useState} from "react";
 
 // 컴포넌트
-import DayCategoryList from "../daycommon/DayCategoryList";
+import DayCategoryList, { CategoryAxiosType } from "../daycommon/DayCategoryList";
 import ChalContentListItem from "../daycommon/ChalContentListItem";
+import DayChallengeList from "../home/DayChallengeList";
+import Text from "style/Text";
 
 // 스타일
 
 const DaySearchResultList = () => {
 
+  const [categoryProps, setCategoryProps] = useState<CategoryAxiosType>({keyword: '', keywordId: 0});
+
+
   return (
     <>
-    {/* <DayCategoryList /> */}
-    {/* <ChalContentListItem /> */}
+    <DayCategoryList setCategoryProps={setCategoryProps} />
+    <Text $isBold $daySearchText>검색 결과</Text>
+    <DayChallengeList categoryProps={categoryProps}/>
     </>
   )
 }
