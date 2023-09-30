@@ -23,6 +23,7 @@ import styled from "styled-components";
 import { FaStar } from "react-icons/fa6";
 import { LiaCoinsSolid } from "react-icons/lia";
 import tokenHttp from "api/tokenHttp";
+import { useParams } from "react-router-dom";
 
 // progress 속성을 정의
 interface ProgressBarProps {
@@ -71,15 +72,17 @@ interface ProfileHeaderAxiosType {
 
 const ProfileHeader = () => {
   const themeMode = useSelector((state: RootState) => state.themeMode.themeMode);
+  const auth = useSelector((state: RootState) => state.auth.userdata);
+
   const [isNight, setIsNight] = useState<boolean>(false);
   const [isStarClicked, setIsStarClicked] = useState<boolean>(true);
   const [isMyProfile, setIsMyProfile] = useState<boolean>(true); // 내 프로필인지 유저 확인
   const [isFollowing, setIsFollowing] = useState<boolean>(false); // 팔로우 했는지 여부
   const [progress, setProgress] = useState<number>(0); // 꿈틀도 추후 변경하기
-  
+
   // 프로필 axios 통신 데이터들
   const [userData, setUserData] = useState<ProfileHeaderAxiosType>();
-  let profileUserId = 20; // 추후 바꾸기
+  const params = useParams();
 
   // axios 요청
   useEffect(() => {
@@ -88,7 +91,7 @@ const ProfileHeader = () => {
     if (isNight) {mode = "night"}
     else {mode = "day"}
 
-    tokenHttp.get(`/profile/${mode}/header/${profileUserId}`)
+    tokenHttp.get(`/profile/${mode}/header/${params.userId}`)
     .then((res) => {
       // console.log(res);
       setUserData(res.data.data);
