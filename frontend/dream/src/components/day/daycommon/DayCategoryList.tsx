@@ -45,6 +45,7 @@ const DayCategoryList = (props :CategoryPropsType) => {
     tokenHttp.get(`/day/keyword/list`)
     .then((res) => {
       setCategoryList(res.data.data);
+      console.log('키워드 리스트', res.data.data)
     })
     .catch((err) => console.log(err))
   }
