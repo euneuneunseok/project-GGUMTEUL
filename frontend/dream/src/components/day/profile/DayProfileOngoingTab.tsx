@@ -21,7 +21,7 @@ export interface DayChallengeObjType {
   participationCount ?:number
 }
 
-const NoChalMsgWrap = styled.div`
+export const NoChalMsgWrap = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
@@ -46,7 +46,7 @@ const DayProfileOngoingTab = () => {
     let apiAddress :string = "";
 
     // 처음 요청 받을 때 : lastItemId 없음
-    if (lastItemId === -1) {apiAddress = `/day/mychallenge/list?size=${size}`}
+    if (lastItemId === 0) {apiAddress = `/day/mychallenge/list?size=${size}`}
     // 두번째부터 요청 할 때
     else {apiAddress = `/day/mychallenge/list?lastItemId=${lastItemId}&size=${size}`}
     
