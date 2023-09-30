@@ -54,14 +54,12 @@ const DayProfileCompleteTab = () => {
     getAxios();
   }, [])
 
-
   useEffect(() => {
     // 바닥에 다다랐으면 axios 요청
-    console.log("arrive End : ", arriveEnd)
     if (arriveEnd) {
       getAxios();
+      setArriveEnd(false);
     }
-    setArriveEnd(false);
   }, [arriveEnd])
 
 

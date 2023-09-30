@@ -14,6 +14,7 @@ import Text from "style/Text";
 
 // 스타일
 export interface DayChallengeObjType {
+  badgeUrl ?:string,
   challengeTitle :string,
   period :string,
   challengeId :number,
@@ -37,10 +38,10 @@ const DayProfileOngoingTab = () => {
   const [hasNext, setHasNext] = useState<boolean>(true); 
   const [noChalMsg, setNoChalMsg] = useState<string>("");
   let size :number = 6;
-  
+
   // infinite scroll
   const [arriveEnd, setArriveEnd] = useState<boolean>(true); // 바닥에 다다름을 알려주는 변수
-
+  
   // api 요청
   const getAxios = () => {
     let apiAddress :string = "";
