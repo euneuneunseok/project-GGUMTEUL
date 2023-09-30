@@ -33,7 +33,7 @@ const DayProfileBadgeTab = () => {
   const params = useParams();
 
   const [allBadgeList, setAllBadgeList] = useState<ProfileBadgeAxiosType[]>([]);
-  const [lastItemId, setLastItemId] = useState<number>(-1); // 마지막 아이템 번호
+  const [lastItemId, setLastItemId] = useState<number>(0); // 마지막 아이템 번호
   const [hasNext, setHasNext] = useState<boolean>(true); 
   const [noBadgeMsg, setNoBadgeMsg] = useState<string>("뱃지가 없습니다.");
   let size :number = 6;
