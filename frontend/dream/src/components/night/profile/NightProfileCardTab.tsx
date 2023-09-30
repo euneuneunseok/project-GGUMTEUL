@@ -38,7 +38,8 @@ export interface ProfileDreamCardAxiosType {
   dreamCardId :number,
   dreamCardImageUrl :string,
   dreamCardAuthorId :number,
-  isShow :string
+  isShow :string,
+  purchase :boolean,
 }
 
 const NightProfileCardTab = () => {
@@ -177,6 +178,7 @@ const NightProfileCardTab = () => {
           component={
             dreamCardList
             .filter((card) => (isShowAllCard ? card.isShow === "T" : true))
+            .filter((card) => (isBuyCard ? card.purchase === true : true))
             .map((card, i) => (
               <Image $profileCard $nightImageBorder key={i}>
                 <img src={card.dreamCardImageUrl} alt="dreamCard"></img>
