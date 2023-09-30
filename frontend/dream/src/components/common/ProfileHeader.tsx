@@ -68,6 +68,7 @@ interface ProfileHeaderAxiosType {
   userId :number,
   wrigglePoint :number,
   point ?:number,
+  finishChallengeCount :number,
 }
 
 const ProfileHeader = () => {
@@ -76,7 +77,7 @@ const ProfileHeader = () => {
 
   const [isNight, setIsNight] = useState<boolean>(false);
   const [isStarClicked, setIsStarClicked] = useState<boolean>(true);
-  const [isMyProfile, setIsMyProfile] = useState<boolean>(true); // 내 프로필인지 유저 확인
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(false); // 내 프로필인지 유저 확인
   const [isFollowing, setIsFollowing] = useState<boolean>(false); // 팔로우 했는지 여부
   const [progress, setProgress] = useState<number>(auth.wrigglePoint); // 꿈틀도 추후 변경하기
 
@@ -86,14 +87,9 @@ const ProfileHeader = () => {
 
   // axios 요청
   useEffect(() => {
-    let mode :string
-    // console.log(themeMode.mode)
-    if (isNight) {mode = "night"}
-    else {mode = "day"}
-
-    tokenHttp.get(`/profile/${mode}/header/${params.userId}`)
+    tokenHttp.get(`/profile/common/header/${params.userId}`)
     .then((res) => {
-      // console.log(res);
+      // console.log("프로필 헤더 : ", res);
       setUserData(res.data.data);
     })
     .catch((err) => console.log("ProfileHeader 오류 : ", err))
@@ -119,6 +115,13 @@ const ProfileHeader = () => {
     setIsStarClicked(!isStarClicked)
   }
 
+  // 내 프로필인지 확인
+  useEffect(() => {
+    if (params && auth.userId === Number(params.userId)) {
+      setIsMyProfile(true)
+    }
+  }, [auth.userId, params])
+
   return (
     <>
     <Wrap $profileHeaderWrap>
@@ -134,19 +137,17 @@ const ProfileHeader = () => {
           <div>
             <p>{userData?.nickname}</p>
             {
-              !isMyProfile &&
-              <Button
-              $follow
-              $nightPalePurple
-              >{!isFollowing ? "팔로우" : "팔로잉"}</Button>
-            }
-            {
-              isMyProfile &&
+              isMyProfile
+              ? 
               <Text
               $nightMoney={isNight}
               $dayMoney={!isNight}
               ><LiaCoinsSolid style={{width: "1.3rem", height: "1.3rem", marginRight: "0.4rem"}}></LiaCoinsSolid> {userData?.point && (userData?.point/100).toFixed(1)}k</Text>
-              // 포인트 출력 부분은 로그인 구현 완료 후 추가 필요
+              :
+              <Button
+              $follow
+              $nightPalePurple
+              >{!isFollowing ? "팔로우" : "팔로잉"}</Button>
             }
           </div>
           <div>
