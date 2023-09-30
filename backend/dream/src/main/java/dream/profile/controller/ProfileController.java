@@ -37,5 +37,11 @@ public class ProfileController {
 
     }
 
+    @GetMapping("/header/{profileUserId}")
+    public ResultTemplate getHeader(@PathVariable Long profileUserId, @UserInfo User user){
+//        User user = userService.getUserForDev(20L);
+
+        return profileService.getHeader(user, profileUserId);
+    }
 
 }
