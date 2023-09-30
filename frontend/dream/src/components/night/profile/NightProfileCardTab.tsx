@@ -165,10 +165,12 @@ const NightProfileCardTab = () => {
     {isLoading && <div>Loading...</div>}
 
     {/* 데이터 로딩이 완료된 후에 꿈 카드를 표시 */}
-    {!isLoading && (
-      <ProfileDreamCardWrap>
-        {
-          dreamCardList &&
+    {!isLoading && 
+      dreamCardList.length === 0
+      ? <NoCardMsgWrap>
+          <Text $nightWhite>{noCardMsg}</Text>
+        </NoCardMsgWrap>
+      : <ProfileDreamCardWrap>
           <InfiniteScroll
           setArriveEnd={setArriveEnd} 
           // lastItemId={lastItemId}
@@ -183,14 +185,8 @@ const NightProfileCardTab = () => {
             }
           > 
           </InfiniteScroll>
-        }
-      </ProfileDreamCardWrap>
-    )}
-    {/* 꿈 카드가 없을 때 */}
-    <NoCardMsgWrap>
-      <Text $nightWhite>{noCardMsg}</Text>
-    </NoCardMsgWrap>
-    
+        </ProfileDreamCardWrap>    
+    }
     </>
   )
 }
