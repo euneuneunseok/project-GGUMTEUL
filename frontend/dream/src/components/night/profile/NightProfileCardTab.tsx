@@ -93,12 +93,25 @@ const NightProfileCardTab = () => {
     getAxios();  
   }, [])
 
+
   // 공개 카드만 보이도록 
   const [isShowAllCard, setIsShowAllCard] = useState<boolean>(false);
-
+  
   const handleShowCard = () => {
-    setIsShowAllCard(!isShowAllCard)
-    // console.log(isShowAllCard)
+    // 공개카드만 -> 비공개 카드 포함해서 보여주기
+    if (isShowAllCard) {setIsShowAllCard(false)}
+    // 비공개 카드 포함 전체 -> 공개카드만 보여주기
+    else {setIsShowAllCard(true)}
+  }
+  
+  // 구매 카드만 보이도록
+  const [isBuyCard, setIsBuyCard] = useState<boolean>(false);
+  
+  const handleBuyCard = () => {
+    // 구매카드만 -> 구매 안한 카드 포함해서 보여주기
+    if (isBuyCard) {setIsBuyCard(false)}
+    // 구매 안한 카드 포함 전체 -> 구매카드만 보여주기
+    else {setIsBuyCard(true)}
   }
 
   // 로딩 중
@@ -134,10 +147,17 @@ const NightProfileCardTab = () => {
       isMyProfile && 
       <ProfileCardButtonWrap>
         <Button 
-        $follow $nightPalePurple
+        $follow 
+        $nightPalePurple 
+        $nightPalePurpleSelected={isShowAllCard}
         onClick={handleShowCard}
         >공개</Button>
-        <Button $follow $nightPalePurple>구매</Button>
+        <Button 
+        $follow 
+        $nightPalePurple
+        $nightPalePurpleSelected={isBuyCard}
+        onClick={handleBuyCard}
+        >구매</Button>
       </ProfileCardButtonWrap>
     }
 
