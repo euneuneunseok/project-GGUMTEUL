@@ -93,6 +93,9 @@ const StyledButton = styled.button<ButtonProps>`
             padding: 0.5rem;
             width:49%;
             height: 15vw;
+            &:active {
+                opacity: 0.5;
+            }
         `
     }
 
@@ -178,7 +181,7 @@ const StyledButton = styled.button<ButtonProps>`
             // border: 1px solid #6659A5;
             color: #FFFFFF;
             padding: 0.75rem 1rem;
-            &:not(:disabled):hover {
+            &:not(:disabled):active {
                 opacity: 0.8;
             }
         `
@@ -193,7 +196,7 @@ const StyledButton = styled.button<ButtonProps>`
             // border: 1px solid rgba(102, 89, 165, 0.5);
             padding: 0.75rem 1rem;
             color: #FFFFFF;
-            &:not(:disabled):hover {
+            &:not(:disabled):active {
                 opacity: 0.8;
             }
         `
@@ -231,7 +234,10 @@ const StyledButton = styled.button<ButtonProps>`
             background-color: #75A8C7;
             border: 1px solid #75A8C7;
             color: #000000;
-            &:not(:disabled):hover {
+            // &:not(:disabled):hover {
+            //     opacity: 0.8;
+            // }
+            &:not(:disabled):active {
                 opacity: 0.8;
             }
         `
