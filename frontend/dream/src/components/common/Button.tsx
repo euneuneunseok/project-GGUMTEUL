@@ -287,7 +287,7 @@ const StyledButton = styled.button<ButtonProps>`
             border: 1px solid #F1E3E6;
             color: #000000;
             box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.20);
-            &:not(:disabled):hover {
+            &:not(:disabled):active {
                 opacity: 0.8;
             }
         `
