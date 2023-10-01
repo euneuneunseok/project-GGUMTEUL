@@ -13,6 +13,7 @@ const DreamTabWrap = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: inherit;
+  margin-top: 2rem;
   & > div {
     text-align: center;
   }
