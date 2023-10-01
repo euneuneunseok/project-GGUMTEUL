@@ -53,7 +53,7 @@ const SearchBar = (props: searchBarProps) => {
         <Input $searchBar
           $nightColor={false}
           $dayColor={true}
-          onBlur={(e)=>{
+          onChange={(e)=>{
             props.setSearchWord(e.target.value)
           }}
           placeholder="검색"

@@ -28,7 +28,6 @@ export interface DayChallengeListType extends Array<DayChallengeObjType> {}
 
 export interface CategoryToChalProps {
   categoryProps :CategoryAxiosType
-  searchWord ?:string
 }
 
 const DayChallengeList = (props :CategoryToChalProps) => {
@@ -57,7 +56,7 @@ const DayChallengeList = (props :CategoryToChalProps) => {
         setAllChalList([...allChalList, ...challengeList]);
         setLastItemId(challengeList[challengeList.length - 1].challengeId);
         setHasNext(response.hasNext);
-        console.log("== 메인 챌린지 컴포넌트 ==", res); 
+        console.log("== 메인 챌린지 컴포넌트 ==", response); 
       })
       .catch((err) => console.log("== 메인 챌린지 컴포넌트 ==", err))
     }
@@ -89,31 +88,22 @@ const DayChallengeList = (props :CategoryToChalProps) => {
     {
       allChalList &&
       <InfiniteScroll 
-      setArriveEnd={setArriveEnd} 
-      // lastItemId={lastItemId}
-      component={
-        allChalList
-        // // 내용 검색 필터
-        .filter((chal: DayChallengeObjType) => { 
-          if(props.searchWord){
-            return chal.title?.includes(props.searchWord)
-          } else {
-            return true
-          }
-        })
-        // 카테고리
-        .filter((chal: DayChallengeObjType) => {
-          if (props.categoryProps.keywordId !== 0) {
-            return chal.dreamKeywordId === props.categoryProps.keywordId
-          } else {
-            return true
-          }
-        })
-        .map((chal :DayChallengeObjType) => (
-          <ChalContentListItem key={chal.challengeId} chal={chal} />))
+        setArriveEnd={setArriveEnd} 
+        // lastItemId={lastItemId}
+        component={
+          allChalList
+          // 카테고리
+          .filter((chal: DayChallengeObjType) => {
+            if (props.categoryProps.keywordId !== 0) {
+              return chal.dreamKeywordId === props.categoryProps.keywordId
+            } else {
+              return true
+            }
+          })
+          .map((chal :DayChallengeObjType) => (
+            <ChalContentListItem key={chal.challengeId} chal={chal} />))
         }
-        >
-      </InfiniteScroll>
+      ></InfiniteScroll>
     }
     </>
   )
