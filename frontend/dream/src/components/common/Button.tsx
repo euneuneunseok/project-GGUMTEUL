@@ -389,10 +389,14 @@ const StyledButton = styled.button<ButtonProps>`
         css`
             position: absolute;
             right: 1rem;
-            height: 3rem;
+            height: 2rem;
             color: blue;
             font-weight: bold;
             background-color: transparent;
+            border-radius: 2rem;
+            &:active {
+                background-color: rgba(184, 184, 184, 0.5);
+            }
         `
     }
 
