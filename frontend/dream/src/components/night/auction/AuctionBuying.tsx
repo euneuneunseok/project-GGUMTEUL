@@ -6,8 +6,9 @@
 
 // 2개 텍스트 박스(AuctionDetail 복붙)
 // 리액트
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useSelector } from 'react-redux'
+import { useParams } from "react-router-dom";
 
 // 컴포넌트
 import Button from "components/common/Button";
@@ -19,6 +20,9 @@ import Container from "style/Container";
 import Text from "style/Text";
 import Input from "style/Input";
 import { RootState } from "store";
+
+// 외부
+import { baseUrl } from "api/api";
 
 // // push 알림
 // import { getMessaging, onMessage } from 'firebase/messaging';
@@ -54,10 +58,25 @@ interface AuctionBuyingProps {
 
 const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const userdata = useSelector((state: RootState) => state.auth.userdata);
+  const {auctionId} = useParams()
 
   // const biddingMoney :number = 5000 // 서버에서 받을 값
   const [myBiddingMoney, setMyBiddingMoney] = useState<number>(biddingMoney)
   const [currentAskingMoney, setAskingMoney] = useState<number>(askingMoney)
+
+  useEffect(() => {
+    // 웹소캣
+    console.log("ㅋ")
+    const socket = new WebSocket(`ws://j9b301.p.ssafy.io/api/auction/detail/${auctionId}`)
+    socket.onmessage = (e) => {
+      console.log(e, "e가 뭘까")
+      const data = JSON.parse(e.data)
+      setMyBiddingMoney(data)
+    }
+    return () => {
+      socket.close()
+    }
+  }, [])
 
   // 숫자만 입력 받는 정규식
   const numberCheck = /^[0-9]+$/;

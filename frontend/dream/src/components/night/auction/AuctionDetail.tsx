@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import tokenHttp from "api/tokenHttp";
 import { changeDateHour } from "utils/dateForm";
 import { RootState } from "store";
+import { baseUrl } from "api/api";
 
 // 컴포넌트
 import Button from "components/common/Button";
@@ -75,6 +76,7 @@ const AuctionDetail = () => {
       setAuctionItem(res.data.data)
       console.log(res.data.data, "경매장 입장")
     })
+
   }, [])
 
   // 라우터 경로에 따른 것.
