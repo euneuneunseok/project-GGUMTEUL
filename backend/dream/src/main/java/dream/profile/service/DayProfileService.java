@@ -15,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.transform.Result;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,27 +32,32 @@ public class DayProfileService {
     private final BadgeRepository badgeRepository;
     private final ChallengeParticipationQueryRepository challengeParticipationQueryRepository;
 
-    public ResultTemplate getDayHeader(User user, Long profileUserId) {
-
-        User profileUser = userRepository.findByUserId(profileUserId).orElseThrow(()->{
-            throw new BadRequestException(BadRequestException.NOT_EXIST_USER_PROFILE);
-        });
-
-
-        int followingCount = followRepository.findByFromId(profileUser.getUserId()).size();
-        int followerCount = followRepository.findByToId(profileUser.getUserId()).size();
-
-        //내 프로필 헤더 조회
-        if(user.getUserId()==profileUserId){
-           return profileService.getHeaderBySelf(profileUser);
-        }else{
-
-            int finishedChallengeCount  =  challengeParticipationRepository.getChallengeParticipationListByUserAndStatus(profileUser.getUserId(), ChallengeStatus.S).size();
-            ResponseNightProfileHeaderByOther response = ResponseNightProfileHeaderByOther.from(profileUser, finishedChallengeCount, followerCount, followingCount);
-            return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
-        }
-
-    }
+    //통합됨
+//    public ResultTemplate getDayHeader(User user, Long profileUserId) {
+//
+//        User profileUser = userRepository.findByUserId(profileUserId).orElseThrow(()->{
+//            throw new BadRequestException(BadRequestException.NOT_EXIST_USER_PROFILE);
+//        });
+//
+//
+//        int followingCount = followRepository.findByFromId(profileUser.getUserId()).size();
+//        int followerCount = followRepository.findByToId(profileUser.getUserId()).size();
+//        int finishedChallengeCount  = challengeParticipationQueryRepository.getFinishedChallengeListByUserId(profileUserId).size();
+//
+//        //내 프로필 헤더 조회
+//        if(user.getUserId()==profileUserId){
+//            ResponseProfileHeaderBySelf response = ResponseProfileHeaderBySelf.from(profileUser, finishedChallengeCount, followerCount, followingCount);
+//
+//            return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+//        }else{
+//
+//
+////                    challengeParticipationRepository.getChallengeParticipationListByUserAndStatus(profileUser.getUserId(), ChallengeStatus.S).size();
+//            ResponseProfileHeaderByOther response = ResponseProfileHeaderByOther.from(profileUser, finishedChallengeCount, followerCount, followingCount);
+//            return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+//        }
+//
+//    }
 
     public ResultTemplate getProfileBadgeList(Long profileUserId, Long lastItemId, int size){
 
@@ -90,7 +93,7 @@ public class DayProfileService {
 
     public ResultTemplate getFinishedChallengeListByProfileUser(Long profileUserId, Long lastItemId, int size){
 
-        List<ChallengeParticipation> challenges = challengeParticipationQueryRepository.getFinishedChallengeListByUserId(profileUserId, lastItemId, size);
+        List<ChallengeParticipation> challenges = challengeParticipationQueryRepository.getFinishedChallengeListByUserIdPaging(profileUserId, lastItemId, size);
 
         boolean hasNext = challenges.size()>size;
 

@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseProfileHeaderBySelf {
+public class ResponseNightProfileHeaderBySelf {
+
 
     private Long userId;
     private String nickname;
@@ -16,14 +17,13 @@ public class ResponseProfileHeaderBySelf {
     private String profileImageName;
     private int point;
     private Double wrigglePoint;
-    private int finishChallengeCount;
+    private int dreamCardCount;
     private int followerCount;
     private int followingCount;
-    private int dreamCardCount;
 
 
-    public static ResponseProfileHeaderBySelf from(User user, int finishChallengeCount, int followerCount, int followingCount, int dreamCardCount) {
-        ResponseProfileHeaderBySelf response = new ResponseProfileHeaderBySelf();
+    public static ResponseNightProfileHeaderBySelf from(User user, int dreamCardCount, int followerCount, int followingCount) {
+        ResponseNightProfileHeaderBySelf response = new ResponseNightProfileHeaderBySelf();
 
         response.userId = user.getUserId();
         response.nickname = user.getNickname();
@@ -31,12 +31,13 @@ public class ResponseProfileHeaderBySelf {
         response.profileImageUrl = user.getProfileUrl();
         response.followerCount = followerCount;
         response.followingCount = followingCount;
-        response.finishChallengeCount = finishChallengeCount;
+        response.dreamCardCount = dreamCardCount;
         response.point = user.getPoint();
         response.wrigglePoint = user.getWrigglePoint();
 
-        response.dreamCardCount = dreamCardCount;
 
         return response;
     }
+
+
 }
