@@ -61,6 +61,7 @@ interface AuctionDetailType {
 const AuctionDetail = () => {
   const navigation = useNavigate()
   const location = useLocation()
+  const userdata = useSelector((state: RootState) => state.auth.userdata);
 
   const {auctionId} = useParams()
   const [auctionItem, setAuctionItem] = useState<AuctionDetailType>()
@@ -107,12 +108,26 @@ const AuctionDetail = () => {
   // 꿈 즉시구매
   const buyDreamCardNow = () => {
     // 내 꿈머니보다 즉시구매가 높으면 돌려보내기 구현 필요
+    
+    const data = {
+      auctionId: auctionId,
+      userId: userdata.userId,
+      biddingMoney: auctionItem?.immediatelyBuyMoney
+    }
 
-    tokenHttp.put(`/auction/purchase`, auctionItem?.dreamCardId)
+    console.log("data : ", data)
+
+    tokenHttp.put(`/auction/purchase`, data)
     .then(res => {
-      if (res.data.status === 204) {
-        // 고새 누가 구매해서 카드 없으면... alert..?
-        alert("판매된 카드입니다.")
+      console.log(res)
+      const response = res.data
+      if (response.status === 204) {
+        alert(response.data)
+      } else if (response.status === 400) {
+        alert(response.data)
+      } else if (response.status === 200) {
+        alert("구매 성공")
+        navigation(`/night/profile/${userdata.userId}`)
       }
     })
 
