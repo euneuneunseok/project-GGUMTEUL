@@ -101,7 +101,7 @@ const AuctionDetail = () => {
       else if (todayHour === 0) return 1
       else if (todayHour === 1) return 0
       return 3
-    } else return endedHour - todayHour
+    } else return endedHour - todayHour >= 0 ? endedHour - todayHour : 0
   }
 
   // 꿈 즉시구매
@@ -150,7 +150,7 @@ const AuctionDetail = () => {
     <Container $baseContainer>
       <AuctionBox $fullWidth > 
       <Wrap $spaceBetweenWrap>
-        <Text $nightBlue $isBold>입찰 마감 2시간 전</Text> 
+        <Text $nightBlue $isBold>입찰 마감 {diffHour()}시간 전</Text> 
         <Text $nightBlue>입찰 수: {auctionItem?.biddingCount}명</Text> 
       </Wrap>      
       </AuctionBox>
