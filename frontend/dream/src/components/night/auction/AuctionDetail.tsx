@@ -195,7 +195,7 @@ const AuctionDetail = () => {
         >참여하기</Button>
       </Wrap>
       {/* 꿈머니 구현 이후 */}
-      <Text $nightKeword>나의 꿈머니: {10000}</Text>
+      <Text $nightKeword>나의 꿈머니: {userdata.point}</Text>
       </Container>
       </>
     }
