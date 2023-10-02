@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from "react-router-dom";
 
 // 외부 
-import basicHttp from "api/basicHttp";
+import tokenHttp from "api/tokenHttp";
 import { changeDateHour } from "utils/dateForm";
 import { RootState } from "store";
 
@@ -61,15 +61,16 @@ interface AuctionDetailType {
 const AuctionDetail = () => {
   const navigation = useNavigate()
   const location = useLocation()
+  const userdata = useSelector((state: RootState) => state.auth.userdata);
 
-  const {dreamCardId} = useParams()
+  const {auctionId} = useParams()
   const [auctionItem, setAuctionItem] = useState<AuctionDetailType>()
   const [isFirstAuctionPage, setIsFirstAuctionPage] = useState(true)
 
   // const myMoney = useSelector((state:RootState) => state)
 
   useEffect(()=> {
-    basicHttp.get(`/auction/detail/${dreamCardId}`)
+    tokenHttp.get(`/auction/detail/${auctionId}`)
     .then(res => {
       setAuctionItem(res.data.data)
       console.log(res.data.data, "경매장 입장")
@@ -101,18 +102,32 @@ const AuctionDetail = () => {
       else if (todayHour === 0) return 1
       else if (todayHour === 1) return 0
       return 3
-    } else return endedHour - todayHour
+    } else return endedHour - todayHour >= 0 ? endedHour - todayHour : 0
   }
 
   // 꿈 즉시구매
   const buyDreamCardNow = () => {
     // 내 꿈머니보다 즉시구매가 높으면 돌려보내기 구현 필요
+    
+    const data = {
+      auctionId: auctionId,
+      userId: userdata.userId,
+      biddingMoney: auctionItem?.immediatelyBuyMoney
+    }
 
-    basicHttp.put(`/auction/purchase`, auctionItem?.dreamCardId)
+    console.log("data : ", data)
+
+    tokenHttp.put(`/auction/purchase`, data)
     .then(res => {
-      if (res.data.status === 204) {
-        // 고새 누가 구매해서 카드 없으면... alert..?
-        alert("판매된 카드입니다.")
+      console.log(res)
+      const response = res.data
+      if (response.status === 204) {
+        alert(response.data)
+      } else if (response.status === 400) {
+        alert(response.data)
+      } else if (response.status === 200) {
+        alert("구매 성공")
+        navigation(`/night/profile/${userdata.userId}`)
       }
     })
 
@@ -150,7 +165,7 @@ const AuctionDetail = () => {
     <Container $baseContainer>
       <AuctionBox $fullWidth > 
       <Wrap $spaceBetweenWrap>
-        <Text $nightBlue $isBold>입찰 마감 2시간 전</Text> 
+        <Text $nightBlue $isBold>입찰 마감 {diffHour()}시간 전</Text> 
         <Text $nightBlue>입찰 수: {auctionItem?.biddingCount}명</Text> 
       </Wrap>      
       </AuctionBox>
@@ -166,7 +181,7 @@ const AuctionDetail = () => {
     {isFirstAuctionPage && 
       <>
       {/* 버튼 2개 */}
-      <Container $baseContainer>
+      <Container $baseContainer $auctionDetailMargin>
       <Wrap $spaceBetweenWrap>
         {/* 클릭하면 즉시 구매 & 우리 꿈머니 차감 필요 */}
         <Button $halfWidthImeBuy
@@ -176,11 +191,11 @@ const AuctionDetail = () => {
           <SmallText>{auctionItem?.immediatelyBuyMoney} 꿈포인트</SmallText>
         </Button>
         <Button $halfWidth $nightPurple
-        onClick={()=> navigation(`/night/auction/bidding/${dreamCardId}`)}
+        onClick={()=> navigation(`/night/auction/bidding/${auctionId}`)}
         >참여하기</Button>
       </Wrap>
       {/* 꿈머니 구현 이후 */}
-      <Text $nightKeword>나의 꿈머니: {10000}</Text>
+      <Text $nightKeword>나의 꿈머니: {userdata.point}</Text>
       </Container>
       </>
     }

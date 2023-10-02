@@ -15,6 +15,9 @@ interface TextProps {
 
   // 마진
   $MBHalf ?: boolean
+  $dayHomeText ?: boolean
+  $daySearchText ?: boolean
+  $textStartMargin ?: boolean
 
   // 수직정렬
   $verticalAlign ?: boolean
@@ -35,6 +38,9 @@ interface TextProps {
   //챌린지 디테일 정보 박스 내부
   $chalBoxInnerText ?: boolean;
 
+  $progressPercent ?: boolean;
+
+  $timeCapsuleText ?: boolean;
 }
 const StyledText = styled.div<TextProps>`
 
@@ -54,6 +60,20 @@ const StyledText = styled.div<TextProps>`
     props.$MBHalf &&
     css`
       margin-bottom: 0.5rem;
+    `
+  }
+  ${(props) =>
+    props.$dayHomeText &&
+    css`
+      margin-left: 1rem;
+      margin-top: 1rem;
+    `
+  }
+  ${(props) =>
+    props.$daySearchText &&
+    css`
+      margin-left: 1rem;
+      margin-top: 2rem;
     `
   }
 
@@ -129,6 +149,14 @@ const StyledText = styled.div<TextProps>`
       margin-top: 8rem;
     `
   }
+  ${(props) =>
+    props.$textStartMargin &&
+    css`
+      line-height: 1.5rem;
+      font-size: 1rem;
+      margin-top: 8rem;
+    `
+  }
 
   ${(props) => 
     props.$chalBoxInnerText && 
@@ -136,7 +164,24 @@ const StyledText = styled.div<TextProps>`
       line-height: 3.5rem;
     `
   }
-
+  // progress bar 퍼센트
+  ${(props) => 
+    props.$progressPercent && 
+    css`
+      height: 0;
+      position: relative;
+      font-size: 1rem;
+    `
+  }
+  
+  // 응원 메세지 확인 텍스트
+  ${(props) => 
+    props.$timeCapsuleText && 
+    css`
+      margin-top: 2.5rem;
+    `
+  }
+  
 `
 
 const Text = (props:TextProps) => {

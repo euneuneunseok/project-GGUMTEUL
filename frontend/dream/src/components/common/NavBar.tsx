@@ -39,11 +39,18 @@ const NavBar = () => {
     <>
     <Bar $nav $day={!nightDayMode} $night={nightDayMode}>
       <div>
-        <img src={`${process.env.PUBLIC_URL}/logo192.png`} alt="로고"/>
+        <img 
+        style={{margin: "0.4rem"}}
+        src={`${process.env.PUBLIC_URL}/image/icon/logoWhite.png`} 
+        alt="로고"/>
         <ModeToggle/>
       </div>
       <div>
-        <Button $icon><FiBell/></Button>
+        <Button $icon onClick={() => {
+          nightDayMode
+          ? navigate("/night/alert")
+          : navigate("/day/alert")
+        }}><FiBell/></Button>
       </div>
     </Bar>
     </>

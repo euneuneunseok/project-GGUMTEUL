@@ -11,6 +11,7 @@ import styled from "styled-components";
 // 스타일
 import Button from "components/common/Button";
 import axios from "axios";
+import basicHttp from "api/basicHttp";
 
 const LoginContainer = styled.div`
   width: 80%;
@@ -23,17 +24,16 @@ const LoginContainer = styled.div`
 
 
 const openKakaoLogin = () => {
-  const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI; 
-  const CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
-  const KakaoLoginAPI = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KakaoLoginAPI = 'https://j9b301.p.ssafy.io/oauth2/authorization/kakao';
 
-  window.open(KakaoLoginAPI, "_self");
+  window.location.href = KakaoLoginAPI
 }
 
 
 const Login = () => {
 
   return (
+    <>
     <LoginContainer>
       <Button 
       $fullWidth 
@@ -41,6 +41,7 @@ const Login = () => {
       onClick={()=>{openKakaoLogin()}}
       >Login with Kakao</Button>
     </LoginContainer>
+    </>
   )
 }
 

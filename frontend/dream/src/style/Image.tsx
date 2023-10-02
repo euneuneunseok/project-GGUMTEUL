@@ -17,6 +17,8 @@ interface ImageProps {
     $tinyProfileImage ?: boolean;
     $badge ?: boolean;
     $largeBadge ?: boolean;
+    $timeCapsuleImage ?: boolean;
+    $timeCapsuleLoading ?: boolean;
 
     // 뱃지 색
     $gold ?: boolean;
@@ -35,11 +37,12 @@ interface ImageProps {
     $auctionCard ?: boolean;
 
     $signupImage ? :boolean;
+    $certImage ? :boolean;
 }
 
 const StyledImage = styled.div<ImageProps>`
     cursor: pointer;
-    background-color: gray;
+    /* background-color: gray; */
     border-radius: 50%;
     
     // disabled가 아닐때(활성화), hover
@@ -89,14 +92,41 @@ const StyledImage = styled.div<ImageProps>`
       `
     }
 
+    // 댓글 프로필 이미지
+    ${(props) =>
+      props.$tinyProfileImage && 
+      css`
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0.7rem 0.5rem;
+        background-color: blue;
+        & > img {
+          width: 100%;
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 50%;
+        }
+      `
+    }
+
     // badge
     ${(props) =>
       props.$badge &&
       css`
-        width: 6rem;
-        height: 6rem;
-        margin: 1rem;
+        width: 5rem;
+        height: 5rem;
+        margin: 0.5rem;
         /* border: 0.5rem solid black; */
+        & > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          content: "";
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+        }
       `
     }
     
@@ -191,9 +221,18 @@ const StyledImage = styled.div<ImageProps>`
     ${(props) =>
       props.$profileCard &&
       css`
-        width: 7rem;
-        height: 7rem;
-        margin: 1rem;
+        margin-left: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: transparent;
+
+        & > img {// 정사각형 만들기
+          width: 100%;
+          /* height: 100%; */
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+        }
       `
     }
 
@@ -232,6 +271,76 @@ ${(props) =>
         margin: 2rem 0;
         background-color: #666666;
         
+        & > img { // 정사각형 만들기
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+          object-fit: cover;
+        }
+      `
+    }
+
+// 타임 캡슐 이미지
+${(props) =>
+      props.$timeCapsuleImage &&
+      css`
+        width: 8rem;
+        aspect-ratio: 1/1;
+        background-size: cover;
+        border-radius: 1rem;
+        background-color: none;
+        margin-top: 2rem;
+        & > img { // 정사각형 만들기
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          aspect-ratio: 1/1;
+          object-position: center;
+          border-radius: 1rem;
+          object-fit: cover;
+        }
+      `
+    }
+// 타임 캡슐 로딩
+${(props) =>
+      props.$timeCapsuleLoading &&
+      css`
+        width: 100vw;
+        height: 100vh;
+        background-size: cover;
+        border-radius: 1rem;
+        background-color: none;
+        margin-top: 2rem;
+        & > img { // 정사각형 만들기
+          width: 100%;
+          object-fit: cover;
+          object-position: center;
+          border-radius: 1rem;
+          object-fit: cover;
+        }
+      `
+    }
+
+${(props) =>
+      props.$certImage &&
+      css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        aspect-ratio: 1/1;
+        background-size: cover;
+        border-radius: 1rem;
+        background-color: #666666;
+        
+        & > svg {
+          font-size: 5rem;
+          color: white;
+        }
+
         & > img { // 정사각형 만들기
           width: 100%;
           height: 100%;
