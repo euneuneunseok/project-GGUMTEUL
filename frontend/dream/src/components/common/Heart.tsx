@@ -1,6 +1,6 @@
 
 // 리액트
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Dispatch, SetStateAction} from "react";
 import { useLocation } from "react-router-dom";
 
 // 컴포넌트
@@ -10,6 +10,7 @@ import "./Heart.css"
 import styled from "styled-components";
 import Text from "style/Text";
 import Container from "style/Container";
+import tokenHttp from "api/tokenHttp";
 
 const HeartWrap = styled.div`
   display: flex;
@@ -21,6 +22,8 @@ const HeartWrap = styled.div`
 interface HeartProps {
   isLike ?: boolean;
   likedNumber ?: number; // 좋아요 숫자
+  dreamCardId ?:number;
+  setIsLikeUpdated ?:Dispatch<SetStateAction<boolean>>;
 }
 
 const Heart = (props: HeartProps) => {
@@ -28,12 +31,33 @@ const Heart = (props: HeartProps) => {
   const [isLike, setIsLike] = useState(props.isLike)
   const [likeCount, setLikeCount] = useState(() => props.likedNumber)
 
+  const handleLike = () => {
+    if (isLike) {
+      tokenHttp.delete(`night/dream/${props.dreamCardId}/unlike`)
+      .then(res => {
+        if (res.data.status === 400) {console.log(res.data.data)} 
+        else if (res.data.status === 200) {
+          setIsLike(false); 
+          props.setIsLikeUpdated && props.setIsLikeUpdated(true)
+        }
+      })
+      .catch(err => console.log("좋아요 취소 에러 : ", err))
+    } else {
+      tokenHttp.post("/night/dream/like", {dreamCardId: props.dreamCardId})
+      .then(res => {
+        if (res.data.status === 400) {console.log("===", res.data.data)} 
+        else if (res.data.status === 200) {setIsLike(true)}
+      })
+      .catch(err => console.log("좋아요 에러 : ", err))
+    }
+  }
+
   return (
     <>
     <Container $baseContainer>
       <HeartWrap>
         {/* 좋아요 여부에 따른 색상 다르게 만들기 필요 */}
-        <div title="Like" className="heart-container">
+        <div title="Like" className="heart-container" onClick={handleLike}>
                 <input id="Give-It-An-Id" className="checkbox" type="checkbox" />
                 <div className="svg-container">
                     <svg xmlns="http://www.w3.org/2000/svg" className="svg-outline" viewBox="0 0 24 24">
