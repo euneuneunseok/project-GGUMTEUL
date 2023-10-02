@@ -7,6 +7,7 @@ from typing import List
 import httpx 
 import asyncio # 비동기 통신
 import requests
+import json
 
 from pydantic import BaseModel
 
@@ -83,6 +84,6 @@ def dreamProcessing(data: DreamModel):
             "wordKeywords": wordKeywords
         }
     }
-    response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', data=toJavaData, files=files, headers=headers)
+    response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', data=json.dumps(toJavaData), files=files, headers=headers)
     print(response)
     return response
