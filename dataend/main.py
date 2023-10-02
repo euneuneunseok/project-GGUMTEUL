@@ -1,9 +1,9 @@
 # main.py
 
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
-from typing import List
+from typing import List, IO
 import httpx 
 import asyncio # 비동기 통신
 import requests
@@ -16,6 +16,8 @@ from wordExtractService import getDreamKeywords
 from emotionAnalysisService import getEmotionScore
 from getKarlo import getKarloImgPath
 
+from tempfile import NamedTemporaryFile
+
 # 꿈 데이터
 class DreamModel(BaseModel):
     dreamCardContent: str
@@ -26,6 +28,9 @@ app = FastAPI()
 
 headers = {
     "Content-Type": "application/json"
+}
+file_headers = {
+    "Content-Type": "multipart/form-data"
 }
 
 
@@ -57,6 +62,7 @@ async def request(client):
     response = await client.get(URL)
     return response.text
 
+
 @app.post("/data/night/dream/create")
 def dreamProcessing(data: DreamModel):
     # 받은 데이터 처리
@@ -72,8 +78,16 @@ def dreamProcessing(data: DreamModel):
 
     img_path = getKarloImgPath(prompt)
     print("files 앞", img_path)
-    files = {'file': ("karloImage.png", open(img_path, 'rb'), "image/png")}
-    print("files 뒤", files)
+    # files = {'file': ("karloImage.png", open(img_path, 'rb'), "image/png")} #
+
+    # 여긴 내 가정. (파일 전용 경로 필요)
+    with open(img_path, "rb") as file:
+        files = {"file": (img_path, file)}
+        response = requests.post("서버주소", files=file, headers=file_headers)
+    # 내거 마지막
+
+    # 이걸 대신하기.
+    # print("files 뒤", files)
 
     toJavaData = {
         "dreamCardDetail": {        
@@ -90,3 +104,4 @@ def dreamProcessing(data: DreamModel):
     print(response, "응답!")
 
     return response
+
