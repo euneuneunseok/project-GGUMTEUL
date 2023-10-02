@@ -71,7 +71,9 @@ def dreamProcessing(data: DreamModel):
     prompt = "A cat with white fur, floating balloon, by Renoir"
 
     img_path = getKarloImgPath(prompt)
+    print("files 앞", img_path)
     files = {'file': ("karloImage.png", open(img_path, 'rb'), "image/png")}
+    print("files 뒤", files)
 
     toJavaData = {
         "dreamCardDetail": {        
@@ -84,6 +86,7 @@ def dreamProcessing(data: DreamModel):
             "wordKeywords": wordKeywords
         }
     }
-    response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', data=json.dumps(toJavaData), files=files, headers=headers)
-    print(response)
+    response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', data=toJavaData, files=files, headers=headers)
+    print(response, "응답!")
+
     return response
