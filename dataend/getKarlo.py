@@ -155,7 +155,7 @@ def getKarloImgPath(text):
     r = textToImage(text, negative_prompt)
 
     rlt = Image.open(urllib.request.urlopen(r.get("images")[0].get('image')))
-    rlt.save("ddd.png", format="PNG") # 이건 불필요
+    rlt.save("mmm.png", format="PNG") # 이건 불필요
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
         rlt.save(tmp_file, format="PNG")

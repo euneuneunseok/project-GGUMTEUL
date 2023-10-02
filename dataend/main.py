@@ -51,13 +51,13 @@ async def request(client):
     response = await client.get(URL)
     return response.text
 
-# @app.post("/data/night/dream/create")
-def dreamProcessing(data: DreamModel):
+@app.post("/data/night/dream/create")
+async def dreamProcessing(data: DreamModel):
     # 받은 데이터 처리
     dreamCardContent = data.dreamCardContent
     dreamCardAuthor = data.dreamCardAuthor
     isShow = data.isShow
-    wordKeywords = getDreamKeywords(dreamCardAuthor)
+    wordKeywords = getDreamKeywords(dreamCardContent)
     positivePoint, negativePoint = getEmotionScore(dreamCardContent)
     
     # 임시로 넣음. 원래는 번역한 텍스트를 넣어야 해.
@@ -78,8 +78,3 @@ def dreamProcessing(data: DreamModel):
     response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', data=toJavaData, files=files)
     print(response)
     return response
-
-dreamProcessing({"dreamCardContent": "안녕하신감 나는 천재 강아지야",
-                 "dreamCardAuthor" : 3,
-                 "isShow" : 'T'
-                 })
