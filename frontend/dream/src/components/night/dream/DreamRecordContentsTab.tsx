@@ -63,6 +63,7 @@ export interface dreamCardDataType {
   dreamTelling :string,
   likeCount :number,
   reviewStatus :string,
+  ownerNickname :string,
 }
 
 interface DreamRecordContentsTabProps {
@@ -120,8 +121,7 @@ const DreamRecordContentsTab = ({setReverseCardData} :DreamRecordContentsTabProp
       const data :ReverseCardType = {
         dreamCardId: dreamCardData?.dreamCardId,
         dreamCardOwner: dreamCardData?.dreamOwner,
-        // ownerNickname: dreamCardData?.ownerNickname,
-        ownerNickname: "dreamCardData?.ownerNickname",
+        ownerNickname: dreamCardData?.ownerNickname,
         dreamCardAuthor: dreamCardData?.dreamCardAuthor,
         grade: dreamCardData?.grade,
         createdAt: dreamCardData?.createdAt,
