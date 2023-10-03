@@ -12,7 +12,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -69,6 +69,10 @@ registerRoute(
   })
 );
 
+registerRoute(
+  'https://j9b301.p.ssafy.io/oauth2/authorization/kakao', // 대상 URL
+  new NetworkOnly()
+)
 
 
 // Any other custom service worker logic can go here.
@@ -88,7 +92,7 @@ self.addEventListener('fetch', event => {
   // }
 
   // Directly fetch the request if it includes /img/404error.jpg or if it's an API request
-  if (checkurl.includes('/api') || checkurl.includes('/oauth/') || checkurl.includes('/oauth2')) {
+  if (checkurl.includes('/api') || checkurl.includes('/oauth/') || checkurl.includes('/oauth2') || checkurl.includes('projectnoonnu')) {
     console.log(' checkurl에 api oauth oauth2 들어있음')
     // event.respondWith(fetch(event.request));
     const newRequest = new Request(event.request, {referrer: 'your-new-referrer-url'});
