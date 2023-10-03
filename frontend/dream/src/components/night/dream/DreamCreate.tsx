@@ -98,6 +98,7 @@ const DreamCreate = () => {
     dataHttp.post("/night/dream/create", data)
     .then(res => {
       console.log(res, "생성!")
+      console.log(res.data)
       navigate(`/night/dream/${res.data}`)
     })
     .catch(err => console.log(err))
