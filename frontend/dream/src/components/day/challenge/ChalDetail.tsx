@@ -65,7 +65,7 @@ const ChalDetail = () => {
 
   const navigate = useNavigate()
   const params = useParams()
-  const currentChallengeId = params.challengeId
+  const currentChallengeId = Number(params.challengeId)
 
   const [chalDetailData,setChalDetailData] = useState<ChalDetailDataType>(initialChalDetail.chalDetailData)
   const [chalParticipate, setChalParticipate] = useState<boolean>(true)
@@ -107,7 +107,7 @@ const ChalDetail = () => {
       )
     }
     {/* 인증글 목록 */}
-    <ChalCertArticleList />
+    <ChalCertArticleList currentChallengeId={currentChallengeId}/>
     </Container>
   )
 }
