@@ -30,6 +30,7 @@ import { WebSocket, WebSocketServer  } from "ws";
 
 // 범선
 import SockJS from 'sockjs-client';
+import tokenHttp from "api/tokenHttp";
 
 Object.assign(global, {WebSocket: websocket.w3cwebsocket})
 Object.assign(global, {WebSocket})
@@ -79,7 +80,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
 
 
   // 웹소캣(2)
-  const socket = new SockJS("https://j9b301.p.ssafy.io/ws-stomp")
+  const socket = new SockJS("https://j9b301.p.ssafy.io:9090/ws-stomp")
 
   const client = Stomp.over(socket)
   client.connectHeaders = {
@@ -135,7 +136,8 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   useEffect(() => {
     client.onConnect = (frame) => {
       client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
-      const newPrice = JSON.parse(msg.body)
+      const newPriceBody = JSON.parse(msg.body)
+      const newPrice = newPriceBody.myBiddingMoney
       setMyBiddingMoney(newPrice)
       })
 
@@ -184,6 +186,11 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
     setMyBiddingMoney(() => Number(myBiddingMoney)+Number(currentAskingMoney))
   }
 
+  const sendBiddingMoney = () => {
+    const msgBody = JSON.stringify({myBiddingMoney})
+    client.send("/pub/auction/bidding", {}, msgBody)
+  }
+
   // push 알림 확인
   // const messaging = getMessaging()
   // onMessage(messaging, (payload) => {
@@ -211,7 +218,9 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
           />
           {/* 참여시 무르기 불가함을 고지 */}
           {/* lackMoney, lowerMoney 유효성 검사 통과 이후에만 */}
-          <Button $nightMiddlePurple $biddingBtn>참여</Button>
+          <Button $nightMiddlePurple $biddingBtn
+          onClick={sendBiddingMoney}
+          >참여</Button>
         </BiddingWrap>
         { (!lowerMoney && !lackMoney ) && <Text $nightKeword $nightWhite>한 번 참여 후 취소할 수 없습니다.</Text> }
         { lowerMoney && <Text $danger $nightKeword>
