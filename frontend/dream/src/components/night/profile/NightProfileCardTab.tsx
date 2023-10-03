@@ -77,9 +77,9 @@ const NightProfileCardTab = () => {
 
         // 생성된 꿈카드가 있을 때
         if (response.status === 200) {
-          const dreamCardList = data.dreamCardList
-          setDreamCardList([...dreamCardList, ...dreamCardList]);
-          setLastItemId(dreamCardList[dreamCardList.length - 1].dreamCardId) 
+          const axiosDreamCardList = data.dreamCardList
+          setDreamCardList([...dreamCardList, ...axiosDreamCardList]);
+          setLastItemId(axiosDreamCardList[axiosDreamCardList.length - 1].dreamCardId) 
         } 
         // 생성된 꿈카드가 없을 때
         if (response.status === 400) {
