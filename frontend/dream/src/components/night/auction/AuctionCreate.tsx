@@ -132,26 +132,28 @@ const AuctionCreate = () => {
       immediatelyBuyMoney : immediatelyBuyMoney,
       startAuctionMoney : startAuctionMoney,
     }
-    
-    tokenHttp.post(`/auction/${params.dreamCardId}`, data)
-    .then((res) => {
-      console.log("경매 데이터 보내기 : ", res) 
-      const response = res.data
-      if (response.status === 400) {console.log(response.data)}
-      else if (response.status === 200) {alert("경매 등록 성공")}
-    })
-    .catch(err => console.log("경매 데이터 보내기 에러 : ", err))
+
+    if (startAuctionMoney % 1000 === 0 && immediatelyBuyMoney % 1000 === 0) {
+      tokenHttp.post(`/auction/${params.dreamCardId}`, data)
+      .then((res) => {
+        console.log("경매 데이터 보내기 : ", res) 
+        const response = res.data
+        if (response.status === 400) {console.log(response.data)}
+        else if (response.status === 200) {alert("경매 등록 성공")}
+      })
+      .catch(err => console.log("경매 데이터 보내기 에러 : ", err))
+    } else {alert("올바른 값을 입력해주세요!")}
   }
     
   return (
     <>
     <Container $baseContainer>
     {/* 이미지 */}
-    <Image $mainImage $nightImageBorder><img src={`${process.env.PUBLIC_URL}/image/iu.png`}/></Image>
-    <DreamKeywordRegion keywords={["2", "33"]}/>
+    <Image $mainImage $nightImageBorder><img src={reverseCardData?.dreamCardImageUrl}/></Image>
+    <DreamKeywordRegion keywords={reverseCardData?.keywords}/>
     <DreamCardGrade   
-    positiveGrade="S"  
-    rareGrade="A"
+    positiveGrade={reverseCardData?.positiveGrade}  
+    rareGrade={reverseCardData?.rareGrade}
     />
 
   {/* 옥션 전용 Input */}
