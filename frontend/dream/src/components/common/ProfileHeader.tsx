@@ -152,8 +152,10 @@ const ProfileHeader = () => {
           </div>
           <div>
             <div>
-              { isNight ? <p>꿈 카드</p> : <p>완료 챌린지</p>}
-              <p>{userData?.dreamCardCount}</p>
+              { isNight 
+                ? <><p>꿈 카드</p><p>{userData?.dreamCardCount}</p></> 
+                : <><p>완료 챌린지</p><p>{userData?.finishChallengeCount}</p></>}
+              
             </div>
             <div>
               <p>팔로워</p>
