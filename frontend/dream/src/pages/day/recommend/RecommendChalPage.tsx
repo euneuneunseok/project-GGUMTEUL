@@ -8,7 +8,7 @@ import RecommendChalMain from "components/day/recommend/RecommendChalMain";
 
 // 스타일
 
-const RecommendChal = () => {
+const RecommendChal = (): JSX.Element => {
   return (
     <>
     <RecommendChalMain/>

@@ -42,6 +42,7 @@ interface TextProps {
 
   $timeCapsuleText ?: boolean;
   $recommendTitle ?: boolean;
+  $recommendCardTitle ?: boolean;
 }
 const StyledText = styled.div<TextProps>`
 
@@ -188,6 +189,14 @@ const StyledText = styled.div<TextProps>`
     css`
       margin-top: 2.5rem;
       font-size: 2rem;
+      text-align: center;
+    `
+  }
+  ${(props) => 
+    props.$recommendCardTitle && 
+    css`
+      margin: 0.7rem 0;
+      font-size: 1.7rem;
       text-align: center;
     `
   }
