@@ -74,7 +74,7 @@ const AuctionCreate = () => {
   const [isIMBaseMSG, setIsIMBaseMSG] = useState(true)
 
   // const endDate = today.setDate(today.getDate()+1)
-  const endDate = () :string => {
+  const endDate = (type :string) :string | undefined => {
     const today = new Date()
     const nextDay = new Date(today.setDate(today.getDate()+1))
     const year = nextDay.getFullYear()
@@ -82,8 +82,16 @@ const AuctionCreate = () => {
     const day = nextDay.getDate()
     const hour = nextDay.getHours()
     const miniutes = nextDay.getMinutes()
+    console.log(nextDay)
+    console.log(today)
     
-    return [year, month, day].join(".") + " " + [hour, miniutes].join(":")
+    if (type === "normal") {
+      return [year, month, day].join(".") + " " + [hour, miniutes].join(":")
+    } 
+    // "2023-09-22T11:23:00",
+    // else if (type === "axios") {
+      // return [year, month, day].join("-") + "T" + [hour, miniutes].join(":")
+    // }
   }
 
   
@@ -128,7 +136,7 @@ const AuctionCreate = () => {
     const data = {
       auctionStatus : "T",
       isShow : "T",
-      endedAt : endDate(),
+      endedAt : endDate("axios"),
       immediatelyBuyMoney : immediatelyBuyMoney,
       startAuctionMoney : startAuctionMoney,
     }
@@ -159,7 +167,7 @@ const AuctionCreate = () => {
   {/* 옥션 전용 Input */}
     <AuctionInputWrap>
       <CustomText $isBold $black>마감시간</CustomText>
-      <CustomInput $auctionInput $nightColor disabled value={endDate()}/>
+      <CustomInput $auctionInput $nightColor disabled value={endDate("normal")}/>
       </AuctionInputWrap>
     <MarginBot/>
     <AuctionInputWrap>
