@@ -85,7 +85,7 @@ const ChalDetail = () => {
 
   return (
     <Container $dayBaseContainer>
-    {/* 공부흔적 남기기 */}
+    {/* 디테일 정보들 */}
     <ChalDetailInfo chalDetailData={chalDetailData}/>
 
     {/* 참여하기 버튼 */}
