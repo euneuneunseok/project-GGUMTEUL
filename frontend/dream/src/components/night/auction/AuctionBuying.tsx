@@ -73,6 +73,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const userdata = useSelector((state: RootState) => state.auth.userdata);
   const {auctionId} = useParams()
   const accessToken = sessionStorage.getItem('accessToken')
+  const userId = useSelector((state:RootState) => state.auth.userdata.userId)
 
   // const biddingMoney :number = 5000 // 서버에서 받을 값
   const [myBiddingMoney, setMyBiddingMoney] = useState<number>(biddingMoney)
@@ -137,7 +138,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
     client.onConnect = (frame) => {
       client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
       const newPriceBody = JSON.parse(msg.body)
-      const newPrice = newPriceBody.myBiddingMoney
+      const newPrice = newPriceBody.biddingMoney
       setMyBiddingMoney(newPrice)
       })
 
@@ -187,8 +188,13 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   }
 
   const sendBiddingMoney = () => {
-    const msgBody = JSON.stringify({myBiddingMoney})
-    client.send("/pub/auction/bidding", {}, msgBody)
+    const msgBody = {
+      auctionId,
+      biddingMoney: myBiddingMoney,
+      userId,
+      askingMoney
+    }
+    client.send("/pub/auction/bidding", {}, JSON.stringify(msgBody))
   }
 
   // push 알림 확인
