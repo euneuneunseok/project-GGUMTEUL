@@ -59,7 +59,7 @@ const MarginBot = styled.div`
 // 타입
 export interface NightHomeItemProps {
   cardData : NightHomeItemType;
-  setUpdated :Dispatch<SetStateAction<boolean>>;
+  // setUpdated :Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ReverseCardType {
@@ -77,7 +77,7 @@ export interface ReverseCardType {
   keywords: string[];
 }
 
-const NightHomeItem = ({cardData, setUpdated}:NightHomeItemProps) => {
+const NightHomeItem = ({cardData}:NightHomeItemProps) => {
   const navigation = useNavigate()
   const [reverseCard, setReverseCard] = useState<ReverseCardType | null>(null)
   const [isLikeUpdated, setIsLikeUpdated] = useState<boolean>(false)
@@ -128,7 +128,7 @@ const NightHomeItem = ({cardData, setUpdated}:NightHomeItemProps) => {
       {/* 좋아요 버튼 */}
         <Heart 
         isLike={cardData.like}
-        setIsLikeUpdated={setIsLikeUpdated}
+        // setIsLikeUpdated={setIsLikeUpdated}
         likedNumber={cardData.likedNumber}
         dreamCardId={cardData.dreamCardId}
         />

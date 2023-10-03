@@ -74,14 +74,14 @@ const NightHomeList = () => {
     }
   }, [arriveEnd])
 
-  const [updated, setUpdated] = useState<boolean>(false)
+  // const [updated, setUpdated] = useState<boolean>(false)
 
-  useEffect(() => {
-    if (updated) {
-      getAxios()
-      setUpdated(false)
-    }
-  }, [setUpdated, updated])
+  // useEffect(() => {
+  //   if (updated) {
+  //     getAxios()
+  //     setUpdated(false)
+  //   }
+  // }, [setUpdated, updated])
 
   return (
     <>
@@ -92,7 +92,10 @@ const NightHomeList = () => {
       // lastItemId={lastItemId}
       component={
         nightHomeDataSet?.map((item: NightHomeItemType, idx:number) => (
-          <NightHomeItem cardData={item} setUpdated={setUpdated} key={idx}/>
+          <NightHomeItem 
+          cardData={item} 
+          // setUpdated={setUpdated} 
+          key={idx}/>
         ))}
       />
     }
