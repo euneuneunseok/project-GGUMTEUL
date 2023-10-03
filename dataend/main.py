@@ -104,6 +104,7 @@ def dreamProcessing(data: DreamModel):
     with open(img_path, "rb") as file:
         files = {"file": (img_path, file)}
     requests.post(f"https://j9b301.p.ssafy.io/api/s3/dream/image/{dreamCardId}", files=files, headers=file_headers)
+    print(files, "files#########")
     
     return response
 
