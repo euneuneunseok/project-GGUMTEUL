@@ -23,13 +23,14 @@ interface HeartProps {
   isLike ?: boolean;
   likedNumber ?: number; // 좋아요 숫자
   dreamCardId ?:number;
-  setIsLikeUpdated ?:Dispatch<SetStateAction<boolean>>;
+  // setIsLikeUpdated ?:Dispatch<SetStateAction<boolean>>;
 }
 
 const Heart = (props: HeartProps) => {
   const location = useLocation()
   const [isLike, setIsLike] = useState(props.isLike)
   const [likeCount, setLikeCount] = useState(() => props.likedNumber)
+  const [newLikeCount, setNewLikeCount] = useState<number>(likeCount ? likeCount : 0)
 
   const handleLike = () => {
     if (isLike) {
@@ -38,7 +39,8 @@ const Heart = (props: HeartProps) => {
         if (res.data.status === 400) {console.log(res.data.data)} 
         else if (res.data.status === 200) {
           setIsLike(false); 
-          props.setIsLikeUpdated && props.setIsLikeUpdated(true)
+          setNewLikeCount(newLikeCount-1);
+          // props.setIsLikeUpdated && props.setIsLikeUpdated(true)
         }
       })
       .catch(err => console.log("좋아요 취소 에러 : ", err))
@@ -46,7 +48,10 @@ const Heart = (props: HeartProps) => {
       tokenHttp.post("/night/dream/like", {dreamCardId: props.dreamCardId})
       .then(res => {
         if (res.data.status === 400) {console.log("===", res.data.data)} 
-        else if (res.data.status === 200) {setIsLike(true)}
+        else if (res.data.status === 200) {
+          setIsLike(true);
+          setNewLikeCount(newLikeCount+1);
+        }
       })
       .catch(err => console.log("좋아요 에러 : ", err))
     }
@@ -83,7 +88,7 @@ const Heart = (props: HeartProps) => {
           // 밤, 낮에 따른 글자 색상 변화
           // 추후 좋아요 수 넘길 필요
           $nightWhite={location.pathname.includes("night")} 
-          $black={location.pathname.includes("day")}> {likeCount} </Text>
+          $black={location.pathname.includes("day")}> {newLikeCount} </Text>
       </HeartWrap>
     </Container>
     </>
