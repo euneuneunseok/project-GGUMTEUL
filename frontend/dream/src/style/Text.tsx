@@ -41,6 +41,7 @@ interface TextProps {
   $progressPercent ?: boolean;
 
   $timeCapsuleText ?: boolean;
+  $recommendTitle ?: boolean;
 }
 const StyledText = styled.div<TextProps>`
 
@@ -179,6 +180,15 @@ const StyledText = styled.div<TextProps>`
     props.$timeCapsuleText && 
     css`
       margin-top: 2.5rem;
+    `
+  }
+  // 추천 제목
+  ${(props) => 
+    props.$recommendTitle && 
+    css`
+      margin-top: 2.5rem;
+      font-size: 2rem;
+      text-align: center;
     `
   }
   
