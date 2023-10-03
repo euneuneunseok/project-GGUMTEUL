@@ -22,7 +22,18 @@ import Input from "style/Input";
 import { RootState } from "store";
 
 // 외부
-import { baseUrl } from "api/api";
+// 웹소캣
+import { Client, Message, Stomp } from "@stomp/stompjs";
+// import StompJs from '@stomp/stompjs';
+import websocket from "websocket"
+import { WebSocket, WebSocketServer  } from "ws";
+
+// 범선
+import SockJS from 'sockjs-client';
+
+Object.assign(global, {WebSocket: websocket.w3cwebsocket})
+Object.assign(global, {WebSocket})
+
 
 // // push 알림
 // import { getMessaging, onMessage } from 'firebase/messaging';
@@ -56,25 +67,86 @@ interface AuctionBuyingProps {
   askingMoney: number;
 }
 
+
 const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const userdata = useSelector((state: RootState) => state.auth.userdata);
   const {auctionId} = useParams()
+  const accessToken = sessionStorage.getItem('accessToken')
 
   // const biddingMoney :number = 5000 // 서버에서 받을 값
   const [myBiddingMoney, setMyBiddingMoney] = useState<number>(biddingMoney)
   const [currentAskingMoney, setAskingMoney] = useState<number>(askingMoney)
 
+
+  // 웹소캣(2)
+  const socket = new SockJS("https://j9b301.p.ssafy.io/ws-stomp")
+
+  const client = Stomp.over(socket)
+  client.connectHeaders = {
+    Authorization: "Bearer " + accessToken
+  }
+
+  client.debug = (str) => {console.log("디버그:", str)}
+  client.reconnectDelay=5000 //자동재연결
+  client.heartbeatIncoming=4000
+  client.heartbeatOutgoing=4000
+
+
+
+//     const client = new Client({
+//     // 일단 둠
+//     brokerURL: "wss://j9b301.p.ssafy.io/ws-stomp",
+//     connectHeaders: {
+//       login: 'user',
+//       passcode: 'password',
+//     },
+//     debug: function (str) {
+//       console.log(str, "디버깅임");
+//     },
+//     reconnectDelay: 5000,
+//     heartbeatIncoming: 4000,
+//     heartbeatOutgoing: 4000,
+// })
+
+// client.onConnect = (frame) => {
+//   // 무언가 해야함
+//   client.connectHeaders = {
+//     Authorization: "Bearer " + accessToken
+//   }
+//   client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
+//     const newPrice = JSON.parse(msg.body)
+//     setMyBiddingMoney(newPrice)
+//   })
+
+//   console.log(frame, "연결!")
+//   return () => {
+//     client.unsubscribe(`/sub/auction/${auctionId}`)
+//   }
+// }
+
+// client.onStompError = (frame) => {
+//   // 또 해야함.
+//   console.log('Broker reported error: ' + frame.headers['message']);
+//   console.log('Additional details: ' + frame.body);
+
+// }
+
+
   useEffect(() => {
-    // 웹소캣
-    console.log("ㅋ")
-    const socket = new WebSocket(`ws://j9b301.p.ssafy.io/api/auction/detail/${auctionId}`)
-    socket.onmessage = (e) => {
-      console.log(e, "e가 뭘까")
-      const data = JSON.parse(e.data)
-      setMyBiddingMoney(data)
+    client.onConnect = (frame) => {
+      client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
+      const newPrice = JSON.parse(msg.body)
+      setMyBiddingMoney(newPrice)
+      })
+
+      return () => {
+        client.unsubscribe(`/sub/auction/${auctionId}`)
+      }
     }
+
+    client.activate()
     return () => {
-      socket.close()
+      client.deactivate()
     }
   }, [])
 
