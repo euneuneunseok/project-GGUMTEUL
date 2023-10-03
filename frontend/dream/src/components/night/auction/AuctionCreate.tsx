@@ -82,6 +82,7 @@ const AuctionCreate = () => {
     const day = nextDay.getDate()
     const hour = nextDay.getHours()
     const miniutes = nextDay.getMinutes()
+    const seconds = nextDay.getSeconds()
     console.log(nextDay)
     console.log(today)
     
@@ -89,9 +90,9 @@ const AuctionCreate = () => {
       return [year, month, day].join(".") + " " + [hour, miniutes].join(":")
     } 
     // "2023-09-22T11:23:00",
-    // else if (type === "axios") {
-      // return [year, month, day].join("-") + "T" + [hour, miniutes].join(":")
-    // }
+    else if (type === "axios") {
+      return [year, month, day].join("-") + "T" + [hour, miniutes, seconds].join(":")
+    }
   }
 
   
