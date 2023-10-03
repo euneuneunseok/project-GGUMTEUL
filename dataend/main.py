@@ -111,8 +111,9 @@ def dreamProcessing(data: DreamModel):
     positivePoint, negativePoint = getEmotionScore(dreamCardContent)
 
     # 임시로 넣음. 원래는 번역한 텍스트를 넣어야 해.
-    prompt = translateDreamKeywords(wordKeywords) + ", by Renoir"
+    prompt = str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") + ", by Renoir"
     # prompt = "A cat with white fur, floating balloon, by Renoir"
+    print(prompt, "prompt!!")
 
     img_path = getKarloImgPath(prompt)
 
@@ -128,7 +129,6 @@ def dreamProcessing(data: DreamModel):
     print(toJavaData, "자바로 갈 데이터")
     response = requests.post('https://j9b301.p.ssafy.io/api/s3/dream/new', json=toJavaData, headers=headers)
     data = response.json()
-    print(data, "data~")
     dreamCardId = data["data"]["dreamCardId"]
 
     with open(img_path, "rb") as file:
