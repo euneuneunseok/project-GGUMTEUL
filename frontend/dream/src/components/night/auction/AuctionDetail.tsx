@@ -71,21 +71,23 @@ const AuctionDetail = () => {
   const [auctionItem, setAuctionItem] = useState<AuctionDetailType>()
   const [isFirstAuctionPage, setIsFirstAuctionPage] = useState(true)
 
-  // const myMoney = useSelector((state:RootState) => state)
-
+  // 하드코딩
+  // const userId = useSelector((state:RootState)=> state.auth.userdata.userId)
+  const userId = 33
   useEffect(()=> {
-    console.log(auctionId, "경매ID")
-    tokenHttp.get(`/auction/detail/${Number(auctionId)}`)
-    .then(res => {
-      setAuctionItem(res.data.data)
-      console.log(res.data.data, "경매장 입장")
-    })
-
+    
     tokenHttp.get(`/auction/point/${33}`)
     // tokenHttp.get(`/auction/point/${userdata.userId}`)
     .then(res => {
       // console.log(res.data.data.point, "머니머니")
       setPoint(res.data.data.point)
+    })
+    
+    tokenHttp.get(`/auction/detail/${Number(auctionId)}`)
+    .then(res => {
+      setAuctionItem(res.data.data)
+      console.log(res.data.data, "경매장 입장")
+
     })
 
   }, [])
@@ -140,12 +142,20 @@ const AuctionDetail = () => {
         alert(response.data)
       } else if (response.status === 200) {
         alert("구매 성공")
-        navigation(`/night/profile/${userdata.userId}`)
+        return res.data.data.biddingUserId
       }
+      return -1
     })
+      .then(res => {
+        if (res !== -1) {
+          const data = {auctionId, newOwnerId: res}
+          tokenHttp.put("/auction", data)
+          .then(res => console.log(res, "주인 바뀜"))
+          navigation(`/night/profile/${userdata.userId}`)
+        }
+      })
 
   }
-
   return (
     <>
     <Container $baseContainer>
@@ -186,7 +196,7 @@ const AuctionDetail = () => {
         <Text $isBold $MBHalf>현재 최고가</Text>
       <Wrap $spaceBetweenWrap>
         <Text $isBold>$ {auctionItem?.biddingMoney}</Text> 
-        <Text>{changeDateHour(auctionItem?.createdAt)}</Text> 
+        <Text>{changeDateHour(auctionItem?.endedAt)}</Text> 
       </Wrap>
       </AuctionBox>
     </Container>

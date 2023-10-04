@@ -73,6 +73,11 @@ registerRoute(
   'https://j9b301.p.ssafy.io/oauth2/authorization/kakao', // 대상 URL
   new NetworkOnly()
 )
+// wss
+registerRoute(
+  'wss://j9b301.p.ssafy.io/api/ws-stomp', // 대상 URL
+  new NetworkOnly()
+)
 
 
 // Any other custom service worker logic can go here.

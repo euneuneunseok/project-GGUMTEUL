@@ -24,7 +24,7 @@ import { RootState } from "store";
 // 외부
 // 웹소캣
 import { Client, Message, Stomp } from "@stomp/stompjs";
-// import StompJs from '@stomp/stompjs';
+import StompJs from '@stomp/stompjs';
 import websocket from "websocket"
 import { WebSocket, WebSocketServer  } from "ws";
 
@@ -82,53 +82,58 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const [point, setPoint] = useState(userdata.point)
 
   // 웹소캣(2)
-  // const socket = new SockJS("https://j9b301.p.ssafy.io/api/ws-stomp")
+  const socket = new SockJS("https://j9b301.p.ssafy.io/api/ws-stomp")
 
-  // const client = Stomp.over(socket)
+  const client = Stomp.over(socket)
   // client.connectHeaders = {
   //   Authorization: "Bearer " + accessToken
   // }
 
-  // client.debug = (str) => {console.log("디버그:", str)}
-  // client.reconnectDelay=5000 //자동재연결
-  // client.heartbeatIncoming=4000
-  // client.heartbeatOutgoing=4000
+  client.debug = (str) => {console.log("디버그:", str)}
+  client.reconnectDelay=5000 //자동재연결
+  client.heartbeatIncoming=4000
+  client.heartbeatOutgoing=4000
 
 
   // 웹소캣(1)
-  const WebSocket = require('ws');
+  // const WebSocket = require('ws');
   // const socket = new WebSocket('wss://j9b301.p.ssafy.io/api/ws-stomp');
 
-    const client = new Client({
-    // 일단 둠
-    brokerURL: "wss://j9b301.p.ssafy.io/api/ws-stomp",
-    connectHeaders: {
-      login: 'user',
-      passcode: 'password',
-    },
-    debug: function (str) {
-      console.log(str, "디버깅임");
-    },
-    reconnectDelay: 5000,
-    heartbeatIncoming: 4000,
-    heartbeatOutgoing: 4000,
-})
+//   const client = new Client({
+//     // 일단 둠
+//     brokerURL: "wss://j9b301.p.ssafy.io/api/ws-stomp",
+    
+//     connectHeaders: {
+//       login: 'user',
+//       passcode: 'password',
+//       // Authorization: `Bearer ${accessToken}`
+//     },
+//     debug: function (str) {
+//       console.log(str, "디버깅임");
+//     },
+//     reconnectDelay: 5000,
+//     heartbeatIncoming: 4000,
+//     heartbeatOutgoing: 4000,
+// })
 
-client.onConnect = (frame) => {
-  // 무언가 해야함
-  client.connectHeaders = {
-    Authorization: "Bearer " + accessToken
-  }
-  client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
-    const newPrice = JSON.parse(msg.body)
-    setMyBiddingMoney(newPrice)
-  })
 
-  console.log(frame, "연결!")
-  return () => {
-    client.unsubscribe(`/sub/auction/${auctionId}`)
-  }
-}
+// client.onConnect = (frame) => {
+//   // 무언가 해야함
+//   console.log("연결연결")
+//   client.connectHeaders = {
+//     Authorization: "Bearer " + accessToken
+//   }
+//   console.log(accessToken, "토큰")
+//   client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
+//     const newPrice = JSON.parse(msg.body)
+//     setMyBiddingMoney(newPrice)
+//   })
+
+//   console.log(frame, "연결!")
+//   return () => {
+//     client.unsubscribe(`/sub/auction/${auctionId}`)
+//   }
+// }
 
 // client.onStompError = (frame) => {
 //   // 또 해야함.
@@ -145,8 +150,14 @@ client.onConnect = (frame) => {
       // console.log(res.data.data.point, "머니머니")
       setPoint(res.data.data.point)
     })
-    console.log("초기 렌더링")
+    console.log("초기 렌더링 #########")
+    
     client.onConnect = (frame) => {
+      console.log(frame, "frame")
+      client.connectHeaders = {
+      Authorization: `Bearer ${accessToken}`
+      }    
+      console.log("연결####")
       client.subscribe(`/api/sub/auction/${Number(auctionId)}`, (msg)=> {
       console.log(msg, "너 왔니? 메세지")
       const newPriceBody = JSON.parse(msg.body)
@@ -160,7 +171,6 @@ client.onConnect = (frame) => {
     }
 
     client.activate()
-    console.log("짠")
     return () => {
       client.deactivate()
     }
