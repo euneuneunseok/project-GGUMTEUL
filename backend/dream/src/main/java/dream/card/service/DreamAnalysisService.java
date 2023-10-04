@@ -58,6 +58,7 @@ public class DreamAnalysisService {
             log.info("{}", keyword);
         }
         log.info("findDreamsWithKeywordsListSize : {}", list.size());
+        log.info("please : {}", list.size() / requestDream.getWordKeywords().size());
 //        for (Dream dream : list) {
 //            log.info("찾은 꿈 내용 : " + dream.getDream());
 //            log.info("찾은 꿈 해 내용 : " + dream.getAnalysis().getDreamTelling());
@@ -73,7 +74,8 @@ public class DreamAnalysisService {
         response.setDreamTelling(simillarDream.getAnalysis().getDreamTelling());
 
         // 데이터가 들어왔을 때, 50000이라는 분모를 조정해 주면서 최적의 분모 값을 찾는 과정이 필요해
-        int rarePoint = 30;
+
+        int rarePoint = list.size() / requestDream.getWordKeywords().size() / 10;
 
 
         ProcessGrade gradeSet = setGrade(simillarDream.getAnalysis().getDreamTellingPositivePoint(),
@@ -99,11 +101,11 @@ public class DreamAnalysisService {
         else if(dreamTellingPositivePoint > 50) positiveGrade = Grade.C;
         else positiveGrade = Grade.F;
 
-        if(rarePoint > 90) rareGrade = Grade.SS;
-        else if(rarePoint > 80) rareGrade = Grade.S;
-        else if(rarePoint > 70) rareGrade = Grade.A;
-        else if(rarePoint > 60) rareGrade = Grade.B;
-        else if(rarePoint > 50) rareGrade = Grade.C;
+        if(rarePoint > 85) rareGrade = Grade.SS;
+        else if(rarePoint > 70) rareGrade = Grade.S;
+        else if(rarePoint > 50) rareGrade = Grade.A;
+        else if(rarePoint > 30) rareGrade = Grade.B;
+        else if(rarePoint > 15) rareGrade = Grade.C;
         else rareGrade = Grade.F;
 
         int totalSumDiv2 = (dreamTellingPositivePoint + rarePoint) / 2;
