@@ -32,7 +32,7 @@ import { WebSocket, WebSocketServer  } from "ws";
 import SockJS from 'sockjs-client';
 import tokenHttp from "api/tokenHttp";
 
-// Object.assign(global, {WebSocket: websocket.w3cwebsocket})
+Object.assign(global, {WebSocket: websocket.w3cwebsocket})
 // Object.assign(global, {WebSocket})
 
 
@@ -82,7 +82,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const [point, setPoint] = useState(userdata.point)
 
   // 웹소캣(2)
-  const socket = new SockJS("https://j9b301.p.ssafy.io/api/ws-stomp")
+  const socket = new SockJS("http://j9b301.p.ssafy.io:9090/ws-stomp")
 
   const client = Stomp.over(socket)
   // client.connectHeaders = {
@@ -93,6 +93,11 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   client.reconnectDelay=5000 //자동재연결
   client.heartbeatIncoming=4000
   client.heartbeatOutgoing=4000
+
+  const onConnect = (frame:any) => {
+    console.log(frame)
+  }
+
 
 
   // 웹소캣(1)
