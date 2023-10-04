@@ -22,14 +22,10 @@ public class ResponseChallengeInfo {
     private ResponseChallengeInfoDetail detail;
 
     public static ResponseChallengeInfo from(List<ChallengeDetail> challengeDetails
-            , Challenge challengeWithKeyword, Challenge challengeWithParticipates, List<User> rankings, ChallengeParticipation challengeParticipation){
+            , Challenge challengeWithKeyword, Challenge challengeWithParticipates, List<User> rankings, boolean isParticipate){
 
         // 사용자 참여 및 참여일수 정보 주입
 //        boolean isParticipate = !challengeDetails.isEmpty();
-        boolean isParticipate = false;
-        if (challengeParticipation.getIsIn() == ChallengeStatus.P){
-            isParticipate = true;
-        }
 
         int participateDay = challengeDetails.size();
 
