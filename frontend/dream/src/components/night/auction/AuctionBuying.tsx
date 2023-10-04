@@ -32,8 +32,8 @@ import { WebSocket, WebSocketServer  } from "ws";
 import SockJS from 'sockjs-client';
 import tokenHttp from "api/tokenHttp";
 
-Object.assign(global, {WebSocket: websocket.w3cwebsocket})
-Object.assign(global, {WebSocket})
+// Object.assign(global, {WebSocket: websocket.w3cwebsocket})
+// Object.assign(global, {WebSocket})
 
 
 // // push 알림
@@ -79,52 +79,56 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const [myBiddingMoney, setMyBiddingMoney] = useState<number>(biddingMoney)
   const [currentAskingMoney, setAskingMoney] = useState<number>(askingMoney)
 
+  const [point, setPoint] = useState(userdata.point)
 
   // 웹소캣(2)
-  const socket = new SockJS("https://j9b301.p.ssafy.io:9090/api/ws-stomp")
+  // const socket = new SockJS("https://j9b301.p.ssafy.io/api/ws-stomp")
 
-  const client = Stomp.over(socket)
+  // const client = Stomp.over(socket)
+  // client.connectHeaders = {
+  //   Authorization: "Bearer " + accessToken
+  // }
+
+  // client.debug = (str) => {console.log("디버그:", str)}
+  // client.reconnectDelay=5000 //자동재연결
+  // client.heartbeatIncoming=4000
+  // client.heartbeatOutgoing=4000
+
+
+  // 웹소캣(1)
+  const WebSocket = require('ws');
+  // const socket = new WebSocket('wss://j9b301.p.ssafy.io/api/ws-stomp');
+
+    const client = new Client({
+    // 일단 둠
+    brokerURL: "wss://j9b301.p.ssafy.io/api/ws-stomp",
+    connectHeaders: {
+      login: 'user',
+      passcode: 'password',
+    },
+    debug: function (str) {
+      console.log(str, "디버깅임");
+    },
+    reconnectDelay: 5000,
+    heartbeatIncoming: 4000,
+    heartbeatOutgoing: 4000,
+})
+
+client.onConnect = (frame) => {
+  // 무언가 해야함
   client.connectHeaders = {
     Authorization: "Bearer " + accessToken
   }
+  client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
+    const newPrice = JSON.parse(msg.body)
+    setMyBiddingMoney(newPrice)
+  })
 
-  client.debug = (str) => {console.log("디버그:", str)}
-  client.reconnectDelay=5000 //자동재연결
-  client.heartbeatIncoming=4000
-  client.heartbeatOutgoing=4000
-
-
-
-//     const client = new Client({
-//     // 일단 둠
-//     brokerURL: "wss://j9b301.p.ssafy.io/ws-stomp",
-//     connectHeaders: {
-//       login: 'user',
-//       passcode: 'password',
-//     },
-//     debug: function (str) {
-//       console.log(str, "디버깅임");
-//     },
-//     reconnectDelay: 5000,
-//     heartbeatIncoming: 4000,
-//     heartbeatOutgoing: 4000,
-// })
-
-// client.onConnect = (frame) => {
-//   // 무언가 해야함
-//   client.connectHeaders = {
-//     Authorization: "Bearer " + accessToken
-//   }
-//   client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
-//     const newPrice = JSON.parse(msg.body)
-//     setMyBiddingMoney(newPrice)
-//   })
-
-//   console.log(frame, "연결!")
-//   return () => {
-//     client.unsubscribe(`/sub/auction/${auctionId}`)
-//   }
-// }
+  console.log(frame, "연결!")
+  return () => {
+    client.unsubscribe(`/sub/auction/${auctionId}`)
+  }
+}
 
 // client.onStompError = (frame) => {
 //   // 또 해야함.
@@ -135,6 +139,12 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
 
 
   useEffect(() => {
+    tokenHttp.get(`/auction/point/${33}`)
+    // tokenHttp.get(`/auction/point/${userdata.userId}`)
+    .then(res => {
+      // console.log(res.data.data.point, "머니머니")
+      setPoint(res.data.data.point)
+    })
     console.log("초기 렌더링")
     client.onConnect = (frame) => {
       client.subscribe(`/api/sub/auction/${Number(auctionId)}`, (msg)=> {
@@ -150,6 +160,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
     }
 
     client.activate()
+    console.log("짠")
     return () => {
       client.deactivate()
     }
@@ -196,7 +207,8 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
       userId,
       askingMoney
     }
-    client.send("/api/pub/auction/bidding", {}, JSON.stringify(msgBody))
+    client.publish({ destination: "/api/pub/auction/bidding", body: JSON.stringify(msgBody)})
+    // client.send("/api/pub/auction/bidding", {}, JSON.stringify(msgBody))
     console.log("전송완료", msgBody)
   }
 
@@ -217,7 +229,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
       </Container>
 
       <AuctionBidContainer>
-        <Text $nightKeword $nightWhite>나의 꿈머니: ${userdata.point}</Text>
+        <Text $nightKeword $nightWhite>나의 꿈머니: ${point}</Text>
         <BiddingWrap>
           <Input $nightColor $biddingValue 
           type="number"

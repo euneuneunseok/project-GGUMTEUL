@@ -65,6 +65,8 @@ const AuctionDetail = () => {
   const location = useLocation()
   const userdata = useSelector((state: RootState) => state.auth.userdata);
 
+  const [point, setPoint] = useState(userdata.point)
+
   const {auctionId} = useParams()
   const [auctionItem, setAuctionItem] = useState<AuctionDetailType>()
   const [isFirstAuctionPage, setIsFirstAuctionPage] = useState(true)
@@ -72,10 +74,18 @@ const AuctionDetail = () => {
   // const myMoney = useSelector((state:RootState) => state)
 
   useEffect(()=> {
-    tokenHttp.get(`/auction/detail/${auctionId}`)
+    console.log(auctionId, "경매ID")
+    tokenHttp.get(`/auction/detail/${Number(auctionId)}`)
     .then(res => {
       setAuctionItem(res.data.data)
       console.log(res.data.data, "경매장 입장")
+    })
+
+    tokenHttp.get(`/auction/point/${33}`)
+    // tokenHttp.get(`/auction/point/${userdata.userId}`)
+    .then(res => {
+      // console.log(res.data.data.point, "머니머니")
+      setPoint(res.data.data.point)
     })
 
   }, [])
@@ -198,7 +208,7 @@ const AuctionDetail = () => {
         >참여하기</Button>
       </Wrap>
       {/* 꿈머니 구현 이후 */}
-      <Text $nightKeword>나의 꿈머니: {userdata.point}</Text>
+      <Text $nightKeword>나의 꿈머니: {point}</Text>
       </Container>
       </>
     }
