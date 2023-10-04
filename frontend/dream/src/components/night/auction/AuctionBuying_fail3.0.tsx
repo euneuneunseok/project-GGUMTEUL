@@ -25,15 +25,15 @@ import { RootState } from "store";
 // 웹소캣
 import { Client, Message, Stomp } from "@stomp/stompjs";
 import StompJs from '@stomp/stompjs';
-import websocket from "websocket"
+// import websocket from "websocket"
 import { WebSocket, WebSocketServer  } from "ws";
+// Object.assign(global, { WebSocket });
 
 // 범선
 import SockJS from 'sockjs-client';
 import tokenHttp from "api/tokenHttp";
 
 // Object.assign(global, {WebSocket: websocket.w3cwebsocket})
-// Object.assign(global, {WebSocket})
 
 
 // // push 알림
@@ -82,43 +82,39 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   const [point, setPoint] = useState(userdata.point)
 
   // 웹소캣(2)
-  const socket = new SockJS("http://j9b301.p.ssafy.io:9090/ws-stomp")
-  // const socket = new WebSocket("ws://j9b301.p.ssafy.io:9090/ws-stomp")
+  // const socket = new SockJS("http://j9b301.p.ssafy.io:9090/ws-stomp")
 
-  // 함수화 필수
-  const client = Stomp.over(() => {
-    return socket
-  })
+  // const client = Stomp.over(socket)
   // client.connectHeaders = {
   //   Authorization: "Bearer " + accessToken
   // }
 
-  client.debug = (str) => {console.log("디버그:", str)}
-  client.reconnectDelay=1000 //자동재연결
-  client.heartbeatIncoming=4000
-  client.heartbeatOutgoing=4000
+  // client.debug = (str) => {console.log("디버그:", str)}
+  // client.reconnectDelay=500000 //자동재연결
+  // client.heartbeatIncoming=4000
+  // client.heartbeatOutgoing=4000
 
-  const onConnect = (frame:any) => {
-    console.log(frame, "frame")
-    // client.connectHeaders = {
-    //         login: 'user',
-    //   passcode: 'password',
+  // const onConnect = (frame:any) => {
+  //   console.log(frame, "frame")
+  //   // client.connectHeaders = {
+  //   //         login: 'user',
+  //   //   passcode: 'password',
 
-    // Authorization: `Bearer ${accessToken}`
-    // }    
-    console.log("연결####")
-    client.subscribe(`/sub/auction/${Number(auctionId)}`, (msg)=> {
-      console.log(msg, "너 왔니? 메세지")
-      const newPriceBody = JSON.parse(msg.body)
-      const newPrice = newPriceBody.biddingMoney
-      setMyBiddingMoney(newPrice)
-    })
+  //   // Authorization: `Bearer ${accessToken}`
+  //   // }    
+  //   console.log("연결####")
+  //   client.subscribe(`/sub/auction/${Number(auctionId)}`, (msg)=> {
+  //     console.log(msg, "너 왔니? 메세지")
+  //     const newPriceBody = JSON.parse(msg.body)
+  //     const newPrice = newPriceBody.biddingMoney
+  //     setMyBiddingMoney(newPrice)
+  //   })
 
-    return () => {
-      client.unsubscribe(`/sub/auction/${Number(auctionId)}`)
-    }
+  //   return () => {
+  //     client.unsubscribe(`/sub/auction/${Number(auctionId)}`)
+  //   }
 
-  }
+  // }
 
 
 
@@ -126,22 +122,32 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   // const WebSocket = require('ws');
   // const socket = new WebSocket('wss://j9b301.p.ssafy.io/api/ws-stomp');
 
-//   const client = new Client({
-//     // 일단 둠
-//     brokerURL: "wss://j9b301.p.ssafy.io/api/ws-stomp",
+  const socket = new SockJS("http://j9b301.p.ssafy.io:9090/ws-stomp")
+  const client = new Client({
+    // 일단 둠
+    // brokerURL: "ws://j9b301.p.ssafy.io:9090/ws-stomp",
+    brokerURL: "ws://j9b301.p.ssafy.io:9090/ws-stomp",
     
-//     connectHeaders: {
-//       login: 'user',
-//       passcode: 'password',
-//       // Authorization: `Bearer ${accessToken}`
-//     },
-//     debug: function (str) {
-//       console.log(str, "디버깅임");
-//     },
-//     reconnectDelay: 5000,
-//     heartbeatIncoming: 4000,
-//     heartbeatOutgoing: 4000,
-// })
+    onConnect: () => {
+      client.subscribe(`sub/auction/${auctionId}`, (msg) => {
+        const newPrice = JSON.parse(msg.body)
+        setMyBiddingMoney(newPrice)
+        console.log("msg:", msg)
+      })
+    },
+
+    connectHeaders: {
+      login: 'user',
+      passcode: 'password',
+      // Authorization: `Bearer ${accessToken}`
+    },
+    debug: function (str) {
+      console.log(str, "디버깅임");
+    },
+    reconnectDelay: 5000,
+    heartbeatIncoming: 4000,
+    heartbeatOutgoing: 4000,
+})
 
 
 // client.onConnect = (frame) => {
@@ -202,9 +208,9 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
     //     client.unsubscribe(`/api/sub/auction/${Number(auctionId)}`)
     //   }
     // }
-    client.connect(headers, onConnect, (err:any) => {console.log(err, "연결 실패")})
+    // client.connect(headers, onConnect, (err:any) => {console.log(err, "연결 실패")})
 
-    client.activate()
+      client.activate()
     return () => {
       client.deactivate()
     }
@@ -256,6 +262,13 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
     console.log("전송완료", msgBody)
   }
 
+  // push 알림 확인
+  // const messaging = getMessaging()
+  // onMessage(messaging, (payload) => {
+  //   console.log("메시지 수신", payload)
+  // })
+  
+
   return (
     <>
       {/* 호가 */}
@@ -290,4 +303,4 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
   )
 }
 
-export default AuctionBuying
+// export default AuctionBuying
