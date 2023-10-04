@@ -53,6 +53,10 @@ public class DreamAnalysisService {
         // 동적 쿼리 날려서 Mongo에서 해당 ROW 다 가져오기
         List<Dream> list = findDreamsWithKeywords(requestDream.getWordKeywords());
         if (list.isEmpty()) return null;
+        log.info("{}", requestDream.getWordKeywords().size());
+        for (String keyword : requestDream.getWordKeywords()) {
+            log.info("{}", keyword);
+        }
         log.info("findDreamsWithKeywordsListSize : {}", list.size());
 //        for (Dream dream : list) {
 //            log.info("찾은 꿈 내용 : " + dream.getDream());
@@ -146,14 +150,14 @@ public class DreamAnalysisService {
 
         double result = 0;
         double sentenceSimilarity = jaccardSimilarity(requestDream.getDreamCardContent(), dataDream.getDream()) * 10 * 5;
-        log.info("문자열 유사도 : " + sentenceSimilarity * 2);
-        log.info("가중치 반영된 문자열 유사도 : " + sentenceSimilarity);
+//        log.info("문자열 유사도 : " + sentenceSimilarity * 2);
+//        log.info("가중치 반영된 문자열 유사도 : " + sentenceSimilarity);
         double posSimilarity = (double) (positiveSimilarity(requestDream.getPositivePoint(), dataDream.getAnalysis().getDreamPositivePoint()) * 2.5) / 10;
-        log.info("긍정도 유사도 : " + posSimilarity * 4);
-        log.info("가중치 반영된 긍정도 유사도 : " + posSimilarity);
+//        log.info("긍정도 유사도 : " + posSimilarity * 4);
+//        log.info("가중치 반영된 긍정도 유사도 : " + posSimilarity);
         double negSimilarity = (double) (negativeSimilarity(requestDream.getNegativePoint(), dataDream.getAnalysis().getDreamNegativePoint()) * 2.5) / 10;
-        log.info("가중치 반영된 부정도 유사도 : " + negSimilarity * 4);
-        log.info("부정도 유사도 : " + negSimilarity);
+//        log.info("가중치 반영된 부정도 유사도 : " + negSimilarity * 4);
+//        log.info("부정도 유사도 : " + negSimilarity);
 
         result = sentenceSimilarity + posSimilarity + negSimilarity;
         return result;
