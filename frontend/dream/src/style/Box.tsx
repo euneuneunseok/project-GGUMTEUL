@@ -24,6 +24,8 @@ interface BoxProps {
   $timeCapsuleContentBox?: boolean
   $tiemCapsuleChalTitleBox?: boolean
   $recommendChalBox?: boolean
+  $nightSearchResultBox?: boolean
+  $nightSearchModal?: boolean
 
   // 모드 관련
   $night?: boolean
@@ -283,6 +285,29 @@ ${(props) =>
       border: 1px solid black;
       border-radius: 1rem;
       background-color: rgb(249, 249, 249, 50%);
+    `}
+
+// 밤 검색 결과 박스
+${(props) =>
+    props.$nightSearchResultBox &&
+    css`
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    `}
+// 밤 검색 모달 박스
+${(props) =>
+    props.$nightSearchModal &&
+    css`
+      width: 90%;
+      min-height: 20rem;
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(190, 169, 215, 0.9);
     `}
 `
 
