@@ -14,6 +14,7 @@ import dream.common.exception.NotFoundException;
 import dream.common.exception.DuplicateException;
 import dream.s3.dto.request.RequestChallengeDetail;
 import dream.s3.dto.response.ResponseBadgeImage;
+import dream.user.domain.Follow;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class ChallengeService {
 
         int count = 0;
         for (Challenge challenge : challenges) {
-           
+
             responseChallengeList.add(ResponseChallenge.from(challenge));
 
             if (++count == size) break;
@@ -77,17 +78,40 @@ public class ChallengeService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
+//    public ResultTemplate getFollowUsers(User user, Long lastItemId, int size) {
+//
+//        List<ChallengeDetail> list = challengeDetailQueryRepository.findChallengeListByPage(user.getUserId(), lastItemId, size);
+//        if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_FOLLOWING_USER_STORY);
+//
+//        List<ResponseChallengeDetailIdWithNameAndNickName> userList = new ArrayList<>();
+//        int count = 0;
+//        for (ChallengeDetail challengeDetail : list) {
+//            ResponseChallengeDetailIdWithNameAndNickName nickAndId = ResponseChallengeDetailIdWithNameAndNickName.from(challengeDetail);
+//            userList.add(nickAndId);
+//            if(++count == size) break;
+//        }
+//
+//        boolean hasNext = (list.size() > size);
+//        ResponseFollowingUsers response = ResponseFollowingUsers.from(true, userList, hasNext);
+//
+//        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+//    }
+
     public ResultTemplate getFollowUsers(User user, Long lastItemId, int size) {
 
-        List<ChallengeDetail> list = challengeDetailQueryRepository.findChallengeListByPage(user.getUserId(), lastItemId, size);
+        List<Follow> list = challengeDetailQueryRepository.findChallengeListByPage(user.getUserId(), lastItemId, size);
         if(list.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_FOLLOWING_USER_STORY);
 
         List<ResponseChallengeDetailIdWithNameAndNickName> userList = new ArrayList<>();
         int count = 0;
-        for (ChallengeDetail challengeDetail : list) {
-            ResponseChallengeDetailIdWithNameAndNickName nickAndId = ResponseChallengeDetailIdWithNameAndNickName.from(challengeDetail);
-            userList.add(nickAndId);
-            if(++count == size) break;
+        for (Follow follow : list) {
+            // 만약 팔로우한 유저가 그날 올린 게시글이 있으면
+            List<ChallengeDetail> storyList = challengeDetailQueryRepository.findChallengeList(follow.getToUser().getUserId(), lastItemId, size);
+            if(!storyList.isEmpty()){
+                ResponseChallengeDetailIdWithNameAndNickName nickAndId = ResponseChallengeDetailIdWithNameAndNickName.from(follow);
+                userList.add(nickAndId);
+                if(++count == size) break;
+            }
         }
 
         boolean hasNext = (list.size() > size);
@@ -141,8 +165,23 @@ public class ChallengeService {
 
         List<User> getRank = challengeDetailQueryRepository.getRank(challengeId);
 
+        boolean isParticipate = false;
+
+        // 일단 예외 처리 안 했어,.
+        List<ChallengeParticipation> challengeParticipation = challengeParticipationRepository.findRecentCertainChallenge(user.getUserId(), challengeId);
+        if(challengeParticipation.isEmpty()){
+            isParticipate = false;
+        }
+        else{
+            ChallengeParticipation challengeParticipationTmp = challengeParticipation.get(0);
+            if(challengeParticipationTmp.getIsIn() == ChallengeStatus.P){
+                isParticipate = true;
+            }
+        }
+
+
         ResponseChallengeInfo response = ResponseChallengeInfo
-                .from(sizeOfUserParticipateInChallenge, challengeWithKeyword, challengeWithParticipates, getRank);
+                .from(sizeOfUserParticipateInChallenge, challengeWithKeyword, challengeWithParticipates, getRank, isParticipate);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }

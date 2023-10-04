@@ -46,8 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 // Cors 허용 패턴
                                 CorsConfiguration config = new CorsConfiguration();
                                 config.setAllowedOrigins(
-                                        List.of("*")
+                                        List.of("http://localhost:3000","https://j9b301.p.ssafy.io")
                                 );
+                                config.setAllowCredentials(true);
                                 config.setAllowedMethods(
                                         List.of("*")
                                 );
@@ -62,10 +63,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "images/**", "/js/**", "/h2-console/***").permitAll()
-                .antMatchers("/ws-stomp/**", "/login/**", "/api/oauth2/**").permitAll()
-                .antMatchers("/api/s3/**").permitAll()
-                .antMatchers("/api/mongo/**").permitAll()
+
+                .antMatchers("/ws-stomp/**", "/api/login/**",  "/oauth2/**", "/login/oauth2/code/kakao",
+                "/api/mongo/**", "/api/s3/**", "/css/**", "/images/**", "/js/**", "/h2-console/**")
+                .permitAll()
                 .antMatchers("/api/user/signup/extra-info").hasRole("GUEST")
                 .antMatchers("/api/**").hasRole("USER")
                 .and()
