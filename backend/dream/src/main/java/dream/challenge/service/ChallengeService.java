@@ -141,8 +141,11 @@ public class ChallengeService {
 
         List<User> getRank = challengeDetailQueryRepository.getRank(challengeId);
 
+        // 일단 예외 처리 안 했어,.
+        List<ChallengeParticipation> challengeParticipation = challengeParticipationRepository.findRecentCertainChallenge(user.getUserId(), challengeId);
+
         ResponseChallengeInfo response = ResponseChallengeInfo
-                .from(sizeOfUserParticipateInChallenge, challengeWithKeyword, challengeWithParticipates, getRank);
+                .from(sizeOfUserParticipateInChallenge, challengeWithKeyword, challengeWithParticipates, getRank, challengeParticipation.get(0));
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
