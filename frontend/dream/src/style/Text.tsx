@@ -48,6 +48,7 @@ interface TextProps {
   $timeCapsuleText?: boolean
   $recommendTitle?: boolean
   $recommendCardTitle?: boolean
+  $SunsetText?: boolean
 }
 const StyledText = styled.div<TextProps>`
   ${(props) =>
@@ -206,6 +207,12 @@ const StyledText = styled.div<TextProps>`
     css`
       margin-bottom: 2rem;
       font-size: 2rem;
+    `}
+  ${(props) =>
+    props.$SunsetText &&
+    css`
+      margin-bottom: 2rem;
+      font-size: 1.3rem;
     `}
 `
 
