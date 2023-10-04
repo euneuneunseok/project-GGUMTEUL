@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/ws-stomp/**", "/login/**",  "/oauth2/**", "/login/oauth2/code/kakao",
+                .antMatchers("/ws-stomp/**", "/api/login/**",  "/oauth2/**", "/login/oauth2/code/kakao",
                 "/api/mongo/**", "/api/s3/**", "/css/**", "/images/**", "/js/**", "/h2-console/**")
                 .permitAll()
                 .antMatchers("/api/user/signup/extra-info").hasRole("GUEST")
