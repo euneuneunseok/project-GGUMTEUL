@@ -181,7 +181,7 @@ const NightProfileCardTab = () => {
             .filter((card) => (isShowAllCard ? card.isShow === "T" : true))
             .filter((card) => (isBuyCard ? card.purchase === true : true))
             .map((card, i) => (
-              <Image $profileCard $nightImageBorder onClick={() => navigate(`/night/dream/${card.dreamCardId}`)} key={i}>
+              <Image $profileCard $nightImageBorder onClick={() => {if (isMyProfile) {navigate(`/night/dream/${card.dreamCardId}`)}}} key={i}>
                 <img src={card.dreamCardImageUrl} alt="dreamCard"></img>
               </Image>
             ))
