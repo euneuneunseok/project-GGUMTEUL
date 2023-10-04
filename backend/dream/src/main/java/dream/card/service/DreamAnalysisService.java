@@ -8,15 +8,12 @@ import dream.mongo.repository.MongoRepository;
 import dream.s3.dto.ProcessGrade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-//import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,31 +24,40 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class DreamAnalysisService {
 
-    @Autowired
-    private MongoRepository mongoRepository;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private final MongoRepository mongoRepository;
+    private final MongoTemplate mongoTemplate;
 
     public List<Dream> findDreamsWithKeywords(List<String> keywords) {
-        List<Criteria> criterias = new ArrayList<>();
-        for (String keyword : keywords) {
-            criterias.add(Criteria.where("dream").regex(keyword, "i"));
-        }
 
-        Query query = new Query(new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()])));
+        Criteria criteria = Criteria.where("analysis.keywords").in(keywords);
+
+        Query query = new Query(criteria);
+        return mongoTemplate.find(query, Dream.class);
+    }
+
+    public List<Dream> findDreamsByKeyword(String keyword) {
+
+        String regexKeyword = ".*" + keyword + ".*";
+        Criteria criteria = Criteria.where("dream").regex(regexKeyword, "i");
+
+        Query query = new Query(criteria).limit(100);
         return mongoTemplate.find(query, Dream.class);
     }
 
     public ResponseDreamAnalysis processAnalysis(RequestDreamCardDetail requestDream) {
 
-        for(int i = 0; i < requestDream.getWordKeywords().size(); i++){
-            log.info(requestDream.getWordKeywords().get(i));
-        }
+//        for(int i = 0; i < requestDream.getWordKeywords().size(); i++){
+//            log.info(requestDream.getWordKeywords().get(i));
+//        }
 
         // 동적 쿼리 날려서 Mongo에서 해당 ROW 다 가져오기
         List<Dream> list = findDreamsWithKeywords(requestDream.getWordKeywords());
+        if (list.isEmpty()) return null;
         log.info("findDreamsWithKeywordsListSize : {}", list.size());
+//        for (Dream dream : list) {
+//            log.info("찾은 꿈 내용 : " + dream.getDream());
+//            log.info("찾은 꿈 해 내용 : " + dream.getAnalysis().getDreamTelling());
+//        }
 
         Dream simillarDream = findBestSimillarDream(requestDream, list);
 
@@ -60,9 +66,11 @@ public class DreamAnalysisService {
         }
 
         ResponseDreamAnalysis response = new ResponseDreamAnalysis();
-        response.setDreamTelling(simillarDream.getDream());
+        response.setDreamTelling(simillarDream.getAnalysis().getDreamTelling());
 
+        // 데이터가 들어왔을 때, 50000이라는 분모를 조정해 주면서 최적의 분모 값을 찾는 과정이 필요해
         int rarePoint = 30;
+
 
         ProcessGrade gradeSet = setGrade(simillarDream.getAnalysis().getDreamTellingPositivePoint(),
                 rarePoint);
@@ -70,6 +78,7 @@ public class DreamAnalysisService {
         response.setRareGrade(gradeSet.getRareDreamGrade());
         response.setGrade(gradeSet.getFinalGrade());
         response.setRarePoint(rarePoint);
+
 
         return response;
     }
@@ -114,11 +123,11 @@ public class DreamAnalysisService {
         double maxSimillarPoint = Integer.MIN_VALUE;
         int maxSimillarDreamIndex = -1;
         for(int i = 0; i < list.size(); i++){
-            log.info("내 꿈 내용 : " + requestDream.getDreamCardContent());
-            log.info("데이터 꿈 내용 : " + list.get(i).getAnalysis().getDreamTelling());
+//            log.info("내 꿈 내용 : " + requestDream.getDreamCardContent());
+//            log.info("데이터 꿈 내용 : " + list.get(i).getAnalysis().getDreamTelling());
             double analysisPoint = analysis(requestDream, list.get(i));
-            log.info("두 꿈의 최종 유사도 : " + analysisPoint);
-            log.info("--------------------------------");
+//            log.info("두 꿈의 최종 유사도 : " + analysisPoint);
+//            log.info("--------------------------------");
             if (maxSimillarPoint < analysisPoint) {
                 maxSimillarPoint = analysisPoint;
                 maxSimillarDreamIndex = i;
