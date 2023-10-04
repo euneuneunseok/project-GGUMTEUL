@@ -81,7 +81,7 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
 
 
   // 웹소캣(2)
-  const socket = new SockJS("https://j9b301.p.ssafy.io:9090/ws-stomp")
+  const socket = new SockJS("https://j9b301.p.ssafy.io:9090/api/ws-stomp")
 
   const client = Stomp.over(socket)
   client.connectHeaders = {
@@ -135,15 +135,17 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
 
 
   useEffect(() => {
+    console.log("초기 렌더링")
     client.onConnect = (frame) => {
-      client.subscribe(`/sub/auction/${auctionId}`, (msg)=> {
+      client.subscribe(`/api/sub/auction/${Number(auctionId)}`, (msg)=> {
+      console.log(msg, "너 왔니? 메세지")
       const newPriceBody = JSON.parse(msg.body)
       const newPrice = newPriceBody.biddingMoney
       setMyBiddingMoney(newPrice)
       })
 
       return () => {
-        client.unsubscribe(`/sub/auction/${auctionId}`)
+        client.unsubscribe(`/api/sub/auction/${Number(auctionId)}`)
       }
     }
 
@@ -189,12 +191,13 @@ const AuctionBuying = ({biddingMoney, askingMoney} :AuctionBuyingProps) => {
 
   const sendBiddingMoney = () => {
     const msgBody = {
-      auctionId,
+      auctionId: Number(auctionId),
       biddingMoney: myBiddingMoney,
       userId,
       askingMoney
     }
-    client.send("/pub/auction/bidding", {}, JSON.stringify(msgBody))
+    client.send("/api/pub/auction/bidding", {}, JSON.stringify(msgBody))
+    console.log("전송완료", msgBody)
   }
 
   // push 알림 확인
