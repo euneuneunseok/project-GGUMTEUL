@@ -78,20 +78,38 @@ const AuctionCreate = () => {
     const today = new Date()
     const nextDay = new Date(today.setDate(today.getDate()+1))
     const year = nextDay.getFullYear()
-    const month = nextDay.getMonth() +1
-    const day = nextDay.getDate()
-    const hour = nextDay.getHours()
-    const miniutes = nextDay.getMinutes()
-    const seconds = nextDay.getSeconds()
-    console.log(nextDay)
-    console.log(today)
+    let month = String(nextDay.getMonth() +1)
+    let day = String(nextDay.getDate())
+    let hour = String(nextDay.getHours())
+    let minutes = String(nextDay.getMinutes())
+    let seconds = String(nextDay.getSeconds())
     
     if (type === "normal") {
-      return [year, month, day].join(".") + " " + [hour, miniutes].join(":")
+      return [year, month, day].join(".") + " " + [hour, minutes].join(":")
     } 
     // "2023-09-22T11:23:00",
     else if (type === "axios") {
-      return [year, month, day].join("-") + "T" + [hour, miniutes, seconds].join(":")
+      if (month.length === 1) {
+        month = "0" + month
+      }
+      if (day.length === 1) {
+        day = "0" + day
+      }
+      if (hour.length === 1) {
+        hour = "0" + hour
+      }
+      if (minutes.length === 1) {
+        minutes = "0" + minutes
+      }
+      if (seconds.length === 1) {
+        seconds = "0" + seconds
+      } else if (seconds.length === 0) {
+        seconds = "00"
+      }
+      console.log(nextDay)
+      console.log([year, month, day].join("-") + "T" + [hour, minutes, seconds].join(":"))
+    
+      return [year, month, day].join("-") + "T" + [hour, minutes, seconds].join(":")
     }
   }
 
