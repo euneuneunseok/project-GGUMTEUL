@@ -92,6 +92,8 @@
   - Spring JPA
   - Spring Security
   - Stomp
+  - JWT
+  - OAuth2
 - Front-End
   - React
   - Redux
@@ -117,7 +119,8 @@
 - DB
   - MySQL
   - MongoDB
-- Community
+  - Redis
+- Team Collaboration Tool
   - Gitlab
   - Jira
   - Notion
