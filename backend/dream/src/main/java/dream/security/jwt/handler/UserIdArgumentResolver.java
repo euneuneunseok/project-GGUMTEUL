@@ -1,6 +1,7 @@
 package dream.security.jwt.handler;
 
 import dream.common.exception.InvalidAccessTokenException;
+import dream.common.exception.NoSuchElementException;
 import dream.security.jwt.domain.UserInfo;
 import dream.security.jwt.service.JwtService;
 import dream.user.domain.User;
@@ -31,7 +32,8 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
 
@@ -42,7 +44,7 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
         log.info("token in resolveArgument : {}", accessToken);
         Long expiredAt = jwtService.getExpiration(accessToken);
         Optional<User> user = userRepository.findByUserId(jwtService.extractUserIdFromAccessToken(accessToken).get());
-        if(user.isEmpty()) throw new InvalidAccessTokenException(InvalidAccessTokenException.INVALID_ACCESS_TOKEN);
+        if(user.isEmpty()) throw new NoSuchElementException(NoSuchElementException.NO_SUCH_USER);
         return user.get();
 
     }

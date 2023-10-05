@@ -5,8 +5,9 @@ import dream.auction.dto.request.RequestBidding;
 import dream.auction.dto.request.RequestCardReview;
 import dream.auction.dto.request.RequestChangeOwner;
 import dream.auction.service.AuctionService;
-import dream.card.dto.request.RequestDreamCardId;
 import dream.common.domain.ResultTemplate;
+import dream.security.jwt.domain.UserInfo;
+import dream.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,9 @@ public class AuctionController {
     @PostMapping(value = "/api/auction/{dreamCardId}")
     public ResultTemplate postAuction(@PathVariable("dreamCardId") Long dreamCardId,
                                       @RequestBody RequestAuction request,
-                                      Long userId){
+                                      @UserInfo User user){
 
-        return auctionService.postAuction(dreamCardId, request, 1L);
+        return auctionService.postAuction(dreamCardId, request, user.getUserId());
     }
 
     @GetMapping(value = "/api/auction/list")
@@ -33,12 +34,6 @@ public class AuctionController {
         return auctionService.getAllAuctionList(lastItemId, size, keyword);
     }
 
-    @GetMapping(value = "/api/auction/list/{searchKeyword}")
-    public ResultTemplate getAuctionListByKeyword(@PathVariable("searchKeyword") String keyword){
-
-        return auctionService.getAuctionListByKeyword(keyword);
-    }
-
     @GetMapping(value = "/api/auction/detail/{auctionId}")
     public ResultTemplate getAuctionDetail(@PathVariable("auctionId") Long auctionId){
 
@@ -46,8 +41,8 @@ public class AuctionController {
     }
 
     @MessageMapping(value = "/auction/bidding")
+//    @PostMapping("/auction/bidding")
     public void postBidding(@RequestBody RequestBidding request){
-        // 유저 받아와서 같이 넘겨주세요
         auctionService.postBidding(request);
     }
 
@@ -66,9 +61,14 @@ public class AuctionController {
     }
 
     @PostMapping(value = "/api/auction/review")
-    public ResultTemplate postBuyingCardReview(@RequestBody RequestCardReview request){
+    public ResultTemplate postBuyingCardReview(@RequestBody RequestCardReview request, @UserInfo User user){
 
-        return auctionService.postBuyingCardReview(request);
+        return auctionService.postBuyingCardReview(request, user.getUserId());
+    }
+
+    @GetMapping(value = "/api/auction/point/{userId}")
+    public ResultTemplate getUserPoint(@PathVariable("userId") Long userId){
+        return auctionService.getUserPoint(userId);
     }
 
 }

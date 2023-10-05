@@ -8,15 +8,10 @@ import dream.auction.dto.request.RequestAuction;
 import dream.auction.dto.request.RequestBidding;
 import dream.auction.dto.request.RequestCardReview;
 import dream.auction.dto.request.RequestChangeOwner;
-import dream.auction.dto.response.ResponseAuction;
-import dream.auction.dto.response.ResponseAuctionDetail;
-import dream.auction.dto.response.ResponseAuctionList;
-import dream.auction.dto.response.ResponseBidding;
+import dream.auction.dto.response.*;
 import dream.card.domain.CardKeyword;
 import dream.card.domain.DreamCard;
 import dream.card.domain.DreamCardRepository;
-import dream.card.domain.WriggleReview;
-import dream.card.dto.request.RequestDreamCardId;
 import dream.common.domain.BaseCheckType;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.BiddingException;
@@ -28,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -36,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuctionService {
 
@@ -47,19 +44,23 @@ public class AuctionService {
     private final AuctionListener auctionListener;
 
     // 경매 등록하는 함수
+    @Transactional
     public ResultTemplate postAuction(Long dreamCardId, RequestAuction request, Long userId) {
 
         DreamCard findCard = dreamCardRepository.findAuctionById(dreamCardId)
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
 
         if (!findCard.getDreamCardOwner().getUserId().equals(userId)) throw new NotMatchException(NotMatchException.CARD_OWNER_MATCH);
-
         if (findCard.getAuctionStatus().equals(BaseCheckType.T)) throw new NotMatchException(NotMatchException.CARD_AUCTION_STATUS);
-        // 경매에 두 번 이상 올라올 수 있는 경우 정의하고 다시
-        // if (!findCard.getAuction().isEmpty()) throw new BiddingException(BiddingException.NOT_ALLOW_AUCTION);
+
+         if (!findCard.getAuction().isEmpty()) {
+             List<Auction> findBiddings = auctionRepository.findByDreamCardId(dreamCardId).stream()
+                     .filter(auction -> auction.getBidding().size() >= 2)
+                     .collect(Collectors.toList());
+             if (!findBiddings.isEmpty()) throw new BiddingException(BiddingException.NOT_ALLOW_AUCTION);
+         }
 
         findCard.insertAuction();
-
         Auction auction = Auction.createAuction(findCard, request);
         auctionRepository.save(auction);
 
@@ -113,80 +114,135 @@ public class AuctionService {
     }
 
     // 입찰 등록 함수 - 유저 같이 매개변수로 받아와서 처리부탁드립니다.
+    @Transactional
     public void postBidding(RequestBidding request) {
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
-        Auction findAuction = auctionRepository.findBiddingById(request.getAuctionId(), LocalDateTime.now())
+        Auction findAuction = auctionRepository.findBiddingById(request.getAuctionId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.AUCTION_NOT_FOUND));
-
+        if (findAuction.getDreamCard().getDreamCardOwner().equals(request.getUserId())) throw new BiddingException(BiddingException.USER_SAME_OWNER);
         if (BaseCheckType.F.equals(findAuction.getDreamCard().getAuctionStatus())) throw new BiddingException(BiddingException.ALREADY_AUCTION_END);
         if (findAuction.getBidding().isEmpty()) throw new NotFoundException(NotFoundException.BIDDING_NOT_FOUND);
+        if (LocalDateTime.now().isAfter(findAuction.getEndedAt())) throw new BiddingException(BiddingException.ALREADY_TIME_END);
 
         Bidding topBidding = findAuction.getBidding().get(0);
         if (request.getBiddingMoney() <= topBidding.getBiddingMoney()) throw new BiddingException(BiddingException.LOW_BIDDING_MONEY);
         if (request.getBiddingMoney() >= findAuction.getImmediatelyBuyMoney()) throw new BiddingException(BiddingException.HIGH_BIDDING_MONEY);
+        if (topBidding.getBiddingMoney() == findAuction.getImmediatelyBuyMoney()) throw new BiddingException(BiddingException.ALREADY_MONEY_END);
 
-        findAuction.addBidding(user, request.getBiddingMoney());
+        if (user.getPoint() < request.getBiddingMoney()) throw new BiddingException(BiddingException.NOT_ENOUGH_MONEY);
+
+        if (!findAuction.getDreamCard().getDreamCardOwner().getUserId().equals(topBidding.getUser().getUserId())) topBidding.getUser().plusPoint(topBidding.getBiddingMoney());
+        user.minusPoint(request.getBiddingMoney());
+
+        findAuction.addBidding(user, request.getBiddingMoney(), request.getAskingMoney());
         em.flush();
 
         Bidding findBidding = auctionQueryRepository.findTopBiddingById(request.getAuctionId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.BIDDING_NOT_FOUND));
-        ResponseBidding response = ResponseBidding.from(request.getAuctionId(), findBidding);
+        em.flush();
+        List<Bidding> findBiddings = auctionQueryRepository.findBiddingById(request.getAuctionId());
+        ResponseBidding response = ResponseBidding.from(request.getAuctionId(), findBidding, findBiddings.size());
 
         auctionListener.sendBidding(response);
+//        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
 
     }
 
     // 카드 즉시구매 함수 - 유저 같이 매개변수로 받아야해요.
     // 그리고 이외 처리할 서비스 로직이 넘쳐납니다.
     // 예외 처리할 것도 넘쳐나네요.
+    @Transactional
     public ResultTemplate purchaseDreamCard(RequestBidding request) {
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
-        Auction findAuction = auctionRepository.findBiddingById(request.getAuctionId(), LocalDateTime.now())
+        Auction findAuction = auctionRepository.findBiddingById(request.getAuctionId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.AUCTION_NOT_FOUND));
 
+        if (findAuction.getDreamCard().getDreamCardOwner().equals(request.getUserId())) throw new BiddingException(BiddingException.USER_SAME_OWNER);
         if (BaseCheckType.F.equals(findAuction.getDreamCard().getAuctionStatus())) throw new BiddingException(BiddingException.ALREADY_AUCTION_END);
         if (findAuction.getBidding().isEmpty()) throw new NotFoundException(NotFoundException.BIDDING_NOT_FOUND);
+        if (LocalDateTime.now().isAfter(findAuction.getEndedAt())) throw new BiddingException(BiddingException.ALREADY_TIME_END);
 
+        Bidding topBidding = findAuction.getBidding().get(0);
         if (request.getBiddingMoney() != findAuction.getImmediatelyBuyMoney()) throw new BiddingException(BiddingException.NOT_SAME_MONEY);
+        if (topBidding.getBiddingMoney() == findAuction.getImmediatelyBuyMoney()) throw new BiddingException(BiddingException.ALREADY_MONEY_END);
         if (user.getPoint() < request.getBiddingMoney()) throw new BiddingException(BiddingException.NOT_ENOUGH_MONEY);
 
-        findAuction.addBidding(user, request.getBiddingMoney());
+        if (!findAuction.getDreamCard().getDreamCardOwner().getUserId().equals(topBidding.getUser().getUserId())) topBidding.getUser().plusPoint(topBidding.getBiddingMoney());
+        user.minusPoint(request.getBiddingMoney());
+
+
+        findAuction.addBidding(user, request.getBiddingMoney(), request.getAskingMoney());
         em.flush();
-        user.purchaseDreamCard(request.getBiddingMoney());
 
-        DreamCard findDreamCard = dreamCardRepository.findReviewById(findAuction.getDreamCard().getDreamCardId())
-                .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
 
-        findDreamCard.addReview(user, findDreamCard.getDreamCardOwner());
+        Bidding findBidding = auctionQueryRepository.findTopBiddingById(request.getAuctionId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.BIDDING_NOT_FOUND));
+        em.flush();
+        List<Bidding> findBiddings = auctionQueryRepository.findBiddingById(request.getAuctionId());
+        ResponseBidding response = ResponseBidding.from(request.getAuctionId(), findBidding, findBiddings.size());
 
-        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("즉시 구매 성공!").build();
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
     // 최종 입찰 성공해서 카드 주인 바꾸기 함수
     // 유저 같이 넘겨와야해요
+    @Transactional
     public ResultTemplate successBiddingAndOwnerChange(RequestChangeOwner request) {
+
+        User newUser = userRepository.findById(request.getNewOwnerId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        Auction findAuction = auctionRepository.findBiddingById(request.getAuctionId())
+                .orElseThrow(() -> new NotFoundException(NotFoundException.AUCTION_NOT_FOUND));
+
+
+        if (BaseCheckType.F.equals(findAuction.getDreamCard().getAuctionStatus())) throw new BiddingException(BiddingException.ALREADY_AUCTION_END);
+        if (findAuction.getBidding().isEmpty()) throw new NotFoundException(NotFoundException.BIDDING_NOT_FOUND);
+        if (LocalDateTime.now().isBefore(findAuction.getEndedAt())) throw new BiddingException(BiddingException.BEFORE_AUCTION_END);
+
+        Bidding topBidding = findAuction.getBidding().get(0);
+        if (topBidding.getBiddingMoney() == findAuction.getImmediatelyBuyMoney()) throw new BiddingException(BiddingException.ALREADY_MONEY_END);
+
+        if (!findAuction.getDreamCard().getDreamCardOwner().getUserId().equals(request.getNewOwnerId())) findAuction.getDreamCard().getDreamCardOwner().plusPoint(topBidding.getBiddingMoney());
+        em.flush();
+        findAuction.getDreamCard().endAuction(newUser);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
     // 꿈 산 후 리뷰 등록하는 함수
     // 할거 짱 많을거에요
-    public ResultTemplate postBuyingCardReview(RequestCardReview request) {
+    @Transactional
+    public ResultTemplate postBuyingCardReview(RequestCardReview request, Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
 
         DreamCard findDreamCard = dreamCardRepository.findReviewById(request.getDreamCardId())
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
+
         // 로그인 유저가 카드 산 사람인지 예외 처리 해야 해
-        List<WriggleReview> reviews = findDreamCard.getWriggleReviews();
-        if (reviews.isEmpty()) throw new NotFoundException(NotFoundException.REVIEW_NOT_FOUND);
-        WriggleReview wriggleReview = reviews.get(0);
-        wriggleReview.updateReview(request);
+        if (BaseCheckType.T.equals(findDreamCard.getAuctionStatus())) throw new BiddingException(BiddingException.BEFORE_AUCTION_END);
+        if (!findDreamCard.getDreamCardOwner().getUserId().equals(user.getUserId())) throw new BiddingException(BiddingException.REVIEW_ONLY_OWNER);
+
+        findDreamCard.addReview(user, findDreamCard.getDreamCardAuthor(), request.getReviewPoint());
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
+
+    public ResultTemplate getUserPoint(Long userId) {
+
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.USER_NOT_FOUND));
+
+        ResponseUserPoint response = ResponseUserPoint.from(userId, findUser.getPoint());
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 }

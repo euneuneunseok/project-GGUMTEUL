@@ -10,19 +10,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResponseProfileHeaderBySelf {
 
-    Long userId;
-    String nickname;
-    String profileImageUrl;
-    String profileImageName;
-    int point;
-    Double wrigglePoint;
-    int followerCount;
-    int followingCount;
+    private Long userId;
+    private String nickname;
+    private String profileImageUrl;
+    private String profileImageName;
+    private int point;
+    private Double wrigglePoint;
+    private int finishChallengeCount;
+    private int followerCount;
+    private int followingCount;
+    private int dreamCardCount;
 
 
-
-
-    public static ResponseProfileHeaderBySelf from(User user, int followerCount, int followingCount){
+    public static ResponseProfileHeaderBySelf from(User user, int finishChallengeCount, int followerCount, int followingCount, int dreamCardCount) {
         ResponseProfileHeaderBySelf response = new ResponseProfileHeaderBySelf();
 
         response.userId = user.getUserId();
@@ -31,10 +31,11 @@ public class ResponseProfileHeaderBySelf {
         response.profileImageUrl = user.getProfileUrl();
         response.followerCount = followerCount;
         response.followingCount = followingCount;
-
+        response.finishChallengeCount = finishChallengeCount;
         response.point = user.getPoint();
         response.wrigglePoint = user.getWrigglePoint();
 
+        response.dreamCardCount = dreamCardCount;
 
         return response;
     }

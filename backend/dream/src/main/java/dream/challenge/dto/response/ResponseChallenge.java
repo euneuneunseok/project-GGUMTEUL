@@ -14,6 +14,10 @@ public class ResponseChallenge {
     private String title;
     private String period;
     private int participateCount;
+    private Long dreamKeywordId;
+    private String badgeUrl;
+
+
 
     public static ResponseChallenge from(Challenge challenge){
 
@@ -23,7 +27,8 @@ public class ResponseChallenge {
         response.title = challenge.getChallengeTitle();
         response.period = challenge.getPeriod();
         response.participateCount = challenge.getChallengeParticipations().size();
-
+        response.dreamKeywordId = challenge.getKeywords().get(0).getKeyword().getKeywordId();
+        response.badgeUrl = challenge.getBadgeUrl();
         return response;
     }
 

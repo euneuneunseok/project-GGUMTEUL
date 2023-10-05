@@ -18,9 +18,9 @@ public class ResponseBidding {
     private LocalDateTime createdAt;
     private Long biddingUserId;
     private String biddingNickname;
-    private int askingMoney;
+    private int biddingCount;
 
-    public static ResponseBidding from(Long auctionId, Bidding bidding){
+    public static ResponseBidding from(Long auctionId, Bidding bidding, int biddingCount){
 
         ResponseBidding response = new ResponseBidding();
         response.auctionId = auctionId;
@@ -28,13 +28,7 @@ public class ResponseBidding {
         response.createdAt = bidding.getCreatedAt();
         response.biddingUserId = bidding.getUser().getUserId();
         response.biddingNickname = bidding.getUser().getNickname();
-        int start = bidding.getBiddingMoney();
-        int count = 0;
-        while (start >= 10) {
-            start /= 10;
-            count++;
-        }
-        response.askingMoney = start * (int)Math.pow(10, count - 1);
+        response.biddingCount = biddingCount;
 
         return response;
     }

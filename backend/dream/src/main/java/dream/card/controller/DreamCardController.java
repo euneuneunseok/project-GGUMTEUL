@@ -10,8 +10,10 @@ import dream.common.domain.ResultTemplate;
 import dream.security.jwt.domain.UserInfo;
 import dream.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/night")
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class DreamCardController {
 
     @GetMapping(value = "/")
     public ResultTemplate getNightMain(@RequestParam(value = "lastItemId", required = false) Long lastItemId,
-                                       @RequestParam("size") int size){
-                                       //@UserInfo User user){
+                                       @RequestParam("size") int size,
+                                       @UserInfo User user){
         return dreamCardService.getNightMain(lastItemId, size);
     }
 
@@ -63,24 +65,24 @@ public class DreamCardController {
 
     @GetMapping(value = "/dream/{dreamCardId}/interpretation")
     public ResultTemplate getDreamCardDetailByUser(@PathVariable("dreamCardId") Long id,
-                                                   Long userId){
-        return dreamCardService.getDreamCardDetailByUser(id, 1L);
+                                                   @UserInfo User user){
+        return dreamCardService.getDreamCardDetailByUser(id, user.getUserId());
     }
     @DeleteMapping(value = "/dream/{dreamCardId}")
     public ResultTemplate deleteDreamCard(@PathVariable("dreamCardId") Long dreamCardId,
-                                          Long userId){
+                                          @UserInfo User user){
 
-        return dreamCardService.deleteDreamCard(dreamCardId, 1L);
+        return dreamCardService.deleteDreamCard(dreamCardId, user.getUserId());
     }
 
     @PutMapping(value = "/dream")
     public ResultTemplate updateCardIsShow(@RequestBody RequestDreamCardIsShow request,
-                                           Long userId){
+                                           @UserInfo User user){
 
-        return dreamCardService.updateCardIsShow(request, 1L);
+        return dreamCardService.updateCardIsShow(request, user.getUserId());
     }
 
-    @GetMapping(value = "/dream/interpretation?keyword={keyword}")
+    @GetMapping(value = "/dream/interpretation")
     public ResultTemplate getInterpretationResult(@RequestParam("keyword") String keyword){
 
         return dreamCardService.getInterpretationResult(keyword);

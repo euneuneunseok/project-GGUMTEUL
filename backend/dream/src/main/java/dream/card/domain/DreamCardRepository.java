@@ -28,6 +28,7 @@ public interface DreamCardRepository extends JpaRepository<DreamCard, Long> {
     Optional<DreamCard> findLikeById(@Param("id") Long id);
 
     @Query("select distinct d from DreamCard d " +
+            "left join fetch d.dreamCardOwner " +
             "left join fetch d.cardKeyword dc " +
             "left join fetch dc.keyWordId  " +
             "left join d.dreamCardLikes " +
@@ -48,7 +49,8 @@ public interface DreamCardRepository extends JpaRepository<DreamCard, Long> {
 
     @Query("select distinct d from DreamCard d " +
             "left join fetch d.auction " +
-            "where d.dreamCardId = :id")
+            "left join fetch d.dreamCardOwner " +
+            "where d.dreamCardId = :id ")
     Optional<DreamCard> findAuctionById(@Param("id") Long id);
 
     @Query("select distinct d from DreamCard d " +
@@ -56,5 +58,13 @@ public interface DreamCardRepository extends JpaRepository<DreamCard, Long> {
             "left join fetch d.dreamCardOwner " +
             "where d.dreamCardId = :id")
     Optional<DreamCard> findReviewById(@Param("id") Long id);
+
+
+    @Query("select distinct d from DreamCard d " +
+            "left join fetch d.dreamCardOwner " +
+            "left join fetch d.cardKeyword dc " +
+            "left join fetch dc.keyWordId  " +
+            "where d.dreamCardOwner.userId = :id")
+    List<DreamCard> findKeywordByOwner(@Param("id") Long id);
 
 }

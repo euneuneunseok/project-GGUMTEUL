@@ -3,11 +3,10 @@ package dream.card.domain;
 
 import dream.auction.domain.Auction;
 import dream.card.dto.request.RequestDreamCardDetail;
-import dream.card.dto.request.RequestKeyword;
+import dream.card.dto.response.ResponseDreamAnalysis;
 import dream.common.domain.BaseCheckType;
 import dream.common.domain.BaseTimeEntity;
 import dream.common.exception.DuplicateException;
-import dream.common.exception.NotFoundException;
 import dream.common.exception.NotMatchException;
 import dream.user.domain.User;
 import lombok.AccessLevel;
@@ -15,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +63,7 @@ public class DreamCard extends BaseTimeEntity {
     private List<CardKeyword> cardKeyword;
 
     @OneToMany(mappedBy = "dreamCard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WriggleReview> wriggleReviews;
+    private List<WriggleReview> wriggleReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "dreamCard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Auction> auction;
@@ -73,32 +73,27 @@ public class DreamCard extends BaseTimeEntity {
     }
 
     public static DreamCard makeDreamCard(RequestDreamCardDetail request, User user,
-                                          List<DreamKeyword> dreamKeywords, String fileName){
+                                          List<DreamKeyword> dreamKeywords, String fileName,
+                                          ResponseDreamAnalysis dreamAnalysis){
 
         DreamCard dreamCard = new DreamCard();
         dreamCard.dreamCardOwner = user;
         dreamCard.dreamCardAuthor = user;
-        dreamCard.dreamCardContent = request.getDreamCardContent();
         dreamCard.dreamCardImageUrl = fileName;
         dreamCard.isShow = request.getIsShow();
         dreamCard.auctionStatus = BaseCheckType.F;
+        dreamCard.positivePoint = request.getPositivePoint();
+        dreamCard.dreamCardContent = request.getDreamCardContent();
         dreamCard.cardKeyword = dreamKeywords.stream()
                 .map(dreamKeyword -> CardKeyword.addKeyword(dreamCard, dreamKeyword))
                 .collect(Collectors.toList());
 
+        dreamCard.rarePoint = dreamAnalysis.getRarePoint();
+        dreamCard.grade = dreamAnalysis.getGrade();
+        dreamCard.dreamTelling = dreamAnalysis.getDreamTelling();
+        dreamCard.positiveGrade = dreamAnalysis.getPositiveGrade();
+        dreamCard.rareGrade = dreamAnalysis.getRareGrade();
 
-        dreamCard.positivePoint = request.getPositivePoint();
-        dreamCard.rarePoint = request.getRarePoint();
-
-        dreamCard.grade = Grade.SS;
-        dreamCard.dreamTelling = "아직 못 했어요 구현을";
-        dreamCard.positiveGrade = Grade.S;
-        dreamCard.rareGrade = Grade.SS;
-
-//        dreamCard.grade = request.getGrade();
-//        dreamCard.dreamTelling = request.getDreamTelling();
-//        dreamCard.positiveGrade = request.getPositiveGrade();
-//        dreamCard.rareGrade = request.getRareGrade();
         return dreamCard;
     }
 
@@ -138,8 +133,11 @@ public class DreamCard extends BaseTimeEntity {
         this.auctionStatus = BaseCheckType.F;
     }
 
-    public void addReview(User buyer, User seller){
-        wriggleReviews.add(WriggleReview.makeReview(this, buyer, seller));
+    public void addReview(User buyer, User seller, int reviewPoint){
+        wriggleReviews.add(WriggleReview.makeReview(this, buyer, seller, reviewPoint));
     }
 
+    public void updateImageName(String fileName) {
+        this.dreamCardImageUrl = fileName;
+    }
 }

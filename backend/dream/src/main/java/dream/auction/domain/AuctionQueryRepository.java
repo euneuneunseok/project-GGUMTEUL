@@ -143,6 +143,7 @@ public class AuctionQueryRepository {
                         bidding.auction.auctionId.eq(auctionId)
                 )
                 .orderBy(bidding.biddingId.desc())
+                .limit(1)
                 .fetchOne());
     }
 

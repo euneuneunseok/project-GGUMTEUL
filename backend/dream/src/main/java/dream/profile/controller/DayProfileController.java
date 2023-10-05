@@ -2,6 +2,7 @@ package dream.profile.controller;
 
 import dream.common.domain.ResultTemplate;
 import dream.profile.service.DayProfileService;
+import dream.security.jwt.domain.UserInfo;
 import dream.user.domain.User;
 import dream.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,13 @@ public class DayProfileController {
     private final UserService userService;
     private final DayProfileService dayProfileService;
 
-
-    @GetMapping("/header/{profileUserId}")
-    public ResultTemplate getDayHeader(@PathVariable Long profileUserId){
-        User user = userService.getUserForDev(20L);
-
-        return dayProfileService.getDayHeader(user, profileUserId);
-    }
+//통합된 api
+//    @GetMapping("/header/{profileUserId}")
+//    public ResultTemplate getDayHeader(@PathVariable Long profileUserId, @UserInfo User user){
+////        User user = userService.getUserForDev(20L);
+//
+//        return dayProfileService.getDayHeader(user, profileUserId);
+//    }
 
     @GetMapping("/badge/list/{profileUserId}")
     public ResultTemplate getBadgeList(@PathVariable Long profileUserId,
