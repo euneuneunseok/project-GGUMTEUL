@@ -25,9 +25,9 @@ public class UserController {
     private final UserService userService;
 
 
-    // 예시 - 지워질 코드
     @GetMapping()
     public ResultTemplate getUser(@UserInfo User user) {
+
         return userService.getUser(user);
     }
 

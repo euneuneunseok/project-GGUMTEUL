@@ -49,15 +49,9 @@ public class NightProfileController {
 
     @GetMapping("/auction/participation/list")
     public ResultTemplate getProfileParticipatedAuctionList(@RequestParam(value = "lastItemId", required = false)
-<<<<<<< HEAD
-                                                            Long lastItemId, @RequestParam("size") int size){
-        User user = userService.getUserForDev(1L);
-
-=======
                                                             Long lastItemId, @RequestParam("size") int size,
                                                             @UserInfo User user){
-//        User user = userService.getUserForDev(1L);
->>>>>>> ae9c1ea8262f5c4de51497d72c8302ec25ef8dad
+
         return nightProfileService.getProfileParticipatedAuctionList(user, lastItemId, size);
 
     }

@@ -4,6 +4,7 @@ import dream.common.domain.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
 @Getter
@@ -61,7 +62,7 @@ public class User extends BaseTimeEntity {
     }
 
     public void updateWrigglePoint(double wrigglePoint){
-        this.wrigglePoint = wrigglePoint;
+        this.wrigglePoint += wrigglePoint;
     }
 
 

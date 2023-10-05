@@ -2,12 +2,8 @@ package dream.user.service;
 
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.*;
-<<<<<<< HEAD
 import dream.security.jwt.domain.TokenRepository;
-=======
-import dream.security.jwt.domain.UserInfo;
-import dream.security.jwt.repository.TokenRepository;
->>>>>>> ae9c1ea8262f5c4de51497d72c8302ec25ef8dad
+
 import dream.security.jwt.service.JwtService;
 import dream.s3.dto.response.ResponseImageUrl;
 import dream.user.domain.Follow;
@@ -37,9 +33,11 @@ public class UserService {
     private final TokenRepository tokenRepository;
     private final FollowRepository followRepository;
     // 예시 - 지워질 코드
-    public ResultTemplate getUser(User user) {
-        ResponseUser responseUser = ResponseUser.from(user);
 
+    @Transactional
+    public ResultTemplate getUser(User user) {
+
+        ResponseUser responseUser = ResponseUser.from(user);
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(responseUser).build();
     }
 
