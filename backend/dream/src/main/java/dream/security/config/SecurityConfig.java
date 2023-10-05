@@ -48,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 config.setAllowedOrigins(
                                         List.of("*")
                                 );
-                                config.setAllowCredentials(true);
                                 config.setAllowedMethods(
                                         List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                                 );
