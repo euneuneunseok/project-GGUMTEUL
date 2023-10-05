@@ -93,12 +93,14 @@ const StyledBox = styled.div<BoxProps>`
       display: inline;
       font-size: 0.5rem;
       padding: 1vw;
+      padding-top: 1.3vw;
       /* margin : 1rem; */
       border-radius: 1rem;
       /* width: 5rem; */
       text-align: center;
       background-color: rgba(190, 169, 215, 0.5);
       color: black;
+      white-space: nowrap;
     `}
 
   // 낮 키워드 박스
