@@ -121,7 +121,7 @@ def dreamProcessing(data: DreamModel):
     positivePoint, negativePoint = getEmotionScore(dreamCardContent)
 
     # 임시로 넣음. 원래는 번역한 텍스트를 넣어야 해.
-    prompt = str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") + ", by Renoir"
+    prompt = "by Renoir," + str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") 
     # prompt = "A cat with white fur, floating balloon, by Renoir"
     print(prompt, "prompt!!")
 
