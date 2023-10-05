@@ -17,6 +17,7 @@ interface ImageProps {
   $tinyProfileImage?: boolean
   $badge?: boolean
   $largeBadge?: boolean
+  $recommendBadge?: boolean
   $timeCapsuleImage?: boolean
   $timeCapsuleLoading?: boolean
 
@@ -132,6 +133,17 @@ const StyledImage = styled.div<ImageProps>`
       margin: 1rem;
       border: 0.5rem solid black;
       cursor: default;
+    `}
+
+    // 추천챌린지 뱃지
+    ${(props) =>
+    props.$recommendBadge &&
+    css`
+      border: none;
+
+      & > img {
+        border: 0.2rem solid rgb(255, 225, 119);
+      }
     `}
 
     // 뱃지 색 - gold
