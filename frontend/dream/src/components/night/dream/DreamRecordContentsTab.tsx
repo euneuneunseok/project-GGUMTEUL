@@ -157,7 +157,7 @@ const DreamRecordContentsTab = ({setReverseCardData, setReviewStatus} :DreamReco
     <>
     
     <DreamContentsTabWrap>
-      <Button $fullWidth $nightPalePurple
+      <Button $fullWidth $nightPalePurple $dreamDetail
         onClick={()=> {
           navigate(`/day/challenge/${recommendChal}`)
           if (Array.isArray(chalList)){
