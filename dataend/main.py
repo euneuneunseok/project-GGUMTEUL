@@ -154,7 +154,7 @@ def challengeProcessing(data:ChalModel):
     period = data.period
     challengeOwner = data.challengeOwner
     wordKeywords = getDreamKeywords(challengeContent)
-    prompt = str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") + ", by Andy Warhol"
+    prompt = str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") + ", , by Roy Fox Lichtenstein"
     img_path = getKarloImgPath(prompt)
     toJavaData = {
         "challengeTitle": challengeTitle,

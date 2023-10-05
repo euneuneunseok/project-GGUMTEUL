@@ -100,7 +100,7 @@ def challengeProcessing(data):
     wordKeywords = getDreamKeywords(challengeContent)
     print(wordKeywords)
     print(translateDreamKeywords(wordKeywords))
-    prompt = str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") + ", by liechtenstein"
+    prompt = str(translateDreamKeywords(wordKeywords)).replace("[", "").replace("]", "") + ", by Roy Fox Lichtenstein"
     img_path = getKarloImgPath(prompt)
     # toJavaData = {
     #     "challengeTitle": challengeTitle,
