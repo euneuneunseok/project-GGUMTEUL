@@ -52,5 +52,13 @@ public class User extends BaseTimeEntity {
         this.point -= point;
     }
 
+    public void updatePoint(int point){
+        this.point += point;
+    }
+
+    public void updateWrigglePoint(double wrigglePoint){
+        this.wrigglePoint = wrigglePoint;
+    }
+
 
 }

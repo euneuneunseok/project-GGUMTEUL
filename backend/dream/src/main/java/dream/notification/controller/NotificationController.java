@@ -3,6 +3,7 @@ package dream.notification.controller;
 import dream.common.domain.ResultTemplate;
 import dream.notification.dto.request.RequestNotificationId;
 import dream.notification.service.NotificationService;
+import dream.security.jwt.domain.UserInfo;
 import dream.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +16,11 @@ import dream.user.domain.User;
 public class NotificationController {
 
     private final NotificationService notificationService;
-    private final UserService userService;
 
     @GetMapping("/list")
-    public ResultTemplate getNotificationList(@RequestParam(value = "lastItemId", required = false)
+    public ResultTemplate getNotificationList(@UserInfo User user, @RequestParam(value = "lastItemId", required = false)
                                                     Long lastItemId, @RequestParam("size") int size){
-        User user = userService.getUserForDev(1L);
-        log.info("USERID : {} ",user.getUserId());
+
         return notificationService.getNotificationList(user, lastItemId, size);
     }
 

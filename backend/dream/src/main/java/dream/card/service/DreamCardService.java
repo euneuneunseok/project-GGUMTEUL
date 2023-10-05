@@ -160,6 +160,10 @@ public class DreamCardService {
         dreamCardRepository.save(makeDreamCard);
         ResponseDreamCardId response = ResponseDreamCardId.from(makeDreamCard);
 
+
+        author.updatePoint(100);
+        author.updateWrigglePoint(10);
+
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
