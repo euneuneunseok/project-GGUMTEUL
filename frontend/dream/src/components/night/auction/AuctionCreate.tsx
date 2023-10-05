@@ -44,6 +44,7 @@ const CustomInput = styled(Input)`
 const CustomText = styled(Text)`
   padding-left: 1rem;
   line-height: 2rem;
+  color: #ffff;
 `
 const WarnText = styled(Text)`
   padding-left: 1rem;
@@ -187,7 +188,7 @@ const AuctionCreate = () => {
     <AuctionInputWrap>
       <CustomText $isBold $black>마감시간</CustomText>
       <CustomInput $auctionInput $nightColor disabled value={endDate("normal")}/>
-      </AuctionInputWrap>
+    </AuctionInputWrap>
     <MarginBot/>
     <AuctionInputWrap>
     <CustomText $isBold $black>시작가</CustomText>
