@@ -89,6 +89,7 @@ const StyledBox = styled.div<BoxProps>`
       display: inline;
       font-size: 0.5rem;
       padding : 1vw;
+      padding-top: 1.3vw;
       /* margin : 1rem; */
       border-radius: 1rem;
       /* width: 5rem; */
@@ -130,7 +131,7 @@ const StyledBox = styled.div<BoxProps>`
         width: 3rem;
         height: 3rem;
         border-radius: 50%;
-        background-color: red;
+        // background-color: red;
         // object fit 적용 -> css 적용
         object-fit: cover;
       }
