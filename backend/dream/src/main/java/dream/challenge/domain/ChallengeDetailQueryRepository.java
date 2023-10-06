@@ -2,7 +2,6 @@ package dream.challenge.domain;
 
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dream.user.domain.Follow;
@@ -13,13 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
-import static dream.challenge.domain.QChallenge.challenge;
 import static dream.challenge.domain.QChallengeDetail.challengeDetail;
 
 @Slf4j
@@ -30,27 +28,46 @@ public class ChallengeDetailQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<ChallengeDetail> findChallengeListByPage(Long userId, Long lastItemId, int size) {
-        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
-        QFollow follow = QFollow.follow;
+    public List<ChallengeDetail> findChallengeList(Long userId, Long lastItemId, int size) {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
 
-        JPAQuery<Long> subQuery = queryFactory.select(follow.toUser.userId)
-                .from(follow)
-                .where(
-                        follow.fromUser.userId.eq(userId)
-                );
-
         return queryFactory.selectFrom(challengeDetail)
                 .where(
-                        challengeDetail.user.userId.in(subQuery),
-                        lastItemIdLt(lastItemId),
-                        challengeDetail.createdAt.between(startOfDay, endOfDay)
+                        challengeDetail.createdAt.between(startOfDay, endOfDay),
+                        challengeDetail.user.userId.eq(userId),
+                        lastItemIdLt(lastItemId)
                 )
-                // 시간 비교
-                .orderBy(challengeDetail.challengeDetailId.desc())
-                .limit(size + 1)
+                .fetch();
+    }
+
+    public List<Follow> findChallengeListByPage(Long userId, Long lastItemId, int size) {
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+        QFollow follow = QFollow.follow;
+//        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+//        LocalDateTime endOfDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+//        JPAQuery<Long> subQuery = queryFactory.select(follow.toUser.userId)
+//                .from(follow)
+//                .where(
+//                        follow.fromUser.userId.eq(userId)
+//                );
+//
+//        return queryFactory.selectFrom(challengeDetail)
+//                .where(
+//                        challengeDetail.user.userId.in(subQuery),
+//                        lastItemIdLt(lastItemId),
+//                        challengeDetail.createdAt.between(startOfDay, endOfDay)
+//                )
+//                // 시간 비교
+//                .orderBy(challengeDetail.challengeDetailId.desc())
+//                .limit(size + 1)
+//                .fetch();
+
+        return queryFactory.selectFrom(follow)
+                .where(
+                        follow.fromUser.userId.eq(userId)
+                )
                 .fetch();
     }
 
@@ -92,6 +109,60 @@ public class ChallengeDetailQueryRepository {
                 .fetch();
     }
 
+    public List<ChallengeDetail> getChallengeDetailByUserIdAndChallengeIdAndDate(long userId, long challengeId) {
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+        return queryFactory.selectFrom(challengeDetail)
+                .where(
+                        challengeDetail.user.userId.eq(userId),
+                        challengeDetail.challenge.challengeId.eq(challengeId),
+                        challengeDetail.createdAt.between(startOfDay, endOfDay)
+                )
+                .fetch();
+    }
+
+    public List<ChallengeDetail> getOneChallengeDetailByUserIdAndChallengeIdAndDate(Long userId, Long challengeMidId) {
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+        return queryFactory.select(challengeDetail)
+                .from(challengeDetail)
+                .where(
+                        challengeDetail.user.userId.eq(userId),
+                        challengeDetail.challenge.challengeId.eq(challengeMidId),
+                        challengeDetail.createdAt.between(startOfDay, endOfDay)
+                )
+                .fetch();
+    }
+
+    public List<ChallengeDetail> getChallengeDetailByChallengeId(Long challengeId, Long lastItemId, int size) {
+
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+
+        return queryFactory.selectFrom(challengeDetail)
+                .where(
+                        challengeDetail.challenge.challengeId.eq(challengeId),
+                        lastItemIdLt(lastItemId)
+                        )
+                .orderBy(challengeDetail.challengeDetailId.desc())
+                .limit(size + 1)
+                .fetch();
+    }
+
+    public List<ChallengeDetail> getChallengeDetailByChallengeIdAndUserId(Long challengeId, Long userId) {
+
+        QChallengeDetail challengeDetail = QChallengeDetail.challengeDetail;
+
+        return queryFactory.selectFrom(challengeDetail)
+                .where(
+                        challengeDetail.challenge.challengeId.eq(challengeId),
+                        challengeDetail.user.userId.eq(userId)
+                )
+                .fetch();
+    }
 
     private BooleanExpression lastItemIdLt(Long lastItemId) {
         return lastItemId != null ? challengeDetail.challengeDetailId.lt(lastItemId) : null;

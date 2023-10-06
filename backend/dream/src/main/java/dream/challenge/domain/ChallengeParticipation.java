@@ -37,11 +37,16 @@ public class ChallengeParticipation extends BaseTimeEntity {
         challengeParticipation.user = user;
         challengeParticipation.challenge = challenge;
         challengeParticipation.isIn = ChallengeStatus.P;
+        challengeParticipation.timeCapsuleContent = " ";
 
         return challengeParticipation;
     }
 
     public void updateTimeCapsuleContent(String timeCapsuleContent) {
         this.timeCapsuleContent = timeCapsuleContent;
+    }
+
+    public void updateIsIn(ChallengeStatus status){
+        this.isIn = status;
     }
 }

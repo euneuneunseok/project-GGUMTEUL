@@ -4,6 +4,7 @@ import dream.common.domain.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
 @Getter
@@ -42,8 +43,27 @@ public class User extends BaseTimeEntity {
         this.wrigglePoint = wrigglePoint;
         this.email = email;
         this.role = role;
-
-
     }
+
+    public void minusPoint(int point){
+        this.point -= point;
+    }
+    public void plusPoint(int point){
+        this.point += point;
+    }
+
+    public void updateProfileUrl(String updateProfileUrlName){
+        this.profileUrl = updateProfileUrlName;
+    }
+
+
+    public void updatePoint(int point){
+        this.point += point;
+    }
+
+    public void updateWrigglePoint(double wrigglePoint){
+        this.wrigglePoint += wrigglePoint;
+    }
+
 
 }

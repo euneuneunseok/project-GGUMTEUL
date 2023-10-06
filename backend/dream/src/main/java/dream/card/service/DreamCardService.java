@@ -1,16 +1,21 @@
 package dream.card.service;
 
-import dream.card.domain.DreamCard;
-import dream.card.domain.DreamCardQueryRepository;
-import dream.card.domain.DreamCardRepository;
+import dream.auction.domain.Auction;
+import dream.auction.domain.AuctionRepository;
+import dream.card.domain.*;
 import dream.card.dto.request.RequestDreamCardDetail;
 import dream.card.dto.request.RequestDreamCardIsShow;
 import dream.card.dto.response.*;
+import dream.challenge.domain.Challenge;
+import dream.challenge.domain.ChallengeParticipation;
+import dream.challenge.domain.ChallengeParticipationRepository;
+import dream.challenge.domain.ChallengeRepository;
 import dream.common.domain.BaseCheckType;
 import dream.common.domain.ResultTemplate;
 import dream.common.exception.DeleteException;
 import dream.common.exception.NotFoundException;
 import dream.common.exception.NotMatchException;
+import dream.mongo.domain.Dream;
 import dream.user.domain.User;
 import dream.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +24,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,13 +34,16 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class DreamCardService {
 
-    private final DreamCardRepository dreamCardRepository;
-    private final DreamCardQueryRepository dreamCardQueryRepository;
     private final UserRepository userRepository;
+    private final DreamCardRepository dreamCardRepository;
+    private final DreamAnalysisService dreamAnalysisService;
+    private final DreamKeywordRepository dreamKeywordRepository;
+    private final AuctionRepository auctionRepository;
+    private final DreamCardQueryRepository dreamCardQueryRepository;
+    private final ChallengeRepository challengeRepository;
+    private final ChallengeParticipationRepository challengeParticipationRepository;
 
-    /**
-     * 밤 메인 화면에서 카드 리스트를 조회 하는 함수 !
-     */
+
     public ResultTemplate getNightMain(Long lastItemId, int size) {
 
         List<DreamCard> findCards = dreamCardQueryRepository.findDreamCardPaging(lastItemId, size);
@@ -58,14 +66,16 @@ public class DreamCardService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(list).build();
     }
 
-    // 카드 상세 정보 가져오는 함수
     public ResultTemplate getFlipDreamCardDetail(Long id) {
 
         DreamCard findCard = dreamCardRepository.findDetailsById(id)
                 .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
 
+        List<Auction> findAuctions = auctionRepository.findByDreamCardId(id);
+        long auctionId = -1;
+        if (!findAuctions.isEmpty()) auctionId = findAuctions.get(0).getAuctionId();
 
-        ResponseFlipDreamCardDetail response = ResponseFlipDreamCardDetail.from(findCard);
+        ResponseFlipDreamCardDetail response = ResponseFlipDreamCardDetail.from(findCard, auctionId);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
@@ -81,7 +91,6 @@ public class DreamCardService {
     }
 
 
-    // 카드 조회수 업데이트하는 함수
     @Transactional
     public ResultTemplate updateDreamCard(Long dreamCardId) {
 
@@ -93,7 +102,6 @@ public class DreamCardService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
-    // 카드 좋아요 홤수
     @Transactional
     public ResultTemplate updateCardLike(Long userId, Long dreamCardId) {
 
@@ -108,7 +116,6 @@ public class DreamCardService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
-    // 카드 좋아요 취소 함수
     @Transactional
     public ResultTemplate updateCardUnlike(Long userId, Long dreamCardId) {
 
@@ -123,23 +130,74 @@ public class DreamCardService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
-    // 카드 전처리 후 결과 반환
     public ResultTemplate getPreProcessingForDreamCard(String dreamCardContent) {
 
-
-        ResponseDreamCardPreprocessing response = new ResponseDreamCardPreprocessing();
         // 아마 이건 하둡이랑 연관된 함수
+        // dreamCardContent 를 통해, keyword를 추출
+        // 해몽 내용도 조회
+        // 추출하는 과정에서 희귀도와 길몽도를 판단 -> 등급까지 설정
+        // 종합해서 전체 등급 설정
+        // ResponseDreamCardPreprocessing 안에 넣어서 응답 !
+        ResponseDreamCardPreprocessing response = ResponseDreamCardPreprocessing.from();
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
-    // 실제 꿈카드 생성 함수
-    public ResultTemplate postDreamCard(RequestDreamCardDetail request) {
+    @Transactional
+    public ResultTemplate postDreamCard(User author, RequestDreamCardDetail request, String fileName) {
 
-        ResponseDreamCardId response = new ResponseDreamCardId();
+        long startTime = System.currentTimeMillis();
+        log.info("start : " + startTime);
+        // 여기서 일단 키워드로 mongoDB에 있는 dream을 다 뽑아야함
+        ResponseDreamAnalysis responseDreamAnalysis = dreamAnalysisService.processAnalysis(request);
 
-        // 꿈 카드 삽입하고 PK 반환받기
+        if(responseDreamAnalysis == null){
+            return ResultTemplate.builder().status(HttpStatus.BAD_REQUEST.value()).data("fail").build();
+        }
 
+        List<DreamKeyword> keywords = dreamKeywordRepository.findByKeywordIn(request.getKeywords());
+
+
+        List<Challenge> findChallenges = challengeRepository.findRecommendChallengeByDreamCard(request.getKeywords());
+        List<ChallengeParticipation> findParts = challengeParticipationRepository.findPartUserByUser(request.getDreamCardAuthor());
+        List<Long> alreadyChallenges = new ArrayList<>();
+
+        for (ChallengeParticipation findPart : findParts) {
+            alreadyChallenges.add(findPart.getChallenge().getChallengeId());
+        }
+        List<Challenge> recommendChallenges = new ArrayList<>();
+        for (Challenge findChallenge : findChallenges) {
+            if (alreadyChallenges.contains(findChallenge.getChallengeId())) continue;
+            recommendChallenges.add(findChallenge);
+        }
+
+        DreamCard makeDreamCard = DreamCard.makeDreamCard(request, author, keywords, fileName, responseDreamAnalysis);
+        dreamCardRepository.save(makeDreamCard);
+
+
+        // 챌린지 추천할꺼 추가
+        ResponseDreamCardId response = ResponseDreamCardId.from(makeDreamCard, recommendChallenges, responseDreamAnalysis);
+        long endTime = System.currentTimeMillis();
+        log.info("endTime : " + endTime);
+
+        log.info("totalTime : " + (double)(endTime - startTime) / 1000 + "ms");
+
+
+        //포인트, 꿈틀도 증가
+        author.updatePoint(100);
+        author.updateWrigglePoint(10);
+
+
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
+    }
+
+    public ResultTemplate getDreamCardImage(Long dreamCardId) {
+
+        DreamCard dreamCard = dreamCardRepository.findLikeById(dreamCardId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
+
+        ResponseDreamCardImage response = ResponseDreamCardImage.from(dreamCard);
+        
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
@@ -156,7 +214,29 @@ public class DreamCardService {
                 .anyMatch(review -> review.getBuyerId().getUserId().equals(userId));
 
         BaseCheckType reviewStatus = isTrue ? BaseCheckType.T : BaseCheckType.F;
-        ResponseDreamCardDetailByUser response = ResponseDreamCardDetailByUser.from(findCard, reviewStatus);
+
+        List<String> keywords = new ArrayList<>();
+        for (CardKeyword cardKeyword : findCard.getCardKeyword()) {
+            keywords.add(cardKeyword.getKeyWordId().getKeyword());
+        }
+
+        List<Challenge> findChallenges = challengeRepository.findRecommendChallengeByDreamCard(keywords);
+        List<ChallengeParticipation> findParts = challengeParticipationRepository.findPartUserByUser(userId);
+        List<Long> alreadyChallenges = new ArrayList<>();
+
+        for (ChallengeParticipation findPart : findParts) {
+            alreadyChallenges.add(findPart.getChallenge().getChallengeId());
+        }
+        List<Challenge> recommendChallenges = new ArrayList<>();
+        for (Challenge findChallenge : findChallenges) {
+            if (alreadyChallenges.contains(findChallenge.getChallengeId())) continue;
+            recommendChallenges.add(findChallenge);
+        }
+
+
+
+
+        ResponseDreamCardDetailByUser response = ResponseDreamCardDetailByUser.from(findCard, reviewStatus, recommendChallenges);
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
@@ -191,13 +271,27 @@ public class DreamCardService {
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
     }
 
-    // 검색창에서 해몽 검색했을때 해몽결과 찾아주는 함수
-    // 여기서 아마 해몽 결과 찾는 알고리즘, HDFS에서 데이터 꺼내야할꺼임
+
     public ResultTemplate getInterpretationResult(String keyword) {
 
-        ResponseInterpretationResult response = new ResponseInterpretationResult();
+        List<Dream> findDreams = dreamAnalysisService.findDreamsByKeyword(keyword);
+        if (findDreams.isEmpty()) throw new NotFoundException(NotFoundException.DREAM_NOT_FOUND);
+
+        List<ResponseDreamAndDreamTelling> response = new ArrayList<>();
+        for (Dream findDream : findDreams) {
+            response.add(ResponseDreamAndDreamTelling.from(findDream));
+        }
 
         return ResultTemplate.builder().status(HttpStatus.OK.value()).data(response).build();
     }
 
+    @Transactional
+    public ResultTemplate postImageName(Long dreamCardId, String fileName) {
+
+        DreamCard findCard = dreamCardRepository.findById(dreamCardId)
+                .orElseThrow(() -> new NotFoundException(NotFoundException.CARD_NOT_FOUND));
+
+        findCard.updateImageName(fileName);
+        return ResultTemplate.builder().status(HttpStatus.OK.value()).data("success").build();
+    }
 }
